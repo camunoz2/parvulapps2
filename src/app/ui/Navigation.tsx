@@ -1,20 +1,12 @@
-"use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clxs from "clsx";
+import { UserButton, currentUser } from "@clerk/nextjs";
 
-export function Navigation() {
-  const pathname = usePathname();
-  const links = [
-    {
-      text: "Dashboard",
-      href: "/dashboard",
-    },
-    {
-      text: "Contacto",
-      href: "/contact",
-    },
-  ];
+export async function Navigation() {
+
+  const user = await currentUser()
+
   return (
     <header>
       <nav className="flex justify-between items-center px-6 py-4 border border-white">
@@ -22,17 +14,18 @@ export function Navigation() {
           Parvulapps
         </Link>
         <ul className="flex gap-2 items-center">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={clxs("text-white", {
-                "font-bold underline": pathname === link.href,
-              })}
-            >
-              {link.text}
-            </Link>
-          ))}
+          <li>
+            <UserButton />
+          </li>
+          {
+            user ? <li>Hola, {user.firstName}!</li> : (
+              <li>
+                <a href="/sign-up">
+                  Iniciar Sesión
+                </a>
+              </li>
+            )
+          }
         </ul>
       </nav>
     </header>
