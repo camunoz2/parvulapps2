@@ -8,7 +8,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Parvulapps",
-  description: "Aplicación interna LBNSF para evaluar aprendizajes de estudiantes de Ed. Parvularia",
+  description:
+    "Aplicación interna LBNSF para evaluar aprendizajes de estudiantes de Ed. Parvularia",
 };
 
 export default function RootLayout({
@@ -20,8 +21,6 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="es">
         <body className={inter.className}>
-
-
           <Navigation />
           <main className="container mx-auto flex min-h-screen flex-col items-center justify-between p-24">
             {children}

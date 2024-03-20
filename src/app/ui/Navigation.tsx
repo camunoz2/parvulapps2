@@ -4,8 +4,7 @@ import clxs from "clsx";
 import { UserButton, currentUser } from "@clerk/nextjs";
 
 export async function Navigation() {
-
-  const user = await currentUser()
+  const user = await currentUser();
 
   return (
     <header>
@@ -15,17 +14,15 @@ export async function Navigation() {
         </Link>
         <ul className="flex gap-2 items-center">
           <li>
-            <UserButton />
+            <UserButton afterSignOutUrl="/" />
           </li>
-          {
-            user ? <li>Hola, {user.firstName}!</li> : (
-              <li>
-                <a href="/sign-up">
-                  Iniciar Sesión
-                </a>
-              </li>
-            )
-          }
+          {user ? (
+            <li>Hola, {user.firstName}!</li>
+          ) : (
+            <li>
+              <a href="/sign-up">Iniciar Sesión</a>
+            </li>
+          )}
         </ul>
       </nav>
     </header>
