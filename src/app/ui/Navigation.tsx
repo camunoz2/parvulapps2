@@ -19,9 +19,14 @@ export async function Navigation() {
           {user ? (
             <li>Hola, {user.firstName}!</li>
           ) : (
-            <li>
-              <a href="/sign-up">Iniciar Sesión</a>
-            </li>
+            <>
+              <li>
+                <a href="/sign-up">Registrarse</a>
+              </li>
+              <li>
+                <a href="/sign-in">Iniciar Sesión</a>
+              </li>
+            </>
           )}
         </ul>
       </nav>

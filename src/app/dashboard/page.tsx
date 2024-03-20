@@ -1,3 +1,5 @@
+import { AddCourse } from "@/components/component/add-course";
+
 export default function DashboardPage() {
-  return <h2>This is the dashboard!</h2>;
+  return <AddCourse />;
 }
