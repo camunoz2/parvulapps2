@@ -11,143 +11,34 @@ import { CardContent, CardFooter, Card } from "@/components/ui/card";
 
 export function AddCourse() {
   return (
-    <div className="mx-auto max-w-7xl px-4 lg:px-6">
-      <div className="grid gap-6 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="mx-auto w-full px-4 lg:px-6">
+      <div className="grid gap-6">
         <div className="space-y-6 lg:col-span-2 xl:col-span-3">
           <div className="flex items-center space-x-4">
-            <h1 className="text-3xl font-bold">Courses</h1>
-            <Button size="sm">New Course</Button>
+            <h1 className="text-3xl font-bold">Cursos</h1>
+            <Button size="sm">Agregar Curso</Button>
           </div>
           <div className="grid w-full gap-4">
             <div className="flex items-center p-4 rounded-lg bg-gray-100 dark:bg-gray-800">
               <Link className="flex-1" href="#">
-                <div className="font-semibold">Biology 101</div>
+                <div className="font-semibold">PreKinder</div>
                 <div className="text-sm text-gray-500 dark:text-gray-400">
-                  Instructor: Dr. Jane Smith
+                  Instructor: Maria Camila Yevenes
                 </div>
               </Link>
               <div>
-                <div className="rounded-lg w-8 h-8 flex items-center justify-center">
-                  <MoreHorizontalIcon className="w-4 h-4" />
-                  <span className="sr-only">Toggle menu</span>
-                </div>
-                <div>
-                  <div>
-                    <div>View</div>
-                    <div>Archive</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center p-4 rounded-lg bg-gray-100 dark:bg-gray-800">
-              <Link className="flex-1" href="#">
-                <div className="font-semibold">History of Art</div>
-                <div className="text-sm text-gray-500 dark:text-gray-400">
-                  Instructor: Prof. Michael Johnson
-                </div>
-              </Link>
-              <div>
-                <div className="rounded-lg w-8 h-8 flex items-center justify-center">
-                  <MoreHorizontalIcon className="w-4 h-4" />
-                  <span className="sr-only">Toggle menu</span>
-                </div>
-                <div>
-                  <div>
-                    <div>View</div>
-                    <div>Archive</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center p-4 rounded-lg bg-gray-100 dark:bg-gray-800">
-              <Link className="flex-1" href="#">
-                <div className="font-semibold">Mathematics 202</div>
-                <div className="text-sm text-gray-500 dark:text-gray-400">
-                  Instructor: Prof. Emily Davis
-                </div>
-              </Link>
-              <div>
-                <div className="rounded-lg w-8 h-8 flex items-center justify-center">
-                  <MoreHorizontalIcon className="w-4 h-4" />
-                  <span className="sr-only">Toggle menu</span>
-                </div>
-                <div>
-                  <div>
-                    <div>View</div>
-                    <div>Archive</div>
-                  </div>
-                </div>
+                <div>Ver</div>
+                <div>Evaluar</div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="space-y-6 lg:space-y-4">
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="search-courses">Search courses</Label>
-              <Input id="search-courses" placeholder="Enter course name" />
-            </div>
-          </div>
-          <Card className="p-0">
-            <CardContent className="p-4 space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="course-name">Course name</Label>
-                <Input id="course-name" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="instructor">Instructor</Label>
-                <Input id="instructor" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
-                <Textarea
-                  className="min-h-[100px]"
-                  id="description"
-                  placeholder="Enter course description"
-                />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button className="ml-auto">Save</Button>
-            </CardFooter>
-          </Card>
-        </div>
-        <div className="space-y-6 lg:space-y-4">
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="search-students">Search students</Label>
-              <Input
-                id="search-students"
-                placeholder="Enter student name or ID"
-              />
-            </div>
-          </div>
-          <Card className="p-0">
-            <CardContent className="p-4 space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="student-name">Name</Label>
-                <Input id="student-name" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="student-email">Email</Label>
-                <Input id="student-email" type="email" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="student-id">ID</Label>
-                <Input id="student-id" />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button className="ml-auto">Save</Button>
-            </CardFooter>
-          </Card>
         </div>
       </div>
     </div>
   );
 }
 
-function MoreHorizontalIcon() {
+function MoreHorizontalIcon(props) {
   return (
     <svg
       {...props}
