@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 
 export default function Home() {
   return (
-    <main className="grid grid-cols-2 min-h-screen">
+    <main className="grid grid-cols-2 ">
       <div className="bg-gray-800 flex flex-col justify-between py-10 pl-12">
         <header>
           <h1 className="text-3xl text-white font-bold">Parvulapps</h1>
@@ -13,9 +13,7 @@ export default function Home() {
       </div>
       <div className="bg-white flex flex-col gap-6 items-center justify-center">
         <h2 className="font-bold text-2xl text-slate-900">Bienvenidas!</h2>
-        <Button>
-          <a href="/sign-up">Iniciar sesion</a>
-        </Button>
+        <a className="underline" href="/sign-up">Iniciar sesion</a>
       </div>
     </main>
   )
