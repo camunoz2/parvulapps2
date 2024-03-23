@@ -21,10 +21,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="es">
         <body className={inter.className}>
-          <Navigation />
-          <main className="container mx-auto flex min-h-screen flex-col items-center justify-between p-24">
-            {children}
-          </main>
+          {children}
         </body>
       </html>
     </ClerkProvider>

@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import clxs from "clsx";
 import { UserButton, currentUser } from "@clerk/nextjs";
 
 export async function Navigation() {
