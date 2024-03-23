@@ -5,7 +5,7 @@ import { UserButton } from "@clerk/nextjs";
 export default function DashboardPage() {
   return (
     <div className="grid grid-cols-2">
-      <UserButton />
+      <UserButton afterSignOutUrl="/" />
       <SideBar />
       <AddCourse />
     </div>

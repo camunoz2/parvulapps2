@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="es">
-        <body className={`${inter.className} min-h-screen`}>
+        <body className={`${inter.className} min-h-screen h-screen`}>
           {children}
         </body>
       </html>

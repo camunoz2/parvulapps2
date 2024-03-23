@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 
 export default function Home() {
   return (
-    <main className="grid grid-cols-2 ">
+    <main className="grid grid-cols-2 h-full">
       <div className="bg-gray-800 flex flex-col justify-between py-10 pl-12">
         <header>
           <h1 className="text-3xl text-white font-bold">Parvulapps</h1>
