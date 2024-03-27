@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button"
+import { auth } from "@clerk/nextjs"
 
 export default function Home() {
+
   return (
     <main className="grid grid-cols-2 h-full">
       <div className="bg-gray-800 flex flex-col justify-between py-10 pl-12">
@@ -13,7 +15,8 @@ export default function Home() {
       </div>
       <div className="bg-white flex flex-col gap-6 items-center justify-center">
         <h2 className="font-bold text-2xl text-slate-900">Bienvenidas!</h2>
-        <a className="underline" href="/sign-up">Iniciar sesion</a>
+        <Button variant="secondary"><a href="/sign-up">Crear cuenta</a> </Button>
+        <Button><a href="/sign-in">Iniciar sesion</a></Button>
       </div>
     </main>
   )
