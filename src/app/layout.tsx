@@ -6,26 +6,23 @@ import { UserProvider } from "@auth0/nextjs-auth0/client";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Parvulapps",
-  description:
-    "Aplicación interna LBNSF para evaluar aprendizajes de estudiantes de Ed. Parvularia",
+	title: "Parvulapps",
+	description:
+		"Aplicación interna LBNSF para evaluar aprendizajes de estudiantes de Ed. Parvularia",
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-
-    <html lang="es">
-      <script src="https://accounts.google.com/gsi/client" async></script>
-      <UserProvider>
-
-        <body className={`${inter.className} min-h-screen h-screen`}>
-          {children}
-        </body>
-      </UserProvider>
-    </html>
-  );
+	return (
+		<html lang="es">
+			<UserProvider>
+				<body className={`${inter.className} min-h-screen h-screen bg-white`}>
+					{children}
+				</body>
+			</UserProvider>
+		</html>
+	);
 }
