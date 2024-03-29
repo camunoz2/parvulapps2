@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button"
-import { auth } from "@clerk/nextjs"
 
 export default function Home() {
 
@@ -15,8 +13,6 @@ export default function Home() {
       </div>
       <div className="bg-white flex flex-col gap-6 items-center justify-center">
         <h2 className="font-bold text-2xl text-slate-900">Bienvenidas!</h2>
-        <Button variant="secondary"><a href="/sign-up">Crear cuenta</a> </Button>
-        <Button><a href="/sign-in">Iniciar sesion</a></Button>
       </div>
     </main>
   )
