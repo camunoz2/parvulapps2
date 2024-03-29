@@ -10,10 +10,8 @@ export default function ProfileClient() {
 
   return (
     user && (
-      <div>
-        <img src={user.picture || ""} alt={user.name || ""} />
-        <h2>{user.name}</h2>
-        <p>{user.email}</p>
+      <div className='absolute top-6 right-6 flex gap-2 justify-center items-center'>
+        <img className='rounded-full w-10' src={user.picture || ""} alt={user.name || ""} />
       </div>
     )
   );
