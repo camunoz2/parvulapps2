@@ -1,3 +1,5 @@
+import GreetUser from "@/components/greet-user";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
 
@@ -12,7 +14,14 @@ export default function Home() {
         </footer>
       </div>
       <div className="bg-white flex flex-col gap-6 items-center justify-center">
-        <h2 className="font-bold text-2xl text-slate-900">Bienvenidas!</h2>
+        <h2 className="font-bold text-2xl text-slate-900">Bienvenid@s</h2>
+        <Button>
+          <a href="/api/auth/login">Iniciar Sesion</a>
+        </Button>
+        <Button>
+          <a href="/api/auth/logout">Cerrar Sesion</a>
+        </Button>
+        <GreetUser />
       </div>
     </main>
   )
