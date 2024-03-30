@@ -26,9 +26,9 @@ export default async function Home() {
 				) : (
 					<h2 className="text-2xl font-bold">Hola! Inicia sesión con google</h2>
 				)}
-				<GreetUser />
 				{user ? (
 					<>
+						<GreetUser user={user} />
 						<Button className="w-48">
 							<a href="/dashboard">Abrir app</a>
 						</Button>
