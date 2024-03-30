@@ -104,7 +104,7 @@ export default function Courses() {
 							<Table>
 								<TableHeader>
 									<TableRow>
-										<TableHead>Customer</TableHead>
+										<TableHead>Alumno</TableHead>
 										<TableHead className="hidden xl:table-column">
 											Type
 										</TableHead>

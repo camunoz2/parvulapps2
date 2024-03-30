@@ -152,7 +152,7 @@ export default function DashboardContent() {
 								<Table>
 									<TableHeader>
 										<TableRow>
-											<TableHead>Customer</TableHead>
+											<TableHead>Alumno</TableHead>
 											<TableHead className="hidden sm:table-cell">
 												Type
 											</TableHead>
