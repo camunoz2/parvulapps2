@@ -65,42 +65,47 @@ export default function DashboardContent() {
 						<div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
 							<Card className="sm:col-span-2">
 								<CardHeader className="pb-3">
-									<CardTitle>Your Orders</CardTitle>
+									<CardTitle>Agregar cursos</CardTitle>
 									<CardDescription className="max-w-lg text-balance leading-relaxed">
-										Introducing Our Dynamic Orders Dashboard for Seamless
-										Management and Insightful Analysis.
+										En este seccion puedes agregar mas cursos para evaluar.
+										Ademas puedes agregar años de evaluacion para ver el
+										historial
 									</CardDescription>
 								</CardHeader>
 								<CardFooter>
-									<Button>Create New Order</Button>
+									<Button>Agregar Curso</Button>
 								</CardFooter>
 							</Card>
 							<Card>
 								<CardHeader className="pb-2">
-									<CardDescription>This Week</CardDescription>
-									<CardTitle className="text-4xl">$1329</CardTitle>
+									<CardDescription>
+										Porcentaje de Est. Evaluados
+									</CardDescription>
+									<CardTitle className="text-4xl">45%</CardTitle>
 								</CardHeader>
 								<CardContent>
 									<div className="text-xs text-muted-foreground">
-										+25% from last week
+										Te falta evaluar 24 alumnos
 									</div>
 								</CardContent>
 								<CardFooter>
-									<Progress value={25} aria-label="25% increase" />
+									<Progress value={45} aria-label="Incremento del 45%" />
 								</CardFooter>
 							</Card>
 							<Card>
 								<CardHeader className="pb-2">
-									<CardDescription>This Month</CardDescription>
-									<CardTitle className="text-3xl">$5,329</CardTitle>
+									<CardDescription>
+										Porcentaje de Indicadores Ev.
+									</CardDescription>
+									<CardTitle className="text-3xl">24%</CardTitle>
 								</CardHeader>
 								<CardContent>
 									<div className="text-xs text-muted-foreground">
-										+10% from last month
+										Te faltan 23 indicadores por evaluar
 									</div>
 								</CardContent>
 								<CardFooter>
-									<Progress value={12} aria-label="12% increase" />
+									<Progress value={24} aria-label="Incremento del 24%" />
 								</CardFooter>
 							</Card>
 						</div>
@@ -114,7 +119,7 @@ export default function DashboardContent() {
 											className="h-7 gap-1 text-sm"
 										>
 											<ListFilter className="h-3.5 w-3.5" />
-											<span className="sr-only sm:not-sr-only">Filter</span>
+											<span className="sr-only sm:not-sr-only">Filtro</span>
 										</Button>
 									</DropdownMenuTrigger>
 									<DropdownMenuContent align="end">
@@ -137,16 +142,14 @@ export default function DashboardContent() {
 									className="h-7 gap-1 text-sm"
 								>
 									<File className="h-3.5 w-3.5" />
-									<span className="sr-only sm:not-sr-only">Export</span>
+									<span className="sr-only sm:not-sr-only">Exportar</span>
 								</Button>
 							</div>
 						</div>
 						<Card>
 							<CardHeader className="px-7">
-								<CardTitle>Orders</CardTitle>
-								<CardDescription>
-									Recent orders from your store.
-								</CardDescription>
+								<CardTitle>Evaluados</CardTitle>
+								<CardDescription>Los ultimos alumnos evaluados</CardDescription>
 							</CardHeader>
 							<CardContent>
 								<Table>
