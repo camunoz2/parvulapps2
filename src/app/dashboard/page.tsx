@@ -142,12 +142,16 @@ export default function DashboardContent() {
 								<TableHeader>
 									<TableRow>
 										<TableHead>Alumno</TableHead>
-										<TableHead className="hidden sm:table-cell">Type</TableHead>
 										<TableHead className="hidden sm:table-cell">
-											Status
+											Evaluacion
 										</TableHead>
-										<TableHead className="hidden md:table-cell">Date</TableHead>
-										<TableHead className="text-right">Amount</TableHead>
+										<TableHead className="hidden sm:table-cell">
+											Estado
+										</TableHead>
+										<TableHead className="hidden md:table-cell">
+											Fecha
+										</TableHead>
+										<TableHead className="text-right">Puntaje</TableHead>
 									</TableRow>
 								</TableHeader>
 								<TableBody>
