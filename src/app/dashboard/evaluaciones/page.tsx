@@ -52,12 +52,10 @@ export default function EvalPage() {
 				<Tabs defaultValue="all">
 					<div className="flex items-center">
 						<TabsList>
-							<TabsTrigger value="all">All</TabsTrigger>
-							<TabsTrigger value="active">Active</TabsTrigger>
-							<TabsTrigger value="draft">Draft</TabsTrigger>
-							<TabsTrigger value="archived" className="hidden sm:flex">
-								Archived
-							</TabsTrigger>
+							<TabsTrigger value="todas">Todas</TabsTrigger>
+							<TabsTrigger value="diagnostica">Diagnostica</TabsTrigger>
+							<TabsTrigger value="intermedia">Intermedia</TabsTrigger>
+							<TabsTrigger value="cierre">Cierre</TabsTrigger>
 						</TabsList>
 						<div className="ml-auto flex items-center gap-2">
 							<DropdownMenu>
@@ -93,7 +91,7 @@ export default function EvalPage() {
 							</Button>
 						</div>
 					</div>
-					<TabsContent value="all">
+					<TabsContent value="todas">
 						<Card>
 							<CardHeader>
 								<CardTitle>Products</CardTitle>
