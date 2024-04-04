@@ -27,24 +27,37 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { Users } from "lucide-react";
 
 export default function DashboardContent() {
 	return (
 		<div className="flex min-h-screen w-full flex-col">
 			<main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
 				<div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
-					<div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
-						<Card className="sm:col-span-2">
-							<CardHeader className="pb-3">
-								<CardTitle>Agregar cursos</CardTitle>
-								<CardDescription className="max-w-lg text-balance leading-relaxed">
-									En este seccion puedes agregar mas cursos para evaluar. Ademas
-									puedes agregar años de evaluacion para ver el historial
-								</CardDescription>
+					<div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+						<Card>
+							<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+								<CardTitle className="text-sm font-medium">
+									Cantidad de indicadores
+								</CardTitle>
+								<Users className="h-4 w-4 text-muted-foreground" />
 							</CardHeader>
-							<CardFooter>
-								<Button>Agregar Curso</Button>
-							</CardFooter>
+							<CardContent>
+								<div className="text-2xl font-bold">134</div>
+								<p className="text-xs text-muted-foreground">
+									Que pertenecen a las 4 dimensiones
+								</p>
+							</CardContent>
+						</Card>
+						<Card>
+							<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+								<CardTitle className="text-sm font-medium">Alumos</CardTitle>
+								<Users className="h-4 w-4 text-muted-foreground" />
+							</CardHeader>
+							<CardContent>
+								<div className="text-2xl font-bold">64</div>
+								<p className="text-xs text-muted-foreground">En total</p>
+							</CardContent>
 						</Card>
 						<Card>
 							<CardHeader className="pb-2">
@@ -75,38 +88,9 @@ export default function DashboardContent() {
 							</CardFooter>
 						</Card>
 					</div>
-					<div className="flex items-center">
-						<div className="ml-auto flex items-center gap-2">
-							<DropdownMenu>
-								<DropdownMenuTrigger asChild>
-									<Button
-										variant="outline"
-										size="sm"
-										className="h-7 gap-1 text-sm"
-									>
-										<ListFilter className="h-3.5 w-3.5" />
-										<span className="sr-only sm:not-sr-only">Filtro</span>
-									</Button>
-								</DropdownMenuTrigger>
-								<DropdownMenuContent align="end">
-									<DropdownMenuLabel>Filter by</DropdownMenuLabel>
-									<DropdownMenuSeparator />
-									<DropdownMenuCheckboxItem checked>
-										Fulfilled
-									</DropdownMenuCheckboxItem>
-									<DropdownMenuCheckboxItem>Declined</DropdownMenuCheckboxItem>
-									<DropdownMenuCheckboxItem>Refunded</DropdownMenuCheckboxItem>
-								</DropdownMenuContent>
-							</DropdownMenu>
-							<Button size="sm" variant="outline" className="h-7 gap-1 text-sm">
-								<File className="h-3.5 w-3.5" />
-								<span className="sr-only sm:not-sr-only">Exportar</span>
-							</Button>
-						</div>
-					</div>
 					<Card>
 						<CardHeader className="px-7">
-							<CardTitle>Evaluados</CardTitle>
+							<CardTitle>Evaluaciones Recientes</CardTitle>
 							<CardDescription>Los ultimos alumnos evaluados</CardDescription>
 						</CardHeader>
 						<CardContent>
@@ -114,16 +98,10 @@ export default function DashboardContent() {
 								<TableHeader>
 									<TableRow>
 										<TableHead>Alumno</TableHead>
-										<TableHead className="hidden sm:table-cell">
-											Evaluacion
-										</TableHead>
-										<TableHead className="hidden sm:table-cell">
-											Estado
-										</TableHead>
-										<TableHead className="hidden md:table-cell">
-											Fecha
-										</TableHead>
-										<TableHead className="text-right">Puntaje</TableHead>
+										<TableHead className="text-start">Fecha</TableHead>
+										<TableHead className="text-start">Diagnostico</TableHead>
+										<TableHead className="text-start">Intermedio</TableHead>
+										<TableHead className="text-start">Cierre</TableHead>
 									</TableRow>
 								</TableHeader>
 								<TableBody>
@@ -134,148 +112,18 @@ export default function DashboardContent() {
 												liam@example.com
 											</div>
 										</TableCell>
-										<TableCell className="hidden sm:table-cell">Sale</TableCell>
-										<TableCell className="hidden sm:table-cell">
-											<Badge className="text-xs" variant="secondary">
-												Fulfilled
-											</Badge>
-										</TableCell>
 										<TableCell className="hidden md:table-cell">
 											2023-06-23
 										</TableCell>
-										<TableCell className="text-right">$250.00</TableCell>
-									</TableRow>
-									<TableRow>
-										<TableCell>
-											<div className="font-medium">Olivia Smith</div>
-											<div className="hidden text-sm text-muted-foreground md:inline">
-												olivia@example.com
-											</div>
+										<TableCell className="text-right">
+											<Progress value={23} aria-label="Aumento del 23%" />
 										</TableCell>
-										<TableCell className="hidden sm:table-cell">
-											Refund
+										<TableCell className="text-right">
+											<Progress value={45} aria-label="Aumento del 23%" />
 										</TableCell>
-										<TableCell className="hidden sm:table-cell">
-											<Badge className="text-xs" variant="outline">
-												Declined
-											</Badge>
+										<TableCell className="text-right">
+											<Progress value={67} aria-label="Aumento del 23%" />
 										</TableCell>
-										<TableCell className="hidden md:table-cell">
-											2023-06-24
-										</TableCell>
-										<TableCell className="text-right">$150.00</TableCell>
-									</TableRow>
-									<TableRow>
-										<TableCell>
-											<div className="font-medium">Noah Williams</div>
-											<div className="hidden text-sm text-muted-foreground md:inline">
-												noah@example.com
-											</div>
-										</TableCell>
-										<TableCell className="hidden sm:table-cell">
-											Subscription
-										</TableCell>
-										<TableCell className="hidden sm:table-cell">
-											<Badge className="text-xs" variant="secondary">
-												Fulfilled
-											</Badge>
-										</TableCell>
-										<TableCell className="hidden md:table-cell">
-											2023-06-25
-										</TableCell>
-										<TableCell className="text-right">$350.00</TableCell>
-									</TableRow>
-									<TableRow>
-										<TableCell>
-											<div className="font-medium">Emma Brown</div>
-											<div className="hidden text-sm text-muted-foreground md:inline">
-												emma@example.com
-											</div>
-										</TableCell>
-										<TableCell className="hidden sm:table-cell">Sale</TableCell>
-										<TableCell className="hidden sm:table-cell">
-											<Badge className="text-xs" variant="secondary">
-												Fulfilled
-											</Badge>
-										</TableCell>
-										<TableCell className="hidden md:table-cell">
-											2023-06-26
-										</TableCell>
-										<TableCell className="text-right">$450.00</TableCell>
-									</TableRow>
-									<TableRow>
-										<TableCell>
-											<div className="font-medium">Liam Johnson</div>
-											<div className="hidden text-sm text-muted-foreground md:inline">
-												liam@example.com
-											</div>
-										</TableCell>
-										<TableCell className="hidden sm:table-cell">Sale</TableCell>
-										<TableCell className="hidden sm:table-cell">
-											<Badge className="text-xs" variant="secondary">
-												Fulfilled
-											</Badge>
-										</TableCell>
-										<TableCell className="hidden md:table-cell">
-											2023-06-23
-										</TableCell>
-										<TableCell className="text-right">$250.00</TableCell>
-									</TableRow>
-									<TableRow>
-										<TableCell>
-											<div className="font-medium">Liam Johnson</div>
-											<div className="hidden text-sm text-muted-foreground md:inline">
-												liam@example.com
-											</div>
-										</TableCell>
-										<TableCell className="hidden sm:table-cell">Sale</TableCell>
-										<TableCell className="hidden sm:table-cell">
-											<Badge className="text-xs" variant="secondary">
-												Fulfilled
-											</Badge>
-										</TableCell>
-										<TableCell className="hidden md:table-cell">
-											2023-06-23
-										</TableCell>
-										<TableCell className="text-right">$250.00</TableCell>
-									</TableRow>
-									<TableRow>
-										<TableCell>
-											<div className="font-medium">Olivia Smith</div>
-											<div className="hidden text-sm text-muted-foreground md:inline">
-												olivia@example.com
-											</div>
-										</TableCell>
-										<TableCell className="hidden sm:table-cell">
-											Refund
-										</TableCell>
-										<TableCell className="hidden sm:table-cell">
-											<Badge className="text-xs" variant="outline">
-												Declined
-											</Badge>
-										</TableCell>
-										<TableCell className="hidden md:table-cell">
-											2023-06-24
-										</TableCell>
-										<TableCell className="text-right">$150.00</TableCell>
-									</TableRow>
-									<TableRow>
-										<TableCell>
-											<div className="font-medium">Emma Brown</div>
-											<div className="hidden text-sm text-muted-foreground md:inline">
-												emma@example.com
-											</div>
-										</TableCell>
-										<TableCell className="hidden sm:table-cell">Sale</TableCell>
-										<TableCell className="hidden sm:table-cell">
-											<Badge className="text-xs" variant="secondary">
-												Fulfilled
-											</Badge>
-										</TableCell>
-										<TableCell className="hidden md:table-cell">
-											2023-06-26
-										</TableCell>
-										<TableCell className="text-right">$450.00</TableCell>
 									</TableRow>
 								</TableBody>
 							</Table>
