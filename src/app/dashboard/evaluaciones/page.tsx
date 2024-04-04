@@ -49,7 +49,7 @@ export default function EvalPage() {
 	return (
 		<div className="flex min-h-screen w-full flex-col">
 			<main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-				<Tabs defaultValue="all">
+				<Tabs defaultValue="todas">
 					<div className="flex items-center">
 						<TabsList>
 							<TabsTrigger value="todas">Todas</TabsTrigger>
@@ -63,7 +63,7 @@ export default function EvalPage() {
 									<Button variant="outline" size="sm" className="h-8 gap-1">
 										<ListFilter className="h-3.5 w-3.5" />
 										<span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-											Filter
+											Filtrar
 										</span>
 									</Button>
 								</DropdownMenuTrigger>
@@ -80,13 +80,13 @@ export default function EvalPage() {
 							<Button size="sm" variant="outline" className="h-8 gap-1">
 								<File className="h-3.5 w-3.5" />
 								<span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-									Export
+									Exportar
 								</span>
 							</Button>
 							<Button size="sm" className="h-8 gap-1">
 								<PlusCircle className="h-3.5 w-3.5" />
 								<span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-									Add Product
+									Evaluar
 								</span>
 							</Button>
 						</div>
@@ -94,22 +94,20 @@ export default function EvalPage() {
 					<TabsContent value="todas">
 						<Card>
 							<CardHeader>
-								<CardTitle>Products</CardTitle>
+								<CardTitle>Evaluaciones</CardTitle>
 								<CardDescription>
-									Manage your products and view their sales performance.
+									Ingresa las evaluaciones por alumno. Ya sea diagnostica,
+									intermedia o de cierre
 								</CardDescription>
 							</CardHeader>
 							<CardContent>
 								<Table>
 									<TableHeader>
 										<TableRow>
-											<TableHead className="hidden w-[100px] sm:table-cell">
-												<span className="sr-only">Image</span>
-											</TableHead>
-											<TableHead>Name</TableHead>
-											<TableHead>Status</TableHead>
+											<TableHead>Nombre</TableHead>
+											<TableHead>Estado</TableHead>
 											<TableHead className="hidden md:table-cell">
-												Price
+												Pje. Total
 											</TableHead>
 											<TableHead className="hidden md:table-cell">
 												Total Sales
@@ -124,20 +122,12 @@ export default function EvalPage() {
 									</TableHeader>
 									<TableBody>
 										<TableRow>
-											<TableCell className="hidden sm:table-cell">
-												<Image
-													alt="Product image"
-													className="aspect-square rounded-md object-cover"
-													height="64"
-													src="/placeholder.svg"
-													width="64"
-												/>
-											</TableCell>
 											<TableCell className="font-medium">
-												Laser Lemonade Machine
+												Rodolfo Muñoz
 											</TableCell>
 											<TableCell>
-												<Badge variant="outline">Draft</Badge>
+												<Badge variant="outline">D</Badge>
+												<Badge variant="outline">I</Badge>
 											</TableCell>
 											<TableCell className="hidden md:table-cell">
 												$499.99
@@ -167,15 +157,6 @@ export default function EvalPage() {
 											</TableCell>
 										</TableRow>
 										<TableRow>
-											<TableCell className="hidden sm:table-cell">
-												<Image
-													alt="Product image"
-													className="aspect-square rounded-md object-cover"
-													height="64"
-													src="/placeholder.svg"
-													width="64"
-												/>
-											</TableCell>
 											<TableCell className="font-medium">
 												Hypernova Headphones
 											</TableCell>
@@ -212,15 +193,6 @@ export default function EvalPage() {
 											</TableCell>
 										</TableRow>
 										<TableRow>
-											<TableCell className="hidden sm:table-cell">
-												<Image
-													alt="Product image"
-													className="aspect-square rounded-md object-cover"
-													height="64"
-													src="/placeholder.svg"
-													width="64"
-												/>
-											</TableCell>
 											<TableCell className="font-medium">
 												AeroGlow Desk Lamp
 											</TableCell>
@@ -255,15 +227,6 @@ export default function EvalPage() {
 											</TableCell>
 										</TableRow>
 										<TableRow>
-											<TableCell className="hidden sm:table-cell">
-												<Image
-													alt="Product image"
-													className="aspect-square rounded-md object-cover"
-													height="64"
-													src="/placeholder.svg"
-													width="64"
-												/>
-											</TableCell>
 											<TableCell className="font-medium">
 												TechTonic Energy Drink
 											</TableCell>
@@ -298,15 +261,6 @@ export default function EvalPage() {
 											</TableCell>
 										</TableRow>
 										<TableRow>
-											<TableCell className="hidden sm:table-cell">
-												<Image
-													alt="Product image"
-													className="aspect-square rounded-md object-cover"
-													height="64"
-													src="/placeholder.svg"
-													width="64"
-												/>
-											</TableCell>
 											<TableCell className="font-medium">
 												Gamer Gear Pro Controller
 											</TableCell>
@@ -341,15 +295,6 @@ export default function EvalPage() {
 											</TableCell>
 										</TableRow>
 										<TableRow>
-											<TableCell className="hidden sm:table-cell">
-												<Image
-													alt="Product image"
-													className="aspect-square rounded-md object-cover"
-													height="64"
-													src="/placeholder.svg"
-													width="64"
-												/>
-											</TableCell>
 											<TableCell className="font-medium">
 												Luminous VR Headset
 											</TableCell>
