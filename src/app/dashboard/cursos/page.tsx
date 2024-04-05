@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Users, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,28 +22,6 @@ export default function Courses() {
 	return (
 		<div className="flex min-h-screen w-full flex-col">
 			<main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-				<div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-					<Card>
-						<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-							<CardTitle className="text-sm font-medium">PreKinder</CardTitle>
-							<Users className="h-4 w-4 text-muted-foreground" />
-						</CardHeader>
-						<CardContent>
-							<div className="text-2xl font-bold">32</div>
-							<p className="text-xs text-muted-foreground">Alumnos</p>
-						</CardContent>
-					</Card>
-					<Card>
-						<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-							<CardTitle className="text-sm font-medium">Kinder</CardTitle>
-							<Users className="h-4 w-4 text-muted-foreground" />
-						</CardHeader>
-						<CardContent>
-							<div className="text-2xl font-bold">24</div>
-							<p className="text-xs text-muted-foreground">Alumnos</p>
-						</CardContent>
-					</Card>
-				</div>
 				<Card className="xl:col-span-2">
 					<CardHeader className="flex flex-row items-center">
 						<div className="grid gap-2">

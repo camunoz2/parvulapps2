@@ -49,10 +49,9 @@ export default function EvalPage() {
 	return (
 		<div className="flex min-h-screen w-full flex-col">
 			<main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-				<Tabs defaultValue="todas">
+				<Tabs defaultValue="diagnostica">
 					<div className="flex items-center">
 						<TabsList>
-							<TabsTrigger value="todas">Todas</TabsTrigger>
 							<TabsTrigger value="diagnostica">Diagnostica</TabsTrigger>
 							<TabsTrigger value="intermedia">Intermedia</TabsTrigger>
 							<TabsTrigger value="cierre">Cierre</TabsTrigger>
@@ -77,12 +76,7 @@ export default function EvalPage() {
 									<DropdownMenuCheckboxItem>Archived</DropdownMenuCheckboxItem>
 								</DropdownMenuContent>
 							</DropdownMenu>
-							<Button size="sm" variant="outline" className="h-8 gap-1">
-								<File className="h-3.5 w-3.5" />
-								<span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-									Exportar
-								</span>
-							</Button>
+
 							<Button size="sm" className="h-8 gap-1">
 								<PlusCircle className="h-3.5 w-3.5" />
 								<span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
@@ -91,7 +85,7 @@ export default function EvalPage() {
 							</Button>
 						</div>
 					</div>
-					<TabsContent value="todas">
+					<TabsContent value="diagnostica">
 						<Card>
 							<CardHeader>
 								<CardTitle>Evaluaciones</CardTitle>
@@ -106,14 +100,15 @@ export default function EvalPage() {
 										<TableRow>
 											<TableHead>Nombre</TableHead>
 											<TableHead>Estado</TableHead>
+											<TableHead>Curso</TableHead>
 											<TableHead className="hidden md:table-cell">
-												Pje. Total
+												Progreso
 											</TableHead>
 											<TableHead className="hidden md:table-cell">
-												Total Sales
+												Fecha
 											</TableHead>
 											<TableHead className="hidden md:table-cell">
-												Created at
+												Opciones
 											</TableHead>
 											<TableHead>
 												<span className="sr-only">Actions</span>
@@ -123,188 +118,17 @@ export default function EvalPage() {
 									<TableBody>
 										<TableRow>
 											<TableCell className="font-medium">
-												Rodolfo Muñoz
+												Rodolfo Lavanderos
 											</TableCell>
 											<TableCell>
-												<Badge variant="outline">D</Badge>
-												<Badge variant="outline">I</Badge>
+												<Badge variant="outline">Evaluado</Badge>
 											</TableCell>
 											<TableCell className="hidden md:table-cell">
-												$499.99
-											</TableCell>
-											<TableCell className="hidden md:table-cell">25</TableCell>
-											<TableCell className="hidden md:table-cell">
-												2023-07-12 10:42 AM
-											</TableCell>
-											<TableCell>
-												<DropdownMenu>
-													<DropdownMenuTrigger asChild>
-														<Button
-															aria-haspopup="true"
-															size="icon"
-															variant="ghost"
-														>
-															<MoreHorizontal className="h-4 w-4" />
-															<span className="sr-only">Toggle menu</span>
-														</Button>
-													</DropdownMenuTrigger>
-													<DropdownMenuContent align="end">
-														<DropdownMenuLabel>Actions</DropdownMenuLabel>
-														<DropdownMenuItem>Edit</DropdownMenuItem>
-														<DropdownMenuItem>Delete</DropdownMenuItem>
-													</DropdownMenuContent>
-												</DropdownMenu>
-											</TableCell>
-										</TableRow>
-										<TableRow>
-											<TableCell className="font-medium">
-												Hypernova Headphones
-											</TableCell>
-											<TableCell>
-												<Badge variant="outline">Active</Badge>
+												PreKinder
 											</TableCell>
 											<TableCell className="hidden md:table-cell">
-												$129.99
+												13/45
 											</TableCell>
-											<TableCell className="hidden md:table-cell">
-												100
-											</TableCell>
-											<TableCell className="hidden md:table-cell">
-												2023-10-18 03:21 PM
-											</TableCell>
-											<TableCell>
-												<DropdownMenu>
-													<DropdownMenuTrigger asChild>
-														<Button
-															aria-haspopup="true"
-															size="icon"
-															variant="ghost"
-														>
-															<MoreHorizontal className="h-4 w-4" />
-															<span className="sr-only">Toggle menu</span>
-														</Button>
-													</DropdownMenuTrigger>
-													<DropdownMenuContent align="end">
-														<DropdownMenuLabel>Actions</DropdownMenuLabel>
-														<DropdownMenuItem>Edit</DropdownMenuItem>
-														<DropdownMenuItem>Delete</DropdownMenuItem>
-													</DropdownMenuContent>
-												</DropdownMenu>
-											</TableCell>
-										</TableRow>
-										<TableRow>
-											<TableCell className="font-medium">
-												AeroGlow Desk Lamp
-											</TableCell>
-											<TableCell>
-												<Badge variant="outline">Active</Badge>
-											</TableCell>
-											<TableCell className="hidden md:table-cell">
-												$39.99
-											</TableCell>
-											<TableCell className="hidden md:table-cell">50</TableCell>
-											<TableCell className="hidden md:table-cell">
-												2023-11-29 08:15 AM
-											</TableCell>
-											<TableCell>
-												<DropdownMenu>
-													<DropdownMenuTrigger asChild>
-														<Button
-															aria-haspopup="true"
-															size="icon"
-															variant="ghost"
-														>
-															<MoreHorizontal className="h-4 w-4" />
-															<span className="sr-only">Toggle menu</span>
-														</Button>
-													</DropdownMenuTrigger>
-													<DropdownMenuContent align="end">
-														<DropdownMenuLabel>Actions</DropdownMenuLabel>
-														<DropdownMenuItem>Edit</DropdownMenuItem>
-														<DropdownMenuItem>Delete</DropdownMenuItem>
-													</DropdownMenuContent>
-												</DropdownMenu>
-											</TableCell>
-										</TableRow>
-										<TableRow>
-											<TableCell className="font-medium">
-												TechTonic Energy Drink
-											</TableCell>
-											<TableCell>
-												<Badge variant="secondary">Draft</Badge>
-											</TableCell>
-											<TableCell className="hidden md:table-cell">
-												$2.99
-											</TableCell>
-											<TableCell className="hidden md:table-cell">0</TableCell>
-											<TableCell className="hidden md:table-cell">
-												2023-12-25 11:59 PM
-											</TableCell>
-											<TableCell>
-												<DropdownMenu>
-													<DropdownMenuTrigger asChild>
-														<Button
-															aria-haspopup="true"
-															size="icon"
-															variant="ghost"
-														>
-															<MoreHorizontal className="h-4 w-4" />
-															<span className="sr-only">Toggle menu</span>
-														</Button>
-													</DropdownMenuTrigger>
-													<DropdownMenuContent align="end">
-														<DropdownMenuLabel>Actions</DropdownMenuLabel>
-														<DropdownMenuItem>Edit</DropdownMenuItem>
-														<DropdownMenuItem>Delete</DropdownMenuItem>
-													</DropdownMenuContent>
-												</DropdownMenu>
-											</TableCell>
-										</TableRow>
-										<TableRow>
-											<TableCell className="font-medium">
-												Gamer Gear Pro Controller
-											</TableCell>
-											<TableCell>
-												<Badge variant="outline">Active</Badge>
-											</TableCell>
-											<TableCell className="hidden md:table-cell">
-												$59.99
-											</TableCell>
-											<TableCell className="hidden md:table-cell">75</TableCell>
-											<TableCell className="hidden md:table-cell">
-												2024-01-01 12:00 AM
-											</TableCell>
-											<TableCell>
-												<DropdownMenu>
-													<DropdownMenuTrigger asChild>
-														<Button
-															aria-haspopup="true"
-															size="icon"
-															variant="ghost"
-														>
-															<MoreHorizontal className="h-4 w-4" />
-															<span className="sr-only">Toggle menu</span>
-														</Button>
-													</DropdownMenuTrigger>
-													<DropdownMenuContent align="end">
-														<DropdownMenuLabel>Actions</DropdownMenuLabel>
-														<DropdownMenuItem>Edit</DropdownMenuItem>
-														<DropdownMenuItem>Delete</DropdownMenuItem>
-													</DropdownMenuContent>
-												</DropdownMenu>
-											</TableCell>
-										</TableRow>
-										<TableRow>
-											<TableCell className="font-medium">
-												Luminous VR Headset
-											</TableCell>
-											<TableCell>
-												<Badge variant="outline">Active</Badge>
-											</TableCell>
-											<TableCell className="hidden md:table-cell">
-												$199.99
-											</TableCell>
-											<TableCell className="hidden md:table-cell">30</TableCell>
 											<TableCell className="hidden md:table-cell">
 												2024-02-14 02:14 PM
 											</TableCell>
@@ -321,9 +145,8 @@ export default function EvalPage() {
 														</Button>
 													</DropdownMenuTrigger>
 													<DropdownMenuContent align="end">
-														<DropdownMenuLabel>Actions</DropdownMenuLabel>
-														<DropdownMenuItem>Edit</DropdownMenuItem>
-														<DropdownMenuItem>Delete</DropdownMenuItem>
+														<DropdownMenuItem>Editar</DropdownMenuItem>
+														<DropdownMenuItem>Eliminar</DropdownMenuItem>
 													</DropdownMenuContent>
 												</DropdownMenu>
 											</TableCell>
