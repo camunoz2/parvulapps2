@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { MoreHorizontal, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +17,12 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Courses() {
 	return (
@@ -42,9 +48,8 @@ export default function Courses() {
 							<TableHeader>
 								<TableRow>
 									<TableHead>Curso</TableHead>
-									<TableHead className="text-right">
-										Cant. Estudiantes
-									</TableHead>
+									<TableHead>Cant. Estudiantes</TableHead>
+									<TableHead>Opciones</TableHead>
 								</TableRow>
 							</TableHeader>
 							<TableBody>
@@ -55,16 +60,25 @@ export default function Courses() {
 											PreKinder A
 										</div>
 									</TableCell>
-									<TableCell className="text-right">23</TableCell>
-								</TableRow>
-								<TableRow>
+									<TableCell>23</TableCell>
 									<TableCell>
-										<div className="font-medium">Liam Johnson</div>
-										<div className="hidden text-sm text-muted-foreground md:inline">
-											liam@example.com
-										</div>
+										<DropdownMenu>
+											<DropdownMenuTrigger asChild>
+												<Button
+													aria-haspopup="true"
+													size="icon"
+													variant="ghost"
+												>
+													<MoreHorizontal className="h-4 w-4" />
+													<span className="sr-only">Toggle menu</span>
+												</Button>
+											</DropdownMenuTrigger>
+											<DropdownMenuContent align="center">
+												<DropdownMenuItem>Editar</DropdownMenuItem>
+												<DropdownMenuItem>Eliminar</DropdownMenuItem>
+											</DropdownMenuContent>
+										</DropdownMenu>
 									</TableCell>
-									<TableCell className="text-right">32</TableCell>
 								</TableRow>
 							</TableBody>
 						</Table>
