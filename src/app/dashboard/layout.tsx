@@ -165,17 +165,16 @@ export default function DashboardLayout({
 						<DropdownMenuTrigger asChild>
 							<Button variant="secondary" size="icon" className="rounded-full">
 								<CircleUser className="h-5 w-5" />
-								<span className="sr-only">Toggle user menu</span>
+								<span className="sr-only">Abrir menu de usuario</span>
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
-							<DropdownMenuLabel>My Account</DropdownMenuLabel>
+							<DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
 							<DropdownMenuSeparator />
-							<DropdownMenuItem>Settings</DropdownMenuItem>
-							<DropdownMenuItem>Support</DropdownMenuItem>
+							<DropdownMenuItem>Configuracion</DropdownMenuItem>
 							<DropdownMenuSeparator />
 							<DropdownMenuItem>
-								<a href="/api/auth/logout">Log Out</a>
+								<a href="/api/auth/logout">Cerrar Sesion</a>
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
