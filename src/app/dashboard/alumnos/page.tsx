@@ -1,6 +1,3 @@
-import Link from "next/link";
-import { MoreHorizontal, Plus, PlusCircle } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -10,6 +7,12 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
 	Table,
 	TableBody,
 	TableCell,
@@ -17,29 +20,24 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { MoreHorizontal, PlusCircle } from "lucide-react";
 
-export default function Courses() {
+export default function AlumnosPage() {
 	return (
 		<div className="flex min-h-screen w-full flex-col">
 			<main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
 				<Card className="xl:col-span-2">
 					<CardHeader className="flex flex-row items-center">
 						<div className="grid gap-2">
-							<CardTitle>Cursos</CardTitle>
+							<CardTitle>Alumnos</CardTitle>
 							<CardDescription>
-								Cursos agregados a su institucion educativa
+								Agrega alumnos a tu institucion educativa
 							</CardDescription>
 						</div>
 						<Button size="sm" className="ml-auto gap-1">
 							<PlusCircle className="h-3.5 w-3.5" />
 							<span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-								Agregar Curso
+								Agregar Alumno
 							</span>
 						</Button>
 					</CardHeader>
@@ -47,20 +45,19 @@ export default function Courses() {
 						<Table>
 							<TableHeader>
 								<TableRow>
+									<TableHead>Nombre</TableHead>
+									<TableHead>Apellidos</TableHead>
 									<TableHead>Curso</TableHead>
-									<TableHead>Cant. Estudiantes</TableHead>
+									<TableHead>Edad(años)</TableHead>
 									<TableHead>Opciones</TableHead>
 								</TableRow>
 							</TableHeader>
 							<TableBody>
 								<TableRow>
-									<TableCell>
-										<div className="font-medium">Curso Demo</div>
-										<div className="hidden text-sm text-muted-foreground md:inline">
-											PreKinder A
-										</div>
-									</TableCell>
-									<TableCell>23</TableCell>
+									<TableCell>Cristian Andres</TableCell>
+									<TableCell>Munoz Arjel</TableCell>
+									<TableCell>PreKinder</TableCell>
+									<TableCell>5</TableCell>
 									<TableCell>
 										<DropdownMenu>
 											<DropdownMenuTrigger asChild>
