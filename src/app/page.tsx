@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { getSession } from "@auth0/nextjs-auth0";
 
-import GreetUser from "@/components/profile-client";
+import { Avatar } from "@/components/profile-client";
 
 export default async function Home() {
 	const session = await getSession();
@@ -28,7 +28,7 @@ export default async function Home() {
 				)}
 				{user ? (
 					<>
-						<GreetUser user={user} />
+						<Avatar user={user} />
 						<Button className="w-48">
 							<a href="/dashboard">Abrir app</a>
 						</Button>
