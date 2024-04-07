@@ -84,7 +84,7 @@ export default async function AdminPage() {
 							</TableHeader>
 							<TableBody>
 								{schools.map((row) => (
-									<TableRow id={row.id.toString()}>
+									<TableRow key={row.id.toString()}>
 										<TableCell>
 											<div className="font-medium">{row.name}</div>
 											<div className="hidden text-sm text-muted-foreground md:inline">
