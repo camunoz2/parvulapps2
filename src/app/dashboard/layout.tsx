@@ -1,7 +1,6 @@
 import Link from "next/link";
 import {
 	Bell,
-	CircleUser,
 	Home,
 	LineChart,
 	Menu,
@@ -9,6 +8,7 @@ import {
 	Package2,
 	Search,
 	ShoppingCart,
+	UserIcon,
 	Users,
 } from "lucide-react";
 
@@ -164,7 +164,9 @@ export default function DashboardLayout({
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button variant="secondary" size="icon" className="rounded-full">
-								<CircleUser className="h-5 w-5" />
+								<div className="h-5 w-5">
+									<UserIcon />
+								</div>
 								<span className="sr-only">Abrir menu de usuario</span>
 							</Button>
 						</DropdownMenuTrigger>
