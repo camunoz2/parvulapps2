@@ -24,10 +24,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { getSession } from "@auth0/nextjs-auth0";
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
 	children,
 }: { children: React.ReactNode }) {
+	const session = await getSession();
+	const user = session?.user;
 	return (
 		<div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
 			<div className="hidden border-r bg-muted/40 md:block">
@@ -82,6 +85,15 @@ export default function DashboardLayout({
 								<LineChart className="h-4 w-4" />
 								Reportes
 							</Link>
+							{user?.email === "cristianmunoz@liceonibaldo.cl" && (
+								<Link
+									href="/dashboard/admin"
+									className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+								>
+									<LineChart className="h-4 w-4" />
+									Admin
+								</Link>
+							)}
 						</nav>
 					</div>
 				</div>
