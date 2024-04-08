@@ -20,7 +20,7 @@ export default async function Home() {
 					</p>
 				</footer>
 			</div>
-			<div className="bg-white flex flex-col gap-6 items-center justify-center">
+			<div className="flex flex-col gap-6 items-center justify-center">
 				{user ? (
 					<h2 className="text-2xl font-bold">Bienvenid@ {user.name}</h2>
 				) : (
