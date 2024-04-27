@@ -22,25 +22,8 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { ToastNotification } from "@/components/toast-notification";
-import { turso } from "@/lib/turso";
-
+import { CreateCourse } from "@/components/create-course";
 export default function Courses() {
-	//	function showToast() {
-	//		return <ToastNotification description="Something added" />;
-	//	}
-
 	return (
 		<div className="flex min-h-screen w-full flex-col">
 			<main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
@@ -52,53 +35,7 @@ export default function Courses() {
 								Cursos agregados a su institucion educativa
 							</CardDescription>
 						</div>
-
-						<Dialog>
-							<DialogTrigger asChild>
-								<Button size="sm" className="ml-auto gap-1">
-									<PlusCircle className="h-3.5 w-3.5" />
-									<span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-										Agregar Curso
-									</span>
-								</Button>
-							</DialogTrigger>
-							<DialogContent
-								className="sm:max-w-[425px]"
-								onSubmit={createCourse}
-							>
-								<DialogHeader>
-									<DialogTitle>Agregar Curso</DialogTitle>
-									<DialogDescription>
-										Indica el curso y la cantidad de estudiantes
-									</DialogDescription>
-								</DialogHeader>
-								<div className="grid gap-4 py-4">
-									<div className="grid grid-cols-4 items-center gap-4">
-										<Label htmlFor="name" className="text-right">
-											Curso
-										</Label>
-										<Input
-											id="name"
-											defaultValue="PreKinder"
-											className="col-span-3"
-										/>
-									</div>
-									<div className="grid grid-cols-4 items-center gap-4">
-										<Label htmlFor="section" className="text-right">
-											Seccion
-										</Label>
-										<Input
-											id="section"
-											defaultValue="A"
-											className="col-span-3"
-										/>
-									</div>
-								</div>
-								<DialogFooter>
-									<Button type="submit">Agregar</Button>
-								</DialogFooter>
-							</DialogContent>
-						</Dialog>
+						<CreateCourse />
 					</CardHeader>
 					<CardContent>
 						<Table>
