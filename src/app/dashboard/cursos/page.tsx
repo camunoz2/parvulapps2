@@ -1,6 +1,4 @@
-import { MoreHorizontal, PlusCircle } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
+import { CourseInfo } from "@/components/course-info";
 import {
 	Card,
 	CardContent,
@@ -11,17 +9,10 @@ import {
 import {
 	Table,
 	TableBody,
-	TableCell,
 	TableHead,
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { CreateCourse } from "@/components/create-course";
 export default function Courses() {
 	return (
@@ -47,33 +38,7 @@ export default function Courses() {
 								</TableRow>
 							</TableHeader>
 							<TableBody>
-								<TableRow>
-									<TableCell>
-										<div className="font-medium">Curso Demo</div>
-										<div className="hidden text-sm text-muted-foreground md:inline">
-											PreKinder A
-										</div>
-									</TableCell>
-									<TableCell>23</TableCell>
-									<TableCell>
-										<DropdownMenu>
-											<DropdownMenuTrigger asChild>
-												<Button
-													aria-haspopup="true"
-													size="icon"
-													variant="ghost"
-												>
-													<MoreHorizontal className="h-4 w-4" />
-													<span className="sr-only">Toggle menu</span>
-												</Button>
-											</DropdownMenuTrigger>
-											<DropdownMenuContent align="center">
-												<DropdownMenuItem>Editar</DropdownMenuItem>
-												<DropdownMenuItem>Eliminar</DropdownMenuItem>
-											</DropdownMenuContent>
-										</DropdownMenu>
-									</TableCell>
-								</TableRow>
+								<CourseInfo />
 							</TableBody>
 						</Table>
 					</CardContent>
