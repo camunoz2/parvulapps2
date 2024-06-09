@@ -1,3 +1,4 @@
+import CreateStudent from "@/components/create-student";
 import StudentInfo from "@/components/student-info";
 import { Button } from "@/components/ui/button";
 import {
@@ -44,12 +45,7 @@ export default async function AlumnosPage() {
                 Agrega alumnos a tu institucion educativa
               </CardDescription>
             </div>
-            <Button size="sm" className="ml-auto gap-1">
-              <PlusCircle className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                Agregar Alumno
-              </span>
-            </Button>
+            <CreateStudent />
           </CardHeader>
           <CardContent>
             <Table>

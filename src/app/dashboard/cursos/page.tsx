@@ -14,13 +14,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CreateCourse } from "@/components/create-course";
-import { db } from "@/lib/drizzle";
-import { courses } from "@/db/schema/courses";
 import { cookies } from "next/headers";
+import { getAllCourses } from "@/actions/getAllCourses";
 
 export default async function Courses() {
   cookies();
-  const result = await db.select().from(courses);
+  const result = await getAllCourses();
 
   return (
     <div className="flex min-h-screen w-full flex-col">
