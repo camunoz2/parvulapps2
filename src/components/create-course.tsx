@@ -1,23 +1,27 @@
 "use client";
 
+import { addCourse } from "@/actions/addCourse";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
-  DialogTitle,
   DialogDescription,
-  DialogHeader,
   DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PlusCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { useFormState } from "react-dom";
+
+const initialState = {
+  message: "",
+};
 
 export function CreateCourse() {
-  const createCourse = (e: React.FormEvent<HTMLElement>) => {
-    console.log(e);
-  };
+  const [state, formAction] = useFormState(addCourse, initialState);
 
   return (
     <Dialog>
@@ -29,31 +33,44 @@ export function CreateCourse() {
           </span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]" onSubmit={createCourse}>
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Agregar Curso</DialogTitle>
           <DialogDescription>
             Indica el curso y la cantidad de estudiantes
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Curso
-            </Label>
-            <Input id="name" defaultValue="PreKinder" className="col-span-3" />
+        <form action={formAction}>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="name" className="text-right">
+                Curso
+              </Label>
+              <Input
+                id="name"
+                defaultValue="PreKinder"
+                className="col-span-3"
+                name="name"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="section" className="text-right">
+                Seccion
+              </Label>
+              <Input
+                id="section"
+                name="section"
+                defaultValue="A"
+                className="col-span-3"
+              />
+            </div>
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="section" className="text-right">
-              Seccion
-            </Label>
-            <Input id="section" defaultValue="A" className="col-span-3" />
-          </div>
-        </div>
-        <DialogFooter>
-          <Button type="submit">Agregar</Button>
-        </DialogFooter>
+          <DialogFooter>
+            <Button type="submit">Agregar</Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
+      <p>{state?.message}</p>
     </Dialog>
   );
 }
