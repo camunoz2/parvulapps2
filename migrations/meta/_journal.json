@@ -15,6 +15,20 @@
       "when": 1717955273437,
       "tag": "0001_square_martin_li",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1717955436856,
+      "tag": "0002_charming_salo",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1717956192550,
+      "tag": "0003_harsh_cloak",
+      "breakpoints": true
     }
   ]
 }

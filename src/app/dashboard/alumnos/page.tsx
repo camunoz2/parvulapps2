@@ -1,3 +1,4 @@
+import StudentInfo from "@/components/student-info";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,22 +8,31 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { MoreHorizontal, PlusCircle } from "lucide-react";
+import { courses } from "@/db/schema/courses";
+import { students } from "@/db/schema/students";
+import { db } from "@/lib/drizzle";
+import { eq } from "drizzle-orm";
+import { PlusCircle } from "lucide-react";
+import { cookies } from "next/headers";
 
-export default function AlumnosPage() {
+export default async function AlumnosPage() {
+  cookies();
+  const results = await db
+    .select({
+      studentId: students.id,
+      studentFirstName: students.firstName,
+      studentLastName: students.lastName,
+      studentAge: students.age,
+      studentCourseName: courses.course,
+    })
+    .from(students)
+    .innerJoin(courses, eq(students.courseId, courses.id));
   return (
     <div className="flex min-h-screen w-full flex-col">
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
@@ -53,30 +63,15 @@ export default function AlumnosPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow>
-                  <TableCell>Cristian Andres</TableCell>
-                  <TableCell>Munoz Arjel</TableCell>
-                  <TableCell>PreKinder</TableCell>
-                  <TableCell>5</TableCell>
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          aria-haspopup="true"
-                          size="icon"
-                          variant="ghost"
-                        >
-                          <MoreHorizontal className="h-4 w-4" />
-                          <span className="sr-only">Toggle menu</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="center">
-                        <DropdownMenuItem>Editar</DropdownMenuItem>
-                        <DropdownMenuItem>Eliminar</DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
+                {results.map((student) => (
+                  <StudentInfo
+                    key={student.studentId}
+                    firstName={student.studentFirstName}
+                    lastName={student.studentLastName}
+                    age={student.studentAge}
+                    course={student.studentCourseName}
+                  />
+                ))}
               </TableBody>
             </Table>
           </CardContent>
