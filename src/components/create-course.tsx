@@ -50,18 +50,7 @@ export function CreateCourse() {
                 id="name"
                 defaultValue="PreKinder"
                 className="col-span-3"
-                name="name"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="section" className="text-right">
-                Seccion
-              </Label>
-              <Input
-                id="section"
-                name="section"
-                defaultValue="A"
-                className="col-span-3"
+                name="coursename"
               />
             </div>
           </div>

@@ -9,9 +9,10 @@ type FormState = {
 };
 
 export async function addCourse(prevState: FormState, formData: FormData) {
-  const course = `${formData.get("name")} ${formData.get("section")}`;
   try {
-    await db.insert(courses).values({ course: course as string });
+    await db
+      .insert(courses)
+      .values({ course: formData.get("coursename") as string });
     revalidatePath("/");
     return { message: "Added a course" };
   } catch (e) {
