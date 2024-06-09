@@ -9,6 +9,9 @@ import {
 import { TableCell, TableRow } from "@/components/ui/table";
 import { MoreHorizontal } from "lucide-react";
 import { deleteCourse } from "@/actions/deleteCourse";
+import { editCourse } from "@/actions/editCourse";
+import { useState } from "react";
+import { Input } from "./ui/input";
 
 interface Props {
   courseId: number;
@@ -16,13 +19,32 @@ interface Props {
 }
 
 export function CourseInfo({ courseName, courseId }: Props) {
+  const [editing, setEditing] = useState(false);
+  const [newCourseName, setNewCourseName] = useState(courseName);
+
+  const handleEdit = () => {
+    editCourse({ courseId: courseId, courseName: newCourseName });
+    setEditing(false);
+  };
+
   return (
     <TableRow>
       <TableCell>
         <div className="font-medium">Curso Demo</div>
-        <div className="hidden text-sm text-muted-foreground md:inline">
-          {courseName}
-        </div>
+        {editing ? (
+          <>
+            <Input
+              name="coursename"
+              defaultValue={courseName}
+              onChange={(event) => setNewCourseName(event.currentTarget.value)}
+            />
+            <Button onClick={handleEdit}>Aceptar</Button>
+          </>
+        ) : (
+          <div className="hidden text-sm text-muted-foreground md:inline">
+            {courseName}
+          </div>
+        )}
       </TableCell>
       <TableCell>23</TableCell>
       <TableCell>
@@ -34,7 +56,9 @@ export function CourseInfo({ courseName, courseId }: Props) {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="center">
-            <DropdownMenuItem>Editar</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setEditing(true)}>
+              Editar
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={() => deleteCourse({ courseId })}>
               Eliminar
             </DropdownMenuItem>

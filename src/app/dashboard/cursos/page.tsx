@@ -16,8 +16,10 @@ import {
 import { CreateCourse } from "@/components/create-course";
 import { db } from "@/lib/drizzle";
 import { courses } from "@/db/schema/courses";
+import { cookies } from "next/headers";
 
 export default async function Courses() {
+  cookies();
   const result = await db.select().from(courses);
 
   return (
