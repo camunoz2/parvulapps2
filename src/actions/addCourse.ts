@@ -13,7 +13,7 @@ export async function addCourse(prevState: FormState, formData: FormData) {
     await db
       .insert(courses)
       .values({ course: formData.get("coursename") as string });
-    revalidatePath("/");
+    revalidatePath("/dashboard/cursos");
     return { message: "Added a course" };
   } catch (e) {
     return { message: "Error wrinting the form" };

@@ -37,7 +37,7 @@ export default async function CreateStudent() {
         courseId: Number(form.get("course")),
         age: Number(form.get("age")),
       });
-      revalidatePath("/");
+      revalidatePath("/dashboard/alumnos");
       return { message: "Student created!" };
     } catch (e) {
       return { message: `Error ${e}` };

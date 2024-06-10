@@ -16,7 +16,7 @@ export async function editCourse({ courseId, courseName }: Props) {
       .update(courses)
       .set({ course: courseName })
       .where(eq(courses.id, courseId));
-    revalidatePath("/");
+    revalidatePath("/dashboard/cursos");
     return console.log("Success!@");
   } catch (e) {
     return console.log("Nope", e);

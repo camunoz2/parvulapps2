@@ -12,7 +12,7 @@ interface Props {
 export async function deleteCourse({ courseId }: Props) {
   try {
     await db.delete(courses).where(eq(courses.id, courseId));
-    revalidatePath("/");
+    revalidatePath("/dashboard/cursos");
     return { message: "Removed a course" };
   } catch (e) {
     return { message: "Error removing acourser" };
