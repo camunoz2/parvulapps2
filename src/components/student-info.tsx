@@ -8,7 +8,8 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { TableCell, TableRow } from "./ui/table";
-import { useState } from "react";
+import { Dialog } from "./ui/dialog";
+import { DialogTrigger } from "@radix-ui/react-dialog";
 
 interface Props {
   studentId: number;
@@ -16,16 +17,16 @@ interface Props {
   lastName: string;
   age: number;
   course: string;
+  children?: React.ReactNode;
 }
 
-export default async function StudentInfo({
-  studentId,
+export function StudentInfo({
   firstName,
   lastName,
   age,
   course,
+  children,
 }: Props) {
-  const [isEditing, setIsEditing] = useState(false);
   return (
     <TableRow>
       <TableCell>{firstName}</TableCell>
@@ -33,20 +34,23 @@ export default async function StudentInfo({
       <TableCell>{course}</TableCell>
       <TableCell>{age}</TableCell>
       <TableCell>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button aria-haspopup="true" size="icon" variant="ghost">
-              <MoreHorizontal className="h-4 w-4" />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="center">
-            <DropdownMenuItem onClick={() => setIsEditing(true)}>
-              Editar
-            </DropdownMenuItem>
-            <DropdownMenuItem>Eliminar</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Dialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button aria-haspopup="true" size="icon" variant="ghost">
+                <MoreHorizontal className="h-4 w-4" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="center">
+              <DialogTrigger asChild>
+                <DropdownMenuItem>Editar</DropdownMenuItem>
+              </DialogTrigger>
+              <DropdownMenuItem>Eliminar</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          {children}
+        </Dialog>
       </TableCell>
     </TableRow>
   );

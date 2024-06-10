@@ -1,5 +1,7 @@
-import CreateStudent from "@/components/create-student";
-import StudentInfo from "@/components/student-info";
+import { StudentFormAdd } from "@/components/student-form-add";
+import { StudentFormUpdate } from "@/components/student-form-update";
+import { StudentInfo } from "@/components/student-info";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   Table,
   TableBody,
@@ -18,19 +21,13 @@ import { courses } from "@/db/schema/courses";
 import { students } from "@/db/schema/students";
 import { db } from "@/lib/drizzle";
 import { eq } from "drizzle-orm";
+import { PlusCircle } from "lucide-react";
 import { cookies } from "next/headers";
 
 export default async function AlumnosPage() {
   cookies();
-
   const results = await db
-    .select({
-      studentId: students.id,
-      studentFirstName: students.firstName,
-      studentLastName: students.lastName,
-      studentAge: students.age,
-      studentCourseName: courses.course,
-    })
+    .select()
     .from(students)
     .innerJoin(courses, eq(students.courseId, courses.id));
 
@@ -45,8 +42,20 @@ export default async function AlumnosPage() {
                 Agrega alumnos a tu institucion educativa
               </CardDescription>
             </div>
-            <CreateStudent />
+
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button size="sm" className="ml-auto gap-1">
+                  <PlusCircle className="h-3.5 w-3.5" />
+                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                    Agregar Alumno
+                  </span>
+                </Button>
+              </DialogTrigger>
+              <StudentFormAdd />
+            </Dialog>
           </CardHeader>
+
           <CardContent>
             <Table>
               <TableHeader>
@@ -59,15 +68,17 @@ export default async function AlumnosPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {results.map((student) => (
+                {results.map((res) => (
                   <StudentInfo
-                    studentId={student.studentId}
-                    key={student.studentId}
-                    firstName={student.studentFirstName}
-                    lastName={student.studentLastName}
-                    age={student.studentAge}
-                    course={student.studentCourseName}
-                  />
+                    studentId={res.students.id}
+                    key={res.students.id}
+                    firstName={res.students.firstName}
+                    lastName={res.students.lastName}
+                    age={res.students.age}
+                    course={res.courses.course}
+                  >
+                    <StudentFormUpdate content={res} />
+                  </StudentInfo>
                 ))}
               </TableBody>
             </Table>

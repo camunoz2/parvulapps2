@@ -1,3 +1,4 @@
+import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { relations } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { students } from "./students";
@@ -11,5 +12,5 @@ export const coursesRelations = relations(courses, ({ many }) => ({
   students: many(students),
 }));
 
-export type SelectCourse = typeof courses.$inferSelect;
-export type InsertCourse = typeof courses.$inferInsert;
+export type SelectCourse = InferSelectModel<typeof courses>;
+export type InsertCourse = InferInsertModel<typeof courses>;

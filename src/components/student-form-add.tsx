@@ -18,11 +18,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { courses } from "@/db/schema/courses";
 import { addStudent } from "@/actions/addStudent";
+import { courses } from "@/db/schema/courses";
 
-export default async function CreateStudentForm() {
-  const results = await db.select().from(courses);
+interface Props {
+  studentId?: number;
+}
+
+export async function StudentFormAdd({ studentId }: Props) {
+  const response = await db.select().from(courses);
   return (
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
@@ -31,10 +35,11 @@ export default async function CreateStudentForm() {
       </DialogHeader>
 
       <form action={addStudent}>
+        <Input className="hidden" disabled aria-disabled value={studentId} />
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="firstname" className="text-right">
-              Nombres
+              Nombre
             </Label>
             <Input
               name="firstname"
@@ -67,7 +72,7 @@ export default async function CreateStudentForm() {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Curso</SelectLabel>
-                  {results.map((c) => (
+                  {response.map((c) => (
                     <SelectItem key={c.id} value={c.id.toString()}>
                       {c.course}
                     </SelectItem>
