@@ -4,17 +4,17 @@ import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 
 export function ToastNotification({
-	description,
+  description,
 }: {
-	description: string;
+  description: string;
 }) {
-	const { toast } = useToast();
+  const { toast } = useToast();
 
-	toast({
-		title: "Scheduled: Catch up ",
-		description,
-		action: <ToastAction altText="Goto schedule to undo">Undo</ToastAction>,
-	});
+  toast({
+    title: "Scheduled: Catch up ",
+    description,
+    action: <ToastAction altText="Goto schedule to undo">Undo</ToastAction>,
+  });
 
-	return <></>;
+  return <></>;
 }

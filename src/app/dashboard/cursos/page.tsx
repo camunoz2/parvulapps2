@@ -44,13 +44,17 @@ export default async function Courses() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {result.map((c) => (
-                  <CourseInfo
-                    courseName={c.course}
-                    courseId={c.id}
-                    key={c.id}
-                  />
-                ))}
+                {result ? (
+                  result.map((c) => (
+                    <CourseInfo
+                      courseName={c.course}
+                      courseId={c.id}
+                      key={c.id}
+                    />
+                  ))
+                ) : (
+                  <p>No results found</p>
+                )}
               </TableBody>
             </Table>
           </CardContent>

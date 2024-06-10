@@ -1,6 +1,5 @@
 import CreateStudent from "@/components/create-student";
 import StudentInfo from "@/components/student-info";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -19,11 +18,11 @@ import { courses } from "@/db/schema/courses";
 import { students } from "@/db/schema/students";
 import { db } from "@/lib/drizzle";
 import { eq } from "drizzle-orm";
-import { PlusCircle } from "lucide-react";
 import { cookies } from "next/headers";
 
 export default async function AlumnosPage() {
   cookies();
+
   const results = await db
     .select({
       studentId: students.id,
@@ -34,6 +33,7 @@ export default async function AlumnosPage() {
     })
     .from(students)
     .innerJoin(courses, eq(students.courseId, courses.id));
+
   return (
     <div className="flex min-h-screen w-full flex-col">
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
