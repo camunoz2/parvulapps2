@@ -10,6 +10,7 @@ import {
 import { TableCell, TableRow } from "./ui/table";
 import { Dialog } from "./ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
+import { deleteStudent } from "@/actions/deleteStudent";
 
 interface Props {
   studentId: number;
@@ -21,6 +22,7 @@ interface Props {
 }
 
 export function StudentInfo({
+  studentId,
   firstName,
   lastName,
   age,
@@ -46,7 +48,9 @@ export function StudentInfo({
               <DialogTrigger asChild>
                 <DropdownMenuItem>Editar</DropdownMenuItem>
               </DialogTrigger>
-              <DropdownMenuItem>Eliminar</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => deleteStudent({ studentId })}>
+                Eliminar
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           {children}
