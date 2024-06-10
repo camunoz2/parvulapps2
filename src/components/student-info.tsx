@@ -1,3 +1,4 @@
+"use client";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "./ui/button";
 import {
@@ -7,20 +8,24 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { TableCell, TableRow } from "./ui/table";
+import { useState } from "react";
 
 interface Props {
+  studentId: number;
   firstName: string;
   lastName: string;
   age: number;
   course: string;
 }
 
-export default function StudentInfo({
+export default async function StudentInfo({
+  studentId,
   firstName,
   lastName,
   age,
   course,
 }: Props) {
+  const [isEditing, setIsEditing] = useState(false);
   return (
     <TableRow>
       <TableCell>{firstName}</TableCell>
@@ -36,7 +41,9 @@ export default function StudentInfo({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="center">
-            <DropdownMenuItem>Editar</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setIsEditing(true)}>
+              Editar
+            </DropdownMenuItem>
             <DropdownMenuItem>Eliminar</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
