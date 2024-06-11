@@ -29,6 +29,20 @@
       "when": 1717956192550,
       "tag": "0003_harsh_cloak",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1718112815707,
+      "tag": "0004_elite_galactus",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1718113520190,
+      "tag": "0005_low_argent",
+      "breakpoints": true
     }
   ]
 }
