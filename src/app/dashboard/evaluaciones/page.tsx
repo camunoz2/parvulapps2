@@ -1,5 +1,3 @@
-import { MoreHorizontal, PlusCircle } from "lucide-react";
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,12 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -48,12 +40,6 @@ export default function EvalPage() {
                     intermedia o de cierre
                   </CardDescription>
                 </div>
-                <Button size="sm" className="ml-auto gap-1">
-                  <PlusCircle className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Evaluar
-                  </span>
-                </Button>
               </CardHeader>
               <CardContent>
                 <Table>
@@ -93,23 +79,17 @@ export default function EvalPage() {
                       <TableCell className="hidden md:table-cell">
                         2024-02-14 02:14 PM
                       </TableCell>
-                      <TableCell>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button
-                              aria-haspopup="true"
-                              size="icon"
-                              variant="ghost"
-                            >
-                              <MoreHorizontal className="h-4 w-4" />
-                              <span className="sr-only">Toggle menu</span>
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem>Editar</DropdownMenuItem>
-                            <DropdownMenuItem>Eliminar</DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
+                      <TableCell className="flex gap-2">
+                        <Button size="sm">
+                          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                            Evaluar
+                          </span>
+                        </Button>
+                        <Button size="sm" variant={"secondary"}>
+                          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                            Editar
+                          </span>
+                        </Button>
                       </TableCell>
                     </TableRow>
                   </TableBody>
