@@ -1,4 +1,5 @@
 "use client";
+import { deleteCourse, editCourse } from "@/actions/dataLayer";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,7 +11,6 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { MoreHorizontal } from "lucide-react";
 import { useState } from "react";
 import { Input } from "./ui/input";
-import { editCourse, deleteCourse } from "@/actions/dataLayer";
 
 interface Props {
   courseId: number;

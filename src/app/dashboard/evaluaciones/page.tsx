@@ -1,5 +1,5 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { getStudents } from "@/actions/dataLayer";
+import { StudentRow } from "@/components/student-row";
 import {
   Card,
   CardContent,
@@ -11,14 +11,14 @@ import {
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export default function EvalPage() {
+export default async function EvalPage() {
+  const students = await getStudents();
   return (
     <div className="flex min-h-screen w-full flex-col">
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
@@ -63,35 +63,9 @@ export default function EvalPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    <TableRow>
-                      <TableCell className="font-medium">
-                        Rodolfo Lavanderos
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant="outline">Evaluado</Badge>
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell">
-                        PreKinder
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell">
-                        13/45
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell">
-                        2024-02-14 02:14 PM
-                      </TableCell>
-                      <TableCell className="flex gap-2">
-                        <Button size="sm">
-                          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                            Evaluar
-                          </span>
-                        </Button>
-                        <Button size="sm" variant={"secondary"}>
-                          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                            Editar
-                          </span>
-                        </Button>
-                      </TableCell>
-                    </TableRow>
+                    {students.map((student) => (
+                      <StudentRow key={student.id} student={student} />
+                    ))}
                   </TableBody>
                 </Table>
               </CardContent>
