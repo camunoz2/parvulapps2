@@ -62,7 +62,7 @@ export default async function AlumnosPage() {
               </TableHeader>
               <TableBody>
                 {results.map((student) => (
-                  <StudentInfo student={student}></StudentInfo>
+                  <StudentInfo key={student.id} student={student} />
                 ))}
               </TableBody>
             </Table>
