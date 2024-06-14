@@ -15,11 +15,11 @@ import {
 } from "@/components/ui/table";
 import { CreateCourse } from "@/components/create-course";
 import { cookies } from "next/headers";
-import { getAllCourses } from "@/actions/getAllCourses";
+import { getCourses } from "@/actions/dataLayer";
 
 export default async function Courses() {
   cookies();
-  const result = await getAllCourses();
+  const result = await getCourses();
 
   return (
     <div className="flex min-h-screen w-full flex-col">
@@ -48,9 +48,9 @@ export default async function Courses() {
                   result.map((c) => (
                     <CourseInfo
                       courseName={c.course}
-                      courseId={c.id}
                       key={c.id}
-                    />
+                      courseId={c.id}
+                    ></CourseInfo>
                   ))
                 ) : (
                   <p>No results found</p>

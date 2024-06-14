@@ -1,6 +1,6 @@
 "use client";
 
-import { addCourse } from "@/actions/addCourse";
+import { addCourse } from "@/actions/dataLayer";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -14,15 +14,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PlusCircle } from "lucide-react";
-import { useFormState } from "react-dom";
-
-const initialState = {
-  message: "",
-};
 
 export function CreateCourse() {
-  const [state, formAction] = useFormState(addCourse, initialState);
-
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -40,7 +33,7 @@ export function CreateCourse() {
             Indica el curso y la cantidad de estudiantes
           </DialogDescription>
         </DialogHeader>
-        <form action={formAction}>
+        <form action={addCourse}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">
@@ -59,7 +52,6 @@ export function CreateCourse() {
           </DialogFooter>
         </form>
       </DialogContent>
-      <p>{state?.message}</p>
     </Dialog>
   );
 }

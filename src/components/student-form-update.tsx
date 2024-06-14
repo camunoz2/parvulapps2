@@ -1,4 +1,3 @@
-import { db } from "@/lib/drizzle";
 import { Button } from "./ui/button";
 import {
   DialogContent,
@@ -18,16 +17,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { updateStudent } from "@/actions/updateStudent";
-import { type SelectCourse, courses } from "@/db/schema/courses";
-import type { SelectStudent } from "@/db/schema/students";
+import { type SelectStudent } from "@/db/schema/students";
+import { updateStudent } from "@/actions/dataLayer";
+import { SelectCourse } from "@/db/schema/courses";
 
 interface Props {
-  content: { students: SelectStudent; courses: SelectCourse };
+  student: SelectStudent;
+  allCourses: SelectCourse[];
 }
 
-export async function StudentFormUpdate({ content }: Props) {
-  const response = await db.select().from(courses);
+export async function StudentFormUpdate({ student, allCourses }: Props) {
   return (
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
@@ -38,7 +37,7 @@ export async function StudentFormUpdate({ content }: Props) {
       <form action={updateStudent}>
         <Input
           name="studentid"
-          value={content.students.id}
+          value={student.id}
           className="hidden"
           readOnly
         />
@@ -50,7 +49,7 @@ export async function StudentFormUpdate({ content }: Props) {
             <Input
               name="firstname"
               id="firstname"
-              defaultValue={content.students.firstName}
+              defaultValue={student.firstName}
               className="col-span-3"
             />
           </div>
@@ -62,7 +61,7 @@ export async function StudentFormUpdate({ content }: Props) {
             <Input
               id="lastname"
               name="lastname"
-              defaultValue={content.students.lastName}
+              defaultValue={student.lastName}
               className="col-span-3"
             />
           </div>
@@ -71,14 +70,14 @@ export async function StudentFormUpdate({ content }: Props) {
             <Label htmlFor="course" className="text-right">
               Curso
             </Label>
-            <Select name="course" defaultValue={content.courses.id?.toString()}>
+            <Select name="course" defaultValue={student.courseId.toString()}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Elige el curso" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Curso</SelectLabel>
-                  {response.map((c) => (
+                  {allCourses.map((c) => (
                     <SelectItem key={c.id} value={c.id.toString()}>
                       {c.course}
                     </SelectItem>
@@ -95,7 +94,7 @@ export async function StudentFormUpdate({ content }: Props) {
             <Input
               id="age"
               name="age"
-              defaultValue={content.students.age}
+              defaultValue={student.age}
               className="col-span-3"
             />
           </div>

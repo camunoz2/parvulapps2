@@ -8,10 +8,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { MoreHorizontal } from "lucide-react";
-import { deleteCourse } from "@/actions/deleteCourse";
-import { editCourse } from "@/actions/editCourse";
 import { useState } from "react";
 import { Input } from "./ui/input";
+import { editCourse, deleteCourse } from "@/actions/dataLayer";
 
 interface Props {
   courseId: number;
@@ -23,7 +22,10 @@ export function CourseInfo({ courseName, courseId }: Props) {
   const [newCourseName, setNewCourseName] = useState(courseName);
 
   const handleEdit = () => {
-    editCourse({ courseId: courseId, courseName: newCourseName });
+    editCourse({
+      courseId: courseId,
+      courseName: newCourseName,
+    });
     setEditing(false);
   };
 
@@ -59,7 +61,7 @@ export function CourseInfo({ courseName, courseId }: Props) {
             <DropdownMenuItem onClick={() => setEditing(true)}>
               Editar
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => deleteCourse({ courseId })}>
+            <DropdownMenuItem onClick={() => deleteCourse(courseId)}>
               Eliminar
             </DropdownMenuItem>
           </DropdownMenuContent>

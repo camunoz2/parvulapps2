@@ -1,4 +1,4 @@
-"use client";
+import { StudentFormUpdate } from "./student-form-update";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "./ui/button";
 import {
@@ -8,33 +8,24 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { TableCell, TableRow } from "./ui/table";
-import { Dialog } from "./ui/dialog";
-import { DialogTrigger } from "@radix-ui/react-dialog";
-import { deleteStudent } from "@/actions/deleteStudent";
+import { Dialog, DialogTrigger } from "./ui/dialog";
+import { deleteStudent, getCourses } from "@/actions/dataLayer";
+import { SelectStudent } from "@/db/schema/students";
+import { getCourseNameById } from "@/lib/utils";
 
 interface Props {
-  studentId: number;
-  firstName: string;
-  lastName: string;
-  age: number;
-  course: string;
-  children?: React.ReactNode;
+  student: SelectStudent;
 }
 
-export function StudentInfo({
-  studentId,
-  firstName,
-  lastName,
-  age,
-  course,
-  children,
-}: Props) {
+export async function StudentInfo({ student }: Props) {
+  const courses = await getCourses();
+  const courseNameById = getCourseNameById(student.courseId, courses);
   return (
     <TableRow>
-      <TableCell>{firstName}</TableCell>
-      <TableCell>{lastName}</TableCell>
-      <TableCell>{course}</TableCell>
-      <TableCell>{age}</TableCell>
+      <TableCell>{student.firstName}</TableCell>
+      <TableCell>{student.lastName}</TableCell>
+      <TableCell>{courseNameById}</TableCell>
+      <TableCell>{student.age}</TableCell>
       <TableCell>
         <Dialog>
           <DropdownMenu>
@@ -48,12 +39,19 @@ export function StudentInfo({
               <DialogTrigger asChild>
                 <DropdownMenuItem>Editar</DropdownMenuItem>
               </DialogTrigger>
-              <DropdownMenuItem onClick={() => deleteStudent({ studentId })}>
-                Eliminar
-              </DropdownMenuItem>
+              <form action={deleteStudent}>
+                <input
+                  readOnly
+                  className="hidden"
+                  value={student.id}
+                  name="id"
+                />
+                <DropdownMenuItem>Eliminar</DropdownMenuItem>
+              </form>
             </DropdownMenuContent>
           </DropdownMenu>
-          {children}
+
+          <StudentFormUpdate student={student} allCourses={courses} />
         </Dialog>
       </TableCell>
     </TableRow>

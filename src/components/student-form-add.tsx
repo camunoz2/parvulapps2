@@ -18,8 +18,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { addStudent } from "@/actions/addStudent";
 import { courses } from "@/db/schema/courses";
+import { addStudent } from "@/actions/dataLayer";
 
 interface Props {
   studentId?: number;

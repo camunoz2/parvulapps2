@@ -1,5 +1,5 @@
+import { getStudents } from "@/actions/dataLayer";
 import { StudentFormAdd } from "@/components/student-form-add";
-import { StudentFormUpdate } from "@/components/student-form-update";
 import { StudentInfo } from "@/components/student-info";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,19 +17,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { courses } from "@/db/schema/courses";
-import { students } from "@/db/schema/students";
-import { db } from "@/lib/drizzle";
-import { eq } from "drizzle-orm";
 import { PlusCircle } from "lucide-react";
 import { cookies } from "next/headers";
 
 export default async function AlumnosPage() {
   cookies();
-  const results = await db
-    .select()
-    .from(students)
-    .innerJoin(courses, eq(students.courseId, courses.id));
+  const results = await getStudents();
 
   return (
     <div className="flex min-h-screen w-full flex-col">
@@ -68,17 +61,8 @@ export default async function AlumnosPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {results.map((res) => (
-                  <StudentInfo
-                    studentId={res.students.id}
-                    key={res.students.id}
-                    firstName={res.students.firstName}
-                    lastName={res.students.lastName}
-                    age={res.students.age}
-                    course={res.courses.course}
-                  >
-                    <StudentFormUpdate content={res} />
-                  </StudentInfo>
+                {results.map((student) => (
+                  <StudentInfo student={student}></StudentInfo>
                 ))}
               </TableBody>
             </Table>
