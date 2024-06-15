@@ -43,6 +43,20 @@
       "when": 1718113520190,
       "tag": "0005_low_argent",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1718466508581,
+      "tag": "0006_lucky_glorian",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1718473529308,
+      "tag": "0007_burly_black_bolt",
+      "breakpoints": true
     }
   ]
 }
