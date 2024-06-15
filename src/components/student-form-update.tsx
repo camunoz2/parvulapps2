@@ -1,3 +1,6 @@
+import { updateStudent } from "@/actions/dataLayer";
+import type { SelectCourse } from "@/db/schema/course";
+import type { SelectStudent } from "@/db/schema/student";
 import { Button } from "./ui/button";
 import {
   DialogContent,
@@ -17,9 +20,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { type SelectStudent } from "@/db/schema/students";
-import { updateStudent } from "@/actions/dataLayer";
-import { SelectCourse } from "@/db/schema/courses";
 
 interface Props {
   student: SelectStudent;
@@ -79,7 +79,7 @@ export async function StudentFormUpdate({ student, allCourses }: Props) {
                   <SelectLabel>Curso</SelectLabel>
                   {allCourses.map((c) => (
                     <SelectItem key={c.id} value={c.id.toString()}>
-                      {c.course}
+                      {c.name}
                     </SelectItem>
                   ))}
                 </SelectGroup>

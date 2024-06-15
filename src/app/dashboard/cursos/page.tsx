@@ -47,10 +47,10 @@ export default async function Courses() {
                 {result ? (
                   result.map((c) => (
                     <CourseInfo
-                      courseName={c.course}
+                      courseName={c.name}
                       key={c.id}
                       courseId={c.id}
-                    ></CourseInfo>
+                    />
                   ))
                 ) : (
                   <p>No results found</p>

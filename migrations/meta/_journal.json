@@ -5,57 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1717898147329,
-      "tag": "0000_sloppy_scalphunter",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1717955273437,
-      "tag": "0001_square_martin_li",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1717955436856,
-      "tag": "0002_charming_salo",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1717956192550,
-      "tag": "0003_harsh_cloak",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "6",
-      "when": 1718112815707,
-      "tag": "0004_elite_galactus",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "6",
-      "when": 1718113520190,
-      "tag": "0005_low_argent",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "6",
-      "when": 1718466508581,
-      "tag": "0006_lucky_glorian",
-      "breakpoints": true
-    },
-    {
-      "idx": 7,
-      "version": "6",
-      "when": 1718473529308,
-      "tag": "0007_burly_black_bolt",
+      "when": 1718481145651,
+      "tag": "0000_misty_celestials",
       "breakpoints": true
     }
   ]

@@ -1,1 +1,0 @@
-ALTER TABLE `students` ADD `age` integer NOT NULL;

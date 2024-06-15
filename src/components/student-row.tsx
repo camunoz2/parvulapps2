@@ -1,6 +1,6 @@
 "use client";
 
-import type { InsertStudent } from "@/db/schema/students";
+import type { InsertStudent } from "@/db/schema/student";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";

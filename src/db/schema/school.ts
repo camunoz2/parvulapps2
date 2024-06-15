@@ -12,4 +12,3 @@ export const schools = sqliteTable("schools", {
 
 export type SelectSchools = InferSelectModel<typeof schools>;
 export type InsertSchools = InferInsertModel<typeof schools>;
-

@@ -1,7 +1,7 @@
-import type { InferSelectModel, InferInsertModel } from "drizzle-orm";
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
-import { courses } from "./courses";
+import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { relations } from "drizzle-orm";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { courses } from "./course";
 
 export const students = sqliteTable("students", {
   id: integer("id").primaryKey(),

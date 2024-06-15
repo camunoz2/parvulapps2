@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { courses } from "@/db/schema/courses";
+import { courses } from "@/db/schema/course";
 import { addStudent } from "@/actions/dataLayer";
 
 interface Props {
@@ -74,7 +74,7 @@ export async function StudentFormAdd({ studentId }: Props) {
                   <SelectLabel>Curso</SelectLabel>
                   {response.map((c) => (
                     <SelectItem key={c.id} value={c.id.toString()}>
-                      {c.course}
+                      {c.name}
                     </SelectItem>
                   ))}
                 </SelectGroup>

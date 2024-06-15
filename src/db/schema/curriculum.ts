@@ -1,88 +1,85 @@
-import {
-  relations,
-  type InferInsertModel,
-  type InferSelectModel,
-} from "drizzle-orm";
+import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 
 ////////////////////// Schema //////////////////////////////////////////////
-export const ambitos = sqliteTable("ambitos", {
+export const scopes = sqliteTable("scopes", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
 });
 
-export const nucleos = sqliteTable("nucleos", {
+export const cores = sqliteTable("cores", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
-  ambitoId: integer("ambito_id")
+  scopeId: integer("scope_id")
     .notNull()
-    .references(() => ambitos.id),
+    .references(() => scopes.id),
 });
 
-export const objetivos = sqliteTable("objetivos", {
+export const objectives = sqliteTable("objectives", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
   isActive: integer("is_active", { mode: "boolean" }),
-  nucleoId: integer("nucleo_id")
+  coreId: integer("core_id")
     .notNull()
-    .references(() => nucleos.id),
-  nivelesId: integer("niveles_id")
+    .references(() => cores.id),
+  levelId: integer("level_id")
     .notNull()
-    .references(() => niveles.id),
+    .references(() => levels.id),
 });
 
-export const niveles = sqliteTable("niveles", {
+export const levels = sqliteTable("levels", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
 });
 
-export const indicadores = sqliteTable("indicadores", {
+export const indicators = sqliteTable("indicators", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
   isActive: integer("is_active", { mode: "boolean" }),
-  objetivoId: integer("objetivo_id")
+  objectiveId: integer("objective_id")
     .notNull()
-    .references(() => objetivos.id),
+    .references(() => objectives.id),
 });
 
 ////////////////////// Relations //////////////////////////////////////////////
-export const ambitosRelation = relations(ambitos, ({ many }) => ({
-  nucleos: many(nucleos),
+export const scopesRelation = relations(scopes, ({ many }) => ({
+  cores: many(cores),
 }));
 
-export const nucleosRelation = relations(nucleos, ({ one, many }) => ({
-  ambito: one(ambitos, {
-    fields: [nucleos.ambitoId],
-    references: [ambitos.id],
+export const coresRelation = relations(cores, ({ one, many }) => ({
+  scope: one(scopes, {
+    fields: [cores.scopeId],
+    references: [scopes.id],
   }),
-  objetivos: many(objetivos),
+  objetivos: many(objectives),
 }));
 
-export const nivelesRelation = relations(niveles, ({ many }) => ({
-  objetivos: many(objetivos),
+export const levelsRelation = relations(levels, ({ many }) => ({
+  objectives: many(objectives),
 }));
 
-export const objetivosRelation = relations(objetivos, ({ one, many }) => ({
-  niveles: one(niveles, {
-    fields: [objetivos.nivelesId],
-    references: [niveles.id],
+export const objetivosRelation = relations(objectives, ({ one, many }) => ({
+  niveles: one(levels, {
+    fields: [objectives.levelId],
+    references: [levels.id],
   }),
-  indicadores: many(indicadores),
+  indicadores: many(indicators),
 }));
 
-export const indicadoresRelation = relations(indicadores, ({ one }) => ({
-  objetivos: one(objetivos, {
-    fields: [indicadores.objetivoId],
-    references: [objetivos.id],
+export const indicatorsRelations = relations(indicators, ({ one }) => ({
+  objetivos: one(objectives, {
+    fields: [indicators.objectiveId],
+    references: [objectives.id],
   }),
 }));
 
 ////////////////////// Types //////////////////////////////////////////////
-export type SelectAmbito = InferSelectModel<typeof ambitos>;
-export type InsertAmbito = InferInsertModel<typeof ambitos>;
-export type SelectNucleo = InferSelectModel<typeof nucleos>;
-export type InsertNucleo = InferInsertModel<typeof nucleos>;
-export type SelectObjetivo = InferSelectModel<typeof objetivos>;
-export type InsertObjetivo = InferInsertModel<typeof objetivos>;
-export type SelectIndicador = InferSelectModel<typeof indicadores>;
-export type InsertIndicador = InferInsertModel<typeof indicadores>;
+export type SelectScope = InferSelectModel<typeof scopes>;
+export type InsertScope = InferInsertModel<typeof scopes>;
+export type SelectCore = InferSelectModel<typeof cores>;
+export type InsertCore = InferInsertModel<typeof cores>;
+export type SelectObjective = InferSelectModel<typeof objectives>;
+export type InsertObjective = InferInsertModel<typeof objectives>;
+export type SelectIndicator = InferSelectModel<typeof indicators>;
+export type InsertIndicator = InferInsertModel<typeof indicators>;

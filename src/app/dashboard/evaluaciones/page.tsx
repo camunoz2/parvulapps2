@@ -16,8 +16,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cookies } from "next/headers";
 
 export default async function EvalPage() {
+  cookies();
   const students = await getStudents();
   return (
     <div className="flex min-h-screen w-full flex-col">

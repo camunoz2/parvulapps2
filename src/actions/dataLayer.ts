@@ -1,7 +1,7 @@
 "use server";
-import { courses } from "@/db/schema/courses";
-import { schools } from "@/db/schema/schools";
-import { students } from "@/db/schema/students";
+import { courses } from "@/db/schema/course";
+import { schools } from "@/db/schema/school";
+import { students } from "@/db/schema/student";
 import { db } from "@/lib/drizzle";
 import { eq } from "drizzle-orm/sql";
 import { revalidatePath } from "next/cache";
@@ -25,7 +25,7 @@ export const addStudent = async (fd: FormData) => {
 };
 
 export const addCourse = async (fd: FormData) => {
-  await db.insert(courses).values({ course: fd.get("coursename") as string });
+  await db.insert(courses).values({ name: fd.get("coursename") as string });
   revalidatePath("/dashboard/cursos");
   return { message: "Added a course" };
 };
@@ -49,7 +49,7 @@ export const editCourse = async ({
 }: { courseId: number; courseName: string }) => {
   await db
     .update(courses)
-    .set({ course: courseName })
+    .set({ name: courseName })
     .where(eq(courses.id, courseId));
   revalidatePath("/dashboard/cursos");
 };

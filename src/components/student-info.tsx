@@ -1,5 +1,5 @@
 import { deleteStudent, getCourses } from "@/actions/dataLayer";
-import type { SelectStudent } from "@/db/schema/students";
+import type { SelectStudent } from "@/db/schema/student";
 import { getCourseNameById } from "@/lib/utils";
 import { MoreHorizontal } from "lucide-react";
 import { StudentFormUpdate } from "./student-form-update";
