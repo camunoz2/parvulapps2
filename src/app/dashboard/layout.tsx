@@ -25,12 +25,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { getSession } from "@auth0/nextjs-auth0";
+import { getAuthorizedUsers } from "@/actions/dataLayer";
 
 export default async function DashboardLayout({
   children,
 }: { children: React.ReactNode }) {
   const session = await getSession();
   const user = session?.user;
+  const autorizedUsers = await getAuthorizedUsers();
+  const authEmails = autorizedUsers.map((user) => user.email);
+
+  if (user && !authEmails.includes(user.email))
+    return <p>Usuario no autorizado</p>;
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">

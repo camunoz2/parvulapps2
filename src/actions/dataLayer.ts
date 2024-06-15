@@ -2,6 +2,7 @@
 import { courses } from "@/db/schema/course";
 import { schools } from "@/db/schema/school";
 import { students } from "@/db/schema/student";
+import { users } from "@/db/schema/users";
 import { db } from "@/lib/drizzle";
 import { eq } from "drizzle-orm/sql";
 import { revalidatePath } from "next/cache";
@@ -11,6 +12,8 @@ export const getSchools = async () => await db.select().from(schools);
 export const getCourses = async () => await db.select().from(courses);
 
 export const getStudents = async () => await db.select().from(students);
+
+export const getAuthorizedUsers = async () => await db.select().from(users);
 
 export const addStudent = async (fd: FormData) => {
   const studentData = {

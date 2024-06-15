@@ -71,3 +71,10 @@ CREATE TABLE `students` (
 	`course_id` integer NOT NULL,
 	FOREIGN KEY (`course_id`) REFERENCES `courses`(`id`) ON UPDATE no action ON DELETE no action
 );
+--> statement-breakpoint
+CREATE TABLE `users` (
+	`id` integer PRIMARY KEY NOT NULL,
+	`first_name` text NOT NULL,
+	`last_name` text NOT NULL,
+	`email` text NOT NULL
+);
