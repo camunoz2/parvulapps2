@@ -55,21 +55,21 @@ export default async function DashboardLayout({
                 Inicio
               </Link>
               <Link
-                href="/dashboard/cursos"
+                href="/dashboard/courses"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
                 <ShoppingCart className="h-4 w-4" />
                 Cursos
               </Link>
               <Link
-                href="/dashboard/evaluaciones"
+                href="/dashboard/grades"
                 className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
               >
                 <Package className="h-4 w-4" />
                 Evaluaciones
               </Link>
               <Link
-                href="/dashboard/alumnos"
+                href="/dashboard/students"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
                 <Users className="h-4 w-4" />
