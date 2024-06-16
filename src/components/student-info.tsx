@@ -1,17 +1,17 @@
 import { deleteStudent, getCourses } from "@/actions/dataLayer";
-import type { SelectStudent } from "@/db/schema/student";
-import { getCourseNameById } from "@/lib/utils";
-import { MoreHorizontal } from "lucide-react";
-import { StudentFormUpdate } from "./student-form-update";
-import { Button } from "./ui/button";
-import { Dialog, DialogTrigger } from "./ui/dialog";
+import { StudentFormUpdate } from "@/components/student-form-update";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { TableCell, TableRow } from "./ui/table";
+} from "@/components/ui/dropdown-menu";
+import { TableCell, TableRow } from "@/components/ui/table";
+import type { SelectStudent } from "@/db/schema/student";
+import { getCourseNameById } from "@/lib/utils";
+import { MoreHorizontal } from "lucide-react";
 
 interface Props {
   student: SelectStudent;
