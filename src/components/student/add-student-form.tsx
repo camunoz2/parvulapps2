@@ -45,6 +45,9 @@ export function AddStudentForm({ courses }: Props) {
       });
     } else {
       await addStudent(formData);
+      toast({
+        title: "Estudiante agregado de manera exitosa",
+      });
     }
   };
 

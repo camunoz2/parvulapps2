@@ -1,7 +1,4 @@
-import { getCourses } from "@/actions/dataLayer";
-import { StudentFormUpdate } from "@/components/student/student-form-update";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,24 +6,28 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { TableCell, TableRow } from "@/components/ui/table";
-import type { SelectStudent } from "@/db/schema/student";
-import { getCourseNameById } from "@/lib/utils";
 import { MoreHorizontal } from "lucide-react";
-import { DeleteStudentComponent } from "./delete-student-component";
+import { Dialog, DialogTrigger } from "../ui/dialog";
+import { DeleteCourseComponent } from "./delete-course-component";
+import type { SelectStudent } from "@/db/schema/student";
+import { CourseFormUpdate } from "./course-form-update";
 
 interface Props {
-  student: SelectStudent;
+  courseId: number;
+  courseName: string;
+  students: SelectStudent[];
 }
 
-export async function StudentRow({ student }: Props) {
-  const courses = await getCourses();
-  const courseNameById = getCourseNameById(student.courseId, courses);
+export function CourseRow({ courseName, courseId, students }: Props) {
   return (
     <TableRow>
-      <TableCell>{student.firstName}</TableCell>
-      <TableCell>{student.lastName}</TableCell>
-      <TableCell>{courseNameById}</TableCell>
-      <TableCell>{student.age}</TableCell>
+      <TableCell>
+        <div className="font-medium">Curso</div>
+        <div className="hidden text-sm text-muted-foreground md:inline">
+          {courseName}
+        </div>
+      </TableCell>
+      <TableCell>23</TableCell>
       <TableCell>
         <Dialog>
           <DropdownMenu>
@@ -40,11 +41,11 @@ export async function StudentRow({ student }: Props) {
               <DialogTrigger asChild>
                 <DropdownMenuItem>Editar</DropdownMenuItem>
               </DialogTrigger>
-              <DeleteStudentComponent studentId={student.id} />
+              <DeleteCourseComponent students={students} courseId={courseId} />
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <StudentFormUpdate student={student} allCourses={courses} />
+          <CourseFormUpdate courseName={courseName} courseId={courseId} />
         </Dialog>
       </TableCell>
     </TableRow>

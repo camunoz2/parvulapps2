@@ -23,30 +23,29 @@ export const addStudent = async (fd: FormData) => {
     age: Number(fd.get("age")),
   };
   await db.insert(students).values(studentData);
-  revalidatePath("/dashboard/alumnos");
+  revalidatePath("/dashboard/students");
   return { message: "Student created!" };
 };
 
-export const addCourse = async (fd: FormData) => {
-  await db.insert(courses).values({ name: fd.get("coursename") as string });
-  revalidatePath("/dashboard/cursos");
+export const addCourse = async (courseName: string) => {
+  await db.insert(courses).values({ name: courseName });
+  revalidatePath("/dashboard/courses");
   return { message: "Added a course" };
 };
 
 export const deleteCourse = async (courseId: number) => {
   await db.delete(courses).where(eq(courses.id, courseId));
-  revalidatePath("/dashboard/cursos");
+  revalidatePath("/dashboard/courses");
   return { message: "Removed a course" };
 };
 
-export const deleteStudent = async (fd: FormData) => {
-  const studentId = Number(fd.get("id"));
+export const deleteStudent = async (studentId: number) => {
   await db.delete(students).where(eq(students.id, studentId));
-  revalidatePath("/dashboard/alumnos");
-  return { message: "Removed a student" };
+  revalidatePath("/dashboard/students");
+  return { message: "ok" };
 };
 
-export const editCourse = async ({
+export const updateCourse = async ({
   courseId,
   courseName,
 }: { courseId: number; courseName: string }) => {
@@ -54,7 +53,7 @@ export const editCourse = async ({
     .update(courses)
     .set({ name: courseName })
     .where(eq(courses.id, courseId));
-  revalidatePath("/dashboard/cursos");
+  revalidatePath("/dashboard/courses");
 };
 
 export const updateStudent = async (fd: FormData) => {
@@ -70,5 +69,5 @@ export const updateStudent = async (fd: FormData) => {
     .update(students)
     .set(studentData)
     .where(eq(students.id, Number(studentId)));
-  revalidatePath("/dashboard/alumnos");
+  revalidatePath("/dashboard/students");
 };

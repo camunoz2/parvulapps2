@@ -1,4 +1,6 @@
-import { CourseInfo } from "@/components/course/course-info";
+import { getCourses, getStudents } from "@/actions/dataLayer";
+import { AddCourseDialog } from "@/components/course/add-course-dialog";
+import { CourseRow } from "@/components/course/course-row";
 import {
   Card,
   CardContent,
@@ -13,13 +15,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CreateCourse } from "@/components/course/create-course";
 import { cookies } from "next/headers";
-import { getCourses } from "@/actions/dataLayer";
 
 export default async function Courses() {
   cookies();
-  const result = await getCourses();
+  const coursesResult = await getCourses();
+  const studentsResult = await getStudents();
 
   return (
     <div className="flex min-h-screen w-full flex-col">
@@ -32,8 +33,9 @@ export default async function Courses() {
                 Cursos agregados a su institucion educativa
               </CardDescription>
             </div>
-            <CreateCourse />
+            <AddCourseDialog />
           </CardHeader>
+
           <CardContent>
             <Table>
               <TableHeader>
@@ -44,17 +46,14 @@ export default async function Courses() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {result ? (
-                  result.map((c) => (
-                    <CourseInfo
-                      courseName={c.name}
-                      key={c.id}
-                      courseId={c.id}
-                    />
-                  ))
-                ) : (
-                  <p>No results found</p>
-                )}
+                {coursesResult.map((course) => (
+                  <CourseRow
+                    students={studentsResult}
+                    courseName={course.name}
+                    key={course.id}
+                    courseId={course.id}
+                  />
+                ))}
               </TableBody>
             </Table>
           </CardContent>
