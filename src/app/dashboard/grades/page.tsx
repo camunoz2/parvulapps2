@@ -1,5 +1,5 @@
 import { getStudents } from "@/actions/dataLayer";
-import { StudentRow } from "@/components/student/student-row";
+import { GradesStudentRow } from "@/components/grades/grades-student-row";
 import {
   Card,
   CardContent,
@@ -66,7 +66,7 @@ export default async function EvalPage() {
                   </TableHeader>
                   <TableBody>
                     {students.map((student) => (
-                      <StudentRow key={student.id} student={student} />
+                      <GradesStudentRow key={student.id} student={student} />
                     ))}
                   </TableBody>
                 </Table>

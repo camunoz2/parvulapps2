@@ -1,6 +1,6 @@
 import { getStudents } from "@/actions/dataLayer";
 import { AddStudentDialog } from "@/components/student/add-student-dialog";
-import { StudentInfo } from "@/components/student/student-info";
+import { StudentRow } from "@/components/student/student-row";
 import {
   Card,
   CardContent,
@@ -48,7 +48,7 @@ export default async function AlumnosPage() {
               </TableHeader>
               <TableBody>
                 {results.map((student) => (
-                  <StudentInfo key={student.id} student={student} />
+                  <StudentRow key={student.id} student={student} />
                 ))}
               </TableBody>
             </Table>

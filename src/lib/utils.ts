@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { SelectCourse } from "@/db/schema/courses";
+import type { SelectCourse } from "@/db/schema/course";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -11,11 +11,11 @@ export const getCourseNameById = (
   courses: SelectCourse[],
 ) => {
   // create a map with { courseId : courseName}
-  let courseNameById = new Map<number, string>();
+  const courseNameById = new Map<number, string>();
 
-  courses.forEach((course) => {
-    courseNameById.set(course.id, course.course);
-  });
+  for (const course of courses) {
+    courseNameById.set(course.id, course.name);
+  }
 
   return (
     courseNameById.get(studentCourseId) ||
