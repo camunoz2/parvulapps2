@@ -1,3 +1,4 @@
+"use client";
 import { updateStudent } from "@/actions/dataLayer";
 import type { SelectCourse } from "@/db/schema/course";
 import type { SelectStudent } from "@/db/schema/student";
@@ -20,6 +21,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { StudentSchema } from "@/lib/zod-schemas";
+import { toast } from "../ui/use-toast";
 
 interface Props {
   student: SelectStudent;
@@ -27,6 +30,27 @@ interface Props {
 }
 
 export async function StudentFormUpdate({ student, allCourses }: Props) {
+  async function clientAction(formData: FormData) {
+    const updatedData = {
+      firstName: formData.get("firstname"),
+      lastName: formData.get("lastname"),
+      age: Number(formData.get("age")),
+      course: formData.get("course"),
+    };
+
+    const parsedData = StudentSchema.safeParse(updatedData);
+    let errMsg = "";
+    if (!parsedData.success) {
+      for (const issue of parsedData.error.issues) {
+        errMsg = `${issue.message}.\n`;
+      }
+    }
+    toast({
+      title: "Error",
+      description: errMsg,
+    });
+  }
+
   return (
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
@@ -34,7 +58,7 @@ export async function StudentFormUpdate({ student, allCourses }: Props) {
         <DialogDescription>Reacuerda agregar todos los datos</DialogDescription>
       </DialogHeader>
 
-      <form action={updateStudent}>
+      <form action={clientAction}>
         <Input
           name="studentid"
           value={student.id}
@@ -92,8 +116,8 @@ export async function StudentFormUpdate({ student, allCourses }: Props) {
               Edad
             </Label>
             <Input
-              id="age"
               name="age"
+              type="number"
               defaultValue={student.age}
               className="col-span-3"
             />
