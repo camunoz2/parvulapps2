@@ -1,11 +1,11 @@
 "use client";
 
 import type { InsertStudent } from "@/db/schema/student";
-import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
-import { TableCell, TableRow } from "./ui/table";
-import { EvaluationDialog } from "./evaluation-dialog";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { TableCell, TableRow } from "@/components/ui/table";
+import { EvaluationDialog } from "@/components/evaluation/evaluation-dialog";
 
 interface Props {
   student: InsertStudent;

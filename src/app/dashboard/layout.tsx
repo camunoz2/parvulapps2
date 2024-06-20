@@ -11,7 +11,7 @@ import {
   Users,
 } from "lucide-react";
 import Link from "next/link";
-
+import { Toaster } from "@/components/ui/toaster";
 import { getAuthorizedUsers } from "@/actions/dataLayer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -200,6 +200,7 @@ export default async function DashboardLayout({
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
+        <Toaster />
         {children}
       </div>
     </div>

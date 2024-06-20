@@ -1,5 +1,5 @@
 import { deleteStudent, getCourses } from "@/actions/dataLayer";
-import { StudentFormUpdate } from "@/components/student-form-update";
+import { StudentFormUpdate } from "@/components/student/student-form-update";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {

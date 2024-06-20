@@ -1,5 +1,5 @@
 "use client";
-import { z } from "zod";
+import { addStudent } from "@/actions/dataLayer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -11,10 +11,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
 import type { SelectCourse } from "@/db/schema/course";
-import { Button } from "./ui/button";
-import { DialogFooter } from "./ui/dialog";
-import { addStudent } from "@/actions/dataLayer";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import { DialogFooter } from "@/components/ui/dialog";
 
 interface Props {
   courses: SelectCourse[];
@@ -23,23 +24,27 @@ interface Props {
 const StudentSchema = z.object({
   firstName: z
     .string()
-    .min(1, { message: "El nombre debe contener mas de 1 caracter" })
-    .max(50, { message: "El nombre debe contener menos de 50 caracteres" }),
+    .min(1, { message: "El nombre del alumno debe ser mas largo" })
+    .max(50, { message: "El nombre del alumno es muy largo" }),
   lastName: z
     .string()
-    .min(1, { message: "El apellido debe contener mas de 1 caracter" })
-    .max(50, { message: "El apellido debe contener menos de 50 caracteres" }),
+    .min(1, { message: "El apellido es muy corto" })
+    .max(50, { message: "El apellido es muy largo" }),
   course: z
     .string()
-    .min(1, { message: "El curso debe contener mas de 1 caracter" })
-    .max(10, { message: "El curso debe contener menos de 10 caracteres" }),
+    .min(1, {
+      message:
+        "Debes asignar un curso de la lista primero. Si no aparece ninguno, debes crearlo",
+    })
+    .max(10, { message: "El nombre del curso es muy largo" }),
   age: z
     .number()
-    .min(4, { message: "La edad debe ser mayor a 4" })
-    .max(10, { message: "La edad debe ser menor a 10" }),
+    .min(4, { message: "Debe ser mayor a 4" })
+    .max(10, { message: "Debe ser menor a 10" }),
 });
 
-export async function AddStudentForm({ courses }: Props) {
+export function AddStudentForm({ courses }: Props) {
+  const { toast } = useToast();
   const clientAction = async (formData: FormData) => {
     // client side validation
 
@@ -47,19 +52,23 @@ export async function AddStudentForm({ courses }: Props) {
       firstName: formData.get("firstname"),
       lastName: formData.get("lastname"),
       course: formData.get("course"),
-      age: formData.get("age"),
+      age: Number(formData.get("age")),
     };
 
     const result = StudentSchema.safeParse(data);
+    let errorMessage = "";
     if (!result.success) {
       for (const issue of result.error.issues) {
-        return issue;
+        errorMessage = `${issue.message} \n`;
       }
+      toast({
+        title: "Error",
+        description: errorMessage,
+      });
+      console.log(errorMessage);
+    } else {
+      await addStudent(formData);
     }
-    // TODO: Add client side validation of error messages
-    await addStudent(formData);
-
-    // output error messages
   };
 
   return (

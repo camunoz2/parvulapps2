@@ -1,16 +1,16 @@
 import { updateStudent } from "@/actions/dataLayer";
 import type { SelectCourse } from "@/db/schema/course";
 import type { SelectStudent } from "@/db/schema/student";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import {
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "./ui/dialog";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -19,7 +19,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "@/components/ui/select";
 
 interface Props {
   student: SelectStudent;

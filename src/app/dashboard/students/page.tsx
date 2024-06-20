@@ -1,6 +1,6 @@
 import { getStudents } from "@/actions/dataLayer";
-import { AddStudentDialog } from "@/components/add-student-dialog";
-import { StudentInfo } from "@/components/student-info";
+import { AddStudentDialog } from "@/components/student/add-student-dialog";
+import { StudentInfo } from "@/components/student/student-info";
 import {
   Card,
   CardContent,

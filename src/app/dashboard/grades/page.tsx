@@ -1,5 +1,5 @@
 import { getStudents } from "@/actions/dataLayer";
-import { StudentRow } from "@/components/student-row";
+import { StudentRow } from "@/components/student/student-row";
 import {
   Card,
   CardContent,

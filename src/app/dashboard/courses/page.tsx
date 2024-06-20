@@ -1,4 +1,4 @@
-import { CourseInfo } from "@/components/course-info";
+import { CourseInfo } from "@/components/course/course-info";
 import {
   Card,
   CardContent,
@@ -13,7 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CreateCourse } from "@/components/create-course";
+import { CreateCourse } from "@/components/course/create-course";
 import { cookies } from "next/headers";
 import { getCourses } from "@/actions/dataLayer";
 
