@@ -1,5 +1,4 @@
 "use client";
-import { updateStudent } from "@/actions/dataLayer";
 import type { SelectCourse } from "@/db/schema/course";
 import type { SelectStudent } from "@/db/schema/student";
 import { Button } from "@/components/ui/button";
