@@ -4,7 +4,7 @@ import { schools } from "@/db/schema/school";
 import { students } from "@/db/schema/student";
 import { users } from "@/db/schema/users";
 import { db } from "@/lib/drizzle";
-import { eq } from "drizzle-orm/sql";
+import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export const getSchools = async () => await db.select().from(schools);
@@ -36,7 +36,7 @@ export const addCourse = async (courseName: string) => {
 export const deleteCourse = async (courseId: number) => {
   await db.delete(courses).where(eq(courses.id, courseId));
   revalidatePath("/dashboard/courses");
-  return { message: "Removed a course" };
+  return { message: "ok" };
 };
 
 export const deleteStudent = async (studentId: number) => {

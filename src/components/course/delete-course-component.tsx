@@ -9,7 +9,7 @@ interface Props {
   students: SelectStudent[];
 }
 export function DeleteCourseComponent({ courseId, students }: Props) {
-  function handleDelete() {
+  async function handleDelete() {
     if (students) {
       toast({
         title: "Error",
@@ -17,7 +17,12 @@ export function DeleteCourseComponent({ courseId, students }: Props) {
           "No puedes eliminar un curso si todavia tiene estudiantes. Primero elimina a los estudiantes del curso",
       });
     } else {
-      deleteCourse(courseId);
+      const response = await deleteCourse(courseId);
+      if (response.message === "ok") {
+        toast({
+          title: "Estudiante eliminado",
+        });
+      }
     }
   }
   return <DropdownMenuItem onClick={handleDelete}>Eliminar</DropdownMenuItem>;

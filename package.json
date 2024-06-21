@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "node --env-file=.env -r esbuild-register src/db/seed.ts",
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.5.0",
@@ -26,7 +29,9 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "2.1.0",
+    "csv-parse": "^5.5.6",
     "drizzle-orm": "^0.31.2",
+    "esbuild-register": "^3.5.0",
     "lucide-react": "^0.359.0",
     "next": "14.1.0",
     "react": "18.2.0",

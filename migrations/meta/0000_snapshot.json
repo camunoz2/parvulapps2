@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "cb436aba-6f57-4c3c-a4c9-a636eb06d14b",
+  "id": "fcfbe9f2-37fe-4547-943e-84aeb550dcd2",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "courses": {
@@ -40,6 +40,13 @@
         "name": {
           "name": "name",
           "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -95,6 +102,20 @@
           "notNull": false,
           "autoincrement": false
         },
+        "level": {
+          "name": "level",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "objective_id": {
           "name": "objective_id",
           "type": "integer",
@@ -122,29 +143,6 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "levels": {
-      "name": "levels",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
     "objectives": {
       "name": "objectives",
       "columns": {
@@ -169,15 +167,15 @@
           "notNull": false,
           "autoincrement": false
         },
-        "core_id": {
-          "name": "core_id",
+        "order": {
+          "name": "order",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "level_id": {
-          "name": "level_id",
+        "core_id": {
+          "name": "core_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -192,19 +190,6 @@
           "tableTo": "cores",
           "columnsFrom": [
             "core_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "objectives_level_id_levels_id_fk": {
-          "name": "objectives_level_id_levels_id_fk",
-          "tableFrom": "objectives",
-          "tableTo": "levels",
-          "columnsFrom": [
-            "level_id"
           ],
           "columnsTo": [
             "id"
@@ -229,6 +214,13 @@
         "name": {
           "name": "name",
           "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false

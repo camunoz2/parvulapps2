@@ -6,6 +6,7 @@ CREATE TABLE `courses` (
 CREATE TABLE `cores` (
 	`id` integer PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
+	`order` integer NOT NULL,
 	`scope_id` integer NOT NULL,
 	FOREIGN KEY (`scope_id`) REFERENCES `scopes`(`id`) ON UPDATE no action ON DELETE no action
 );
@@ -14,28 +15,25 @@ CREATE TABLE `indicators` (
 	`id` integer PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
 	`is_active` integer,
+	`level` text NOT NULL,
+	`order` integer NOT NULL,
 	`objective_id` integer NOT NULL,
 	FOREIGN KEY (`objective_id`) REFERENCES `objectives`(`id`) ON UPDATE no action ON DELETE no action
-);
---> statement-breakpoint
-CREATE TABLE `levels` (
-	`id` integer PRIMARY KEY NOT NULL,
-	`name` text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE `objectives` (
 	`id` integer PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
 	`is_active` integer,
+	`order` integer NOT NULL,
 	`core_id` integer NOT NULL,
-	`level_id` integer NOT NULL,
-	FOREIGN KEY (`core_id`) REFERENCES `cores`(`id`) ON UPDATE no action ON DELETE no action,
-	FOREIGN KEY (`level_id`) REFERENCES `levels`(`id`) ON UPDATE no action ON DELETE no action
+	FOREIGN KEY (`core_id`) REFERENCES `cores`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
 CREATE TABLE `scopes` (
 	`id` integer PRIMARY KEY NOT NULL,
-	`name` text NOT NULL
+	`name` text NOT NULL,
+	`order` integer NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE `grades` (

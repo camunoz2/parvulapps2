@@ -6,11 +6,13 @@ import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 export const scopes = sqliteTable("scopes", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
+  order: integer("order").notNull(),
 });
 
 export const cores = sqliteTable("cores", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
+  order: integer("order").notNull(),
   scopeId: integer("scope_id")
     .notNull()
     .references(() => scopes.id),
@@ -20,23 +22,18 @@ export const objectives = sqliteTable("objectives", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
   isActive: integer("is_active", { mode: "boolean" }),
+  order: integer("order").notNull(),
   coreId: integer("core_id")
     .notNull()
     .references(() => cores.id),
-  levelId: integer("level_id")
-    .notNull()
-    .references(() => levels.id),
-});
-
-export const levels = sqliteTable("levels", {
-  id: integer("id").primaryKey(),
-  name: text("name").notNull(),
 });
 
 export const indicators = sqliteTable("indicators", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
   isActive: integer("is_active", { mode: "boolean" }),
+  level: text("level").notNull(),
+  order: integer("order").notNull(),
   objectiveId: integer("objective_id")
     .notNull()
     .references(() => objectives.id),
@@ -55,15 +52,7 @@ export const coresRelation = relations(cores, ({ one, many }) => ({
   objetivos: many(objectives),
 }));
 
-export const levelsRelation = relations(levels, ({ many }) => ({
-  objectives: many(objectives),
-}));
-
-export const objetivosRelation = relations(objectives, ({ one, many }) => ({
-  niveles: one(levels, {
-    fields: [objectives.levelId],
-    references: [levels.id],
-  }),
+export const objetivosRelation = relations(objectives, ({ many }) => ({
   indicadores: many(indicators),
 }));
 
