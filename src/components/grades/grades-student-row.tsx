@@ -1,11 +1,17 @@
 "use client";
-
 import type { InsertStudent } from "@/db/schema/student";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { EvaluationDialog } from "./evaluation-dialog";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import { MoreHorizontal } from "lucide-react";
 
 interface Props {
   student: InsertStudent;
@@ -24,26 +30,21 @@ export function GradesStudentRow({ student }: Props) {
       </TableCell>
       <TableCell className="flex gap-2">
         <Dialog>
-          <DialogTrigger>
-            <Button size="sm">
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                Evaluar
-              </span>
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <EvaluationDialog />
-          </DialogContent>
-        </Dialog>
-        <Dialog>
-          <DialogTrigger>
-            <Button size="sm" variant={"secondary"}>
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                Eliminar
-              </span>
-            </Button>
-          </DialogTrigger>
-          <DialogContent>eliminar</DialogContent>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button aria-haspopup="true" size="icon" variant="ghost">
+                <MoreHorizontal className="h-4 w-4" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="center">
+              <DialogTrigger asChild>
+                <DropdownMenuItem>Evaluar</DropdownMenuItem>
+              </DialogTrigger>
+              <DropdownMenuItem>Editar Evaluacion</DropdownMenuItem>
+              <DropdownMenuItem>Eliminar Evaluación</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </Dialog>
       </TableCell>
     </TableRow>
