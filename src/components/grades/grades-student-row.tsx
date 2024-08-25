@@ -45,6 +45,9 @@ export function GradesStudentRow({ student }: Props) {
               <DropdownMenuItem>Eliminar Evaluación</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <DialogContent>
+            <EvaluationDialog />
+          </DialogContent>
         </Dialog>
       </TableCell>
     </TableRow>
