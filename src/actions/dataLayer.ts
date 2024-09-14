@@ -1,5 +1,7 @@
 "use server";
 import { courses } from "@/db/schema/course";
+import { cores } from "@/db/schema/curriculum";
+import { periods } from "@/db/schema/grade";
 import { schools } from "@/db/schema/school";
 import { students } from "@/db/schema/student";
 import { users } from "@/db/schema/users";
@@ -14,6 +16,10 @@ export const getCourses = async () => await db.select().from(courses);
 export const getStudents = async () => await db.select().from(students);
 
 export const getAuthorizedUsers = async () => await db.select().from(users);
+
+export const getPeriods = async () => await db.select().from(periods);
+
+export const getCores = async () => await db.select().from(cores);
 
 export const addStudent = async (fd: FormData) => {
   const studentData = {
@@ -48,7 +54,10 @@ export const deleteStudent = async (studentId: number) => {
 export const updateCourse = async ({
   courseId,
   courseName,
-}: { courseId: number; courseName: string }) => {
+}: {
+  courseId: number;
+  courseName: string;
+}) => {
   await db
     .update(courses)
     .set({ name: courseName })
