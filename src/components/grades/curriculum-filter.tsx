@@ -35,10 +35,32 @@ export function CurriculumFilter({ scopes, objectives, cores }: Props) {
     ? cores.filter((core) => core.scopeId === selectedScope.id)
     : cores;
 
-  // Filtrar objectives por core
   const filteredObjectives = selectedCore
     ? objectives.filter((objective) => objective.coreId === selectedCore.id)
     : objectives;
+
+  const handleScopeChange = (value: string) => {
+    const newScope =
+      value !== TODOS
+        ? scopes.find((scope) => scope.id.toString() === value) || null
+        : null;
+    setSelectedScope(newScope);
+
+    // Limpiar cores y objectives
+    setSelectedCore(null);
+    setSelectedObjective(null);
+  };
+
+  const handleCoreChange = (value: string) => {
+    const newCore =
+      value !== TODOS
+        ? filteredCores.find((core) => core.id.toString() === value) || null
+        : null;
+    setSelectedCore(newCore);
+
+    // Limpiar objectives
+    setSelectedObjective(null);
+  };
 
   return (
     <div>
@@ -46,19 +68,15 @@ export function CurriculumFilter({ scopes, objectives, cores }: Props) {
       <Label>Filtrar por Ambito</Label>
       <Select
         value={selectedScope ? selectedScope.id.toString() : TODOS}
-        onValueChange={(value) =>
-          setSelectedScope(
-            scopes.find((scope) => scope.id.toString() === value) || null
-          )
-        }
+        onValueChange={handleScopeChange}
       >
         <SelectTrigger>
-          <SelectValue placeholder="Select a Scope">
-            {selectedScope?.name || "Select a Scope"}
+          <SelectValue placeholder="Elige un Ambito">
+            {selectedScope?.name || "Elige un Ambito"}
           </SelectValue>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value={TODOS}>All Scopes</SelectItem>
+          <SelectItem value={TODOS}>Todos los Ambitos</SelectItem>
           {scopes.map((scope) => (
             <SelectItem key={scope.id} value={scope.id.toString()}>
               {scope.name}
@@ -68,23 +86,19 @@ export function CurriculumFilter({ scopes, objectives, cores }: Props) {
       </Select>
 
       {/* Core Filter */}
-      <Label>Filtrar por nucleo</Label>
+      <Label>Filtrar por Nucleo</Label>
       <Select
         value={selectedCore ? selectedCore.id.toString() : TODOS}
-        onValueChange={(value) =>
-          setSelectedCore(
-            filteredCores.find((core) => core.id.toString() === value) || null
-          )
-        }
+        onValueChange={handleCoreChange}
         disabled={!selectedScope}
       >
         <SelectTrigger>
-          <SelectValue placeholder="Select a Core">
-            {selectedCore?.name || "Select a Core"}
+          <SelectValue placeholder="Elige un Nucleo">
+            {selectedCore?.name || "Elige un Nucleo"}
           </SelectValue>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value={TODOS}>All Cores</SelectItem>
+          <SelectItem value={TODOS}>Todos los Nucleos</SelectItem>
           {filteredCores.map((core) => (
             <SelectItem key={core.id} value={core.id.toString()}>
               {core.name}
@@ -94,12 +108,12 @@ export function CurriculumFilter({ scopes, objectives, cores }: Props) {
       </Select>
 
       {/* Objective Filter */}
-      <Label>Filtrar por objectivo</Label>
+      <Label>Filtrar por Objetivo</Label>
       <Select
-        value={selectedObjective ? selectedObjective.id.toString() : "all"}
+        value={selectedObjective ? selectedObjective.id.toString() : TODOS}
         onValueChange={(value) =>
           setSelectedObjective(
-            value !== "all"
+            value !== TODOS
               ? filteredObjectives.find((obj) => obj.id.toString() === value) ||
                   null
               : null
@@ -108,12 +122,12 @@ export function CurriculumFilter({ scopes, objectives, cores }: Props) {
         disabled={!selectedCore}
       >
         <SelectTrigger>
-          <SelectValue placeholder="Select an Objective">
-            {selectedObjective?.name || "Select an Objective"}
+          <SelectValue placeholder="Elige un Objetivo">
+            {selectedObjective?.name || "Elige un Objetivo"}
           </SelectValue>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All Objectives</SelectItem>
+          <SelectItem value={TODOS}>Todos los Objetivos</SelectItem>
           {filteredObjectives.map((objective) => (
             <SelectItem key={objective.id} value={objective.id.toString()}>
               {objective.name}
