@@ -1,6 +1,14 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { CurriculumFilter } from "./curriculum-filter";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -9,21 +17,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import type { SelectStudent } from "@/db/schema/student";
 import type {
-  SelectScope,
   SelectCore,
-  SelectObjective,
   SelectIndicator,
+  SelectObjective,
+  SelectScope,
 } from "@/db/schema/curriculum";
+import { SelectPeriod } from "@/db/schema/grade";
+import type { SelectStudent } from "@/db/schema/student";
+import { useMemo, useState } from "react";
 
 interface Props {
   students: SelectStudent[];
@@ -31,7 +33,7 @@ interface Props {
   cores: SelectCore[];
   objectives: SelectObjective[];
   indicators: SelectIndicator[];
-  periods: string[]; // Assume you have periods as an array of string for simplicity
+  periods: SelectPeriod[];
 }
 
 export default function StudentEvaluationClient({
@@ -42,105 +44,25 @@ export default function StudentEvaluationClient({
   indicators,
   periods,
 }: Props) {
-  const [selectedScope, setSelectedScope] = useState("all");
-  const [selectedCore, setSelectedCore] = useState("all");
-  const [selectedObjective, setSelectedObjective] = useState("all");
-  const [selectedGrade, setSelectedGrade] = useState("all");
-
-  const filteredIndicators = useMemo(() => {
-    return indicators.filter((indicator) => {
-      // Encuentra el objetivo correspondiente al indicador
-      const objective = objectives.find(
-        (obj) => obj.id === indicator.objectiveId
-      );
-
-      // Encuentra el core correspondiente al objetivo
-      const core = cores.find((core) => core.id === objective?.coreId);
-
-      // Convertir los valores seleccionados a número antes de compararlos
-      const selectedScopeNumber =
-        selectedScope !== "all" ? Number(selectedScope) : "all";
-      const selectedCoreNumber =
-        selectedCore !== "all" ? Number(selectedCore) : "all";
-      const selectedObjectiveNumber =
-        selectedObjective !== "all" ? Number(selectedObjective) : "all";
-
-      // Filtrar los indicadores según el scope, core y objective seleccionados
-      return (
-        (selectedScope === "all" || core?.scopeId === selectedScopeNumber) &&
-        (selectedCore === "all" || core?.id === selectedCoreNumber) &&
-        (selectedObjective === "all" ||
-          objective?.id === selectedObjectiveNumber)
-      );
-    });
-  }, [
-    selectedScope,
-    selectedCore,
-    selectedObjective,
-    indicators,
-    cores,
-    objectives,
-  ]);
-
-  // Render the table
+  const filteredIndicators = [
+    {
+      id: 2,
+      name: "sd",
+      isActive: false,
+      level: 2,
+      order: 2,
+      objectiveId: 2,
+    },
+  ];
   return (
     <>
-      {/* Filters */}
-      <div className="flex gap-4 mb-4">
-        <div>
-          <Label>Filter by Scope</Label>
-          <Select value={selectedScope} onValueChange={setSelectedScope}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select a Scope" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Scopes</SelectItem>
-              {scopes.map((scope) => (
-                <SelectItem key={scope.id} value={scope.id.toString()}>
-                  {scope.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div>
-          <Label>Filter by Core</Label>
-          <Select value={selectedCore} onValueChange={setSelectedCore}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select a Core" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Cores</SelectItem>
-              {cores.map((core) => (
-                <SelectItem key={core.id} value={core.id.toString()}>
-                  {core.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div>
-          <Label>Filter by Objective</Label>
-          <Select
-            value={selectedObjective}
-            onValueChange={setSelectedObjective}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select an Objective" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Objectives</SelectItem>
-              {objectives.map((obj) => (
-                <SelectItem key={obj.id} value={obj.id.toString()}>
-                  {obj.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
+      <CurriculumFilter
+        cores={cores}
+        indicators={indicators}
+        objectives={objectives}
+        scopes={scopes}
+      />
 
-      {/* Table */}
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>

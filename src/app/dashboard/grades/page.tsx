@@ -1,10 +1,13 @@
 import {
   getCores,
   getCourses,
+  getIndicators,
+  getObjectives,
   getPeriods,
+  getScopes,
   getStudents,
 } from "@/actions/dataLayer";
-import StudentEvaluationClient from "@/components/grades/student-evaluation";
+import StudentEvaluationClient from "@/components/grades/student-evaluation-client";
 
 // Mock data
 const evaluationTypes = ["Diagnostica", "Intermedia", "Cierre"];
@@ -52,14 +55,20 @@ export default async function StudentEvaluation() {
   const courses = await getCourses();
   const periods = await getPeriods();
   const cores = await getCores();
+  const indicators = await getIndicators();
+  const objectives = await getObjectives();
+  const scopes = await getScopes();
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Evaluationes por alumno</h1>
       <StudentEvaluationClient
+        periods={periods}
+        indicators={indicators}
         students={students}
-        courses={courses}
         cores={cores}
+        objectives={objectives}
+        scopes={scopes}
       />
     </div>
   );

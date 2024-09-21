@@ -1,6 +1,6 @@
 "use server";
 import { courses } from "@/db/schema/course";
-import { cores } from "@/db/schema/curriculum";
+import { cores, indicators, objectives, scopes } from "@/db/schema/curriculum";
 import { periods } from "@/db/schema/grade";
 import { schools } from "@/db/schema/school";
 import { students } from "@/db/schema/student";
@@ -20,6 +20,12 @@ export const getAuthorizedUsers = async () => await db.select().from(users);
 export const getPeriods = async () => await db.select().from(periods);
 
 export const getCores = async () => await db.select().from(cores);
+
+export const getIndicators = async () => await db.select().from(indicators);
+
+export const getObjectives = async () => await db.select().from(objectives);
+
+export const getScopes = async () => await db.select().from(scopes);
 
 export const addStudent = async (fd: FormData) => {
   const studentData = {
