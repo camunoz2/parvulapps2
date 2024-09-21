@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { StudentSchema } from "@/lib/zod-schemas";
-import { toast } from "../ui/use-toast";
+import { toast } from "@/components/hooks/use-toast";
 
 interface Props {
   student: SelectStudent;

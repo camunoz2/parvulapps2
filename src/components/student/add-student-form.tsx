@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/hooks/use-toast";
 import type { SelectCourse } from "@/db/schema/course";
 import { StudentSchema } from "@/lib/zod-schemas";
 

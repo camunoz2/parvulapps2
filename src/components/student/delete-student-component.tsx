@@ -2,7 +2,7 @@
 
 import { deleteStudent } from "@/actions/dataLayer";
 import { DropdownMenuItem } from "../ui/dropdown-menu";
-import { toast } from "../ui/use-toast";
+import { toast } from "@/components/hooks/use-toast";
 
 interface Props {
   studentId: number;

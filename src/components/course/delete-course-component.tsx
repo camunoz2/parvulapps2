@@ -2,7 +2,7 @@
 import { deleteCourse } from "@/actions/dataLayer";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import type { SelectStudent } from "@/db/schema/student";
-import { toast } from "../ui/use-toast";
+import { toast } from "@/components/hooks/use-toast";
 
 interface Props {
   courseId: number;
