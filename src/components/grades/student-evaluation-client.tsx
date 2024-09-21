@@ -1,14 +1,5 @@
 "use client";
-
 import { CurriculumFilter } from "./curriculum-filter";
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -37,23 +28,25 @@ interface Props {
 }
 
 export default function StudentEvaluationClient({
-  students,
   scopes,
   cores,
   objectives,
   indicators,
-  periods,
 }: Props) {
-  const filteredIndicators = [
-    {
-      id: 2,
-      name: "sd",
-      isActive: false,
-      level: 2,
-      order: 2,
-      objectiveId: 2,
-    },
-  ];
+  const [selectedObjective, setSelectedObjective] =
+    useState<SelectObjective | null>(null);
+
+  const filteredIndicators = useMemo(() => {
+    if (!selectedObjective) return [];
+    return indicators.filter(
+      (indicator) => indicator.objectiveId === selectedObjective.id
+    );
+  }, [selectedObjective, indicators]);
+
+  const handleObjectiveSelect = (objective: SelectObjective | null) => {
+    setSelectedObjective(objective);
+  };
+
   return (
     <>
       <CurriculumFilter
@@ -61,44 +54,19 @@ export default function StudentEvaluationClient({
         indicators={indicators}
         objectives={objectives}
         scopes={scopes}
+        onObjectiveSelect={handleObjectiveSelect}
       />
-
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Indicator</TableHead>
-              {students.map((student) => (
-                <TableHead key={student.id}>
-                  {student.firstName} {student.lastName}
-                </TableHead>
-              ))}
+              <TableHead>Indicadores</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filteredIndicators.map((indicator) => (
               <TableRow key={indicator.id}>
                 <TableCell>{indicator.name}</TableCell>
-                {students.map((student) => (
-                  <TableCell key={student.id}>
-                    {/* 3 Selectors for each period */}
-                    {periods.map((period, index) => (
-                      <Select
-                        key={index}
-                        onValueChange={(value) => /* Handle grade change */ {}}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder={`Period ${period}`} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="1">1</SelectItem>
-                          <SelectItem value="2">2</SelectItem>
-                          <SelectItem value="3">3</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    ))}
-                  </TableCell>
-                ))}
               </TableRow>
             ))}
           </TableBody>

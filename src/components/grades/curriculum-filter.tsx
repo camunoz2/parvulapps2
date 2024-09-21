@@ -21,9 +21,15 @@ interface Props {
   cores: SelectCore[];
   objectives: SelectObjective[];
   indicators: SelectIndicator[];
+  onObjectiveSelect: (objective: SelectObjective | null) => void;
 }
 
-export function CurriculumFilter({ scopes, objectives, cores }: Props) {
+export function CurriculumFilter({
+  scopes,
+  objectives,
+  cores,
+  onObjectiveSelect,
+}: Props) {
   const [selectedScope, setSelectedScope] = useState<SelectScope | null>(null);
   const [selectedCore, setSelectedCore] = useState<SelectCore | null>(null);
   const [selectedObjective, setSelectedObjective] =
@@ -49,6 +55,7 @@ export function CurriculumFilter({ scopes, objectives, cores }: Props) {
     // Limpiar cores y objectives
     setSelectedCore(null);
     setSelectedObjective(null);
+    onObjectiveSelect(null);
   };
 
   const handleCoreChange = (value: string) => {
@@ -60,6 +67,17 @@ export function CurriculumFilter({ scopes, objectives, cores }: Props) {
 
     // Limpiar objectives
     setSelectedObjective(null);
+    onObjectiveSelect(null);
+  };
+
+  // Manejar el cambio de objective
+  const handleObjectiveChange = (value: string) => {
+    const newObjective =
+      value !== "all"
+        ? filteredObjectives.find((obj) => obj.id.toString() === value) || null
+        : null;
+    setSelectedObjective(newObjective);
+    onObjectiveSelect(newObjective); // Notifica al padre del nuevo objetivo seleccionado
   };
 
   return (
@@ -111,14 +129,7 @@ export function CurriculumFilter({ scopes, objectives, cores }: Props) {
       <Label>Filtrar por Objetivo</Label>
       <Select
         value={selectedObjective ? selectedObjective.id.toString() : TODOS}
-        onValueChange={(value) =>
-          setSelectedObjective(
-            value !== TODOS
-              ? filteredObjectives.find((obj) => obj.id.toString() === value) ||
-                  null
-              : null
-          )
-        }
+        onValueChange={handleObjectiveChange}
         disabled={!selectedCore}
       >
         <SelectTrigger>
