@@ -268,12 +268,12 @@ export function CurriculumFilter({ data }: Props) {
         )}
         <div className="mt-8 flex justify-end space-x-4">
           <Button variant="outline" onClick={() => setStep(1)}>
-            Back to Filters
+            Volver a Filtrar
           </Button>
           <Button onClick={handleNextIndicator}>
             {currentIndicatorIndex < filteredIndicators.length - 1
-              ? "Next Indicator"
-              : "Finish Evaluation"}
+              ? "Proximo Indicador"
+              : "Finalizar Evaluacion"}
           </Button>
         </div>
       </div>
@@ -349,7 +349,23 @@ export function CurriculumFilter({ data }: Props) {
         </Select>
       </div>
 
-      {filteredIndicators.length > 0 && (
+      <h2 className="text-xl font-bold my-4">Curso</h2>
+      <div className="grid">
+        <Select value={courseId} onValueChange={setCourseId}>
+          <SelectTrigger>
+            <SelectValue placeholder="Elige el Curso" />
+          </SelectTrigger>
+          <SelectContent>
+            {data.courses.map((course) => (
+              <SelectItem key={course.id} value={course.id.toString()}>
+                {course.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {filteredIndicators.length > 0 && courseId && (
         <div className="mt-4">
           <h2 className="text-xl font-bold my-4">Indicadores</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -387,22 +403,6 @@ export function CurriculumFilter({ data }: Props) {
           </div>
         </div>
       )}
-
-      <h2 className="text-xl font-bold my-4">Curso</h2>
-      <div className="grid">
-        <Select value={courseId} onValueChange={setCourseId}>
-          <SelectTrigger>
-            <SelectValue placeholder="Elige el Curso" />
-          </SelectTrigger>
-          <SelectContent>
-            {data.courses.map((course) => (
-              <SelectItem key={course.id} value={course.id.toString()}>
-                {course.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
 
       {error && (
         <Alert variant="destructive" className="mt-4">

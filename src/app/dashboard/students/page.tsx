@@ -15,10 +15,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { cookies } from "next/headers";
 
 export default async function AlumnosPage() {
-  cookies();
   const results = await getStudents();
 
   return (

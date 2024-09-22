@@ -6,7 +6,7 @@ import { schools } from "@/db/schema/school";
 import { students } from "@/db/schema/student";
 import { users } from "@/db/schema/users";
 import { db } from "@/lib/drizzle";
-import { and, eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export const getSchools = async () => await db.select().from(schools);
@@ -27,7 +27,12 @@ export const getObjectives = async () => await db.select().from(objectives);
 
 export const getScopes = async () => await db.select().from(scopes);
 
-export const getGrades = async (periodId: number, courseId: number) => {
+export type GradesEvaluation = Record<string, Record<string, number>>;
+
+export const getGrades = async (
+  periodId: number,
+  courseId: number
+): Promise<GradesEvaluation> => {
   try {
     const result = await db
       .select({
@@ -44,7 +49,7 @@ export const getGrades = async (periodId: number, courseId: number) => {
     console.log("Fetched grades:", result);
 
     // Transform the result into the structure expected by the evaluations state
-    const evaluations: Record<string, Record<string, number>> = {};
+    const evaluations: GradesEvaluation = {};
     result.forEach(({ grade, studentId, indicatorId }) => {
       if (!evaluations[indicatorId]) {
         evaluations[indicatorId] = {};
@@ -164,4 +169,109 @@ export const updateGrade = async ({
     console.error("Error in updateGrade:", error);
     return { success: false, message: "Failed to update or insert grade" };
   }
+};
+
+// Helper function to calculate average grade
+const avgGrade = sql<number>`AVG(${grades.grade})`;
+
+// Get average grades by scope
+export const getGradesByScope = async (courseId: number, periodId: number) => {
+  return await db
+    .select({
+      scopeName: scopes.name,
+      avgGrade: avgGrade,
+    })
+    .from(grades)
+    .innerJoin(indicators, eq(grades.indicatorId, indicators.id))
+    .innerJoin(objectives, eq(indicators.objectiveId, objectives.id))
+    .innerJoin(cores, eq(objectives.coreId, cores.id))
+    .innerJoin(scopes, eq(cores.scopeId, scopes.id))
+    .innerJoin(students, eq(grades.studentId, students.id))
+    .where(and(eq(students.courseId, courseId), eq(grades.periodId, periodId)))
+    .groupBy(scopes.name);
+};
+
+// Get average grades by core
+export const getGradesByCore = async (courseId: number, periodId: number) => {
+  return await db
+    .select({
+      coreName: cores.name,
+      avgGrade: avgGrade,
+    })
+    .from(grades)
+    .innerJoin(indicators, eq(grades.indicatorId, indicators.id))
+    .innerJoin(objectives, eq(indicators.objectiveId, objectives.id))
+    .innerJoin(cores, eq(objectives.coreId, cores.id))
+    .innerJoin(students, eq(grades.studentId, students.id))
+    .where(and(eq(students.courseId, courseId), eq(grades.periodId, periodId)))
+    .groupBy(cores.name);
+};
+
+// Get average grades by objective
+export const getGradesByObjective = async (
+  courseId: number,
+  periodId: number
+) => {
+  return await db
+    .select({
+      objectiveName: objectives.name,
+      avgGrade: avgGrade,
+    })
+    .from(grades)
+    .innerJoin(indicators, eq(grades.indicatorId, indicators.id))
+    .innerJoin(objectives, eq(indicators.objectiveId, objectives.id))
+    .innerJoin(students, eq(grades.studentId, students.id))
+    .where(and(eq(students.courseId, courseId), eq(grades.periodId, periodId)))
+    .groupBy(objectives.name);
+};
+
+// Get average grades by course
+export const getGradesByCourse = async (periodId: number) => {
+  return await db
+    .select({
+      courseName: courses.name,
+      avgGrade: avgGrade,
+    })
+    .from(grades)
+    .innerJoin(students, eq(grades.studentId, students.id))
+    .innerJoin(courses, eq(students.courseId, courses.id))
+    .where(eq(grades.periodId, periodId))
+    .groupBy(courses.name);
+};
+
+// Get student grades across all periods
+export const getStudentGradesAcrossPeriods = async (studentId: number) => {
+  return await db
+    .select({
+      periodName: periods.name,
+      indicatorName: indicators.name,
+      grade: grades.grade,
+    })
+    .from(grades)
+    .innerJoin(periods, eq(grades.periodId, periods.id))
+    .innerJoin(indicators, eq(grades.indicatorId, indicators.id))
+    .where(eq(grades.studentId, studentId))
+    .orderBy(periods.id, indicators.id);
+};
+
+// Get average grades for all students in a course across all periods
+export const getCourseGradesAcrossPeriods = async (courseId: number) => {
+  return await db
+    .select({
+      studentName: sql<string>`${students.firstName} || ' ' || ${students.lastName}`,
+      periodName: periods.name,
+      avgGrade: avgGrade,
+    })
+    .from(grades)
+    .innerJoin(students, eq(grades.studentId, students.id))
+    .innerJoin(periods, eq(grades.periodId, periods.id))
+    .where(eq(students.courseId, courseId))
+    .groupBy(
+      sql<string>`${students.firstName} || ' ' || ${students.lastName}`,
+      periods.name
+    )
+    .orderBy(
+      sql<string>`${students.firstName} || ' ' || ${students.lastName}`,
+      periods.name
+    );
 };

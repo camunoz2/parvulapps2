@@ -15,10 +15,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { cookies } from "next/headers";
 
 export default async function Courses() {
-  cookies();
   const coursesResult = await getCourses();
   const studentsResult = await getStudents();
 
