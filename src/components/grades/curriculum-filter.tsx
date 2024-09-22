@@ -136,16 +136,37 @@ export function CurriculumFilter({ data }: Props) {
     }
   };
 
-  const handleSetAllScores = (score: number) => {
+  const handleSetAllScores = async (score: number) => {
     const currentIndicator = filteredIndicators[currentIndicatorIndex];
     const newEvaluations = filteredStudents.reduce((acc, student) => {
       acc[student.id.toString()] = score;
       return acc;
     }, {} as Record<string, number>);
+
     setEvaluations((prev) => ({
       ...prev,
       [currentIndicator.id]: newEvaluations,
     }));
+
+    // Actualiza todas las calificaciones en el backend
+    try {
+      for (const student of filteredStudents) {
+        const result = await updateGrade({
+          studentId: student.id,
+          indicatorId: currentIndicator.id,
+          periodId: Number(periodId),
+          grade: score,
+        });
+
+        if (!result.success) {
+          throw new Error(result.message);
+        }
+      }
+      console.log("All scores updated successfully.");
+    } catch (error) {
+      console.error("Error updating scores:", error);
+      setError("Failed to update all scores. Please try again.");
+    }
   };
 
   const filteredCores = data.cores.filter(
@@ -365,7 +386,7 @@ export function CurriculumFilter({ data }: Props) {
         </Select>
       </div>
 
-      {filteredIndicators.length > 0 && courseId && (
+      {filteredIndicators.length > 0 && courseId && periodId && (
         <div className="mt-4">
           <h2 className="text-xl font-bold my-4">Indicadores</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

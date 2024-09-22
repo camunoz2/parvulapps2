@@ -171,107 +171,78 @@ export const updateGrade = async ({
   }
 };
 
-// Helper function to calculate average grade
-const avgGrade = sql<number>`AVG(${grades.grade})`;
+export interface GraphData {
+  studentName: string;
+  [periodName: string]: number | string;
+}
 
-// Get average grades by scope
-export const getGradesByScope = async (courseId: number, periodId: number) => {
-  return await db
+// Function to get total grades by category (scope, core, or objective)
+export const getGradesByCategory = async (
+  courseId: number,
+  categoryType: "scope" | "core" | "objective",
+  categoryId?: number // Optional: to filter by specific scope, core, or objective
+) => {
+  const categoryColumn = {
+    scope: scopes.id,
+    core: cores.id,
+    objective: objectives.id,
+  }[categoryType];
+
+  const categoryNameColumn = {
+    scope: scopes.name,
+    core: cores.name,
+    objective: objectives.name,
+  }[categoryType];
+
+  let conditions = [eq(students.courseId, courseId)];
+  if (categoryId) {
+    conditions.push(eq(categoryColumn, categoryId));
+  }
+
+  const query = db
     .select({
-      scopeName: scopes.name,
-      avgGrade: avgGrade,
+      studentName: students.firstName,
+      categoryName: categoryNameColumn,
+      periodId: grades.periodId,
+      periodName: periods.name,
+      totalGrade: sql<number>`SUM(${grades.grade})`.as("totalGrade"),
     })
     .from(grades)
+    .innerJoin(periods, eq(grades.periodId, periods.id))
     .innerJoin(indicators, eq(grades.indicatorId, indicators.id))
     .innerJoin(objectives, eq(indicators.objectiveId, objectives.id))
     .innerJoin(cores, eq(objectives.coreId, cores.id))
     .innerJoin(scopes, eq(cores.scopeId, scopes.id))
     .innerJoin(students, eq(grades.studentId, students.id))
-    .where(and(eq(students.courseId, courseId), eq(grades.periodId, periodId)))
-    .groupBy(scopes.name);
-};
-
-// Get average grades by core
-export const getGradesByCore = async (courseId: number, periodId: number) => {
-  return await db
-    .select({
-      coreName: cores.name,
-      avgGrade: avgGrade,
-    })
-    .from(grades)
-    .innerJoin(indicators, eq(grades.indicatorId, indicators.id))
-    .innerJoin(objectives, eq(indicators.objectiveId, objectives.id))
-    .innerJoin(cores, eq(objectives.coreId, cores.id))
-    .innerJoin(students, eq(grades.studentId, students.id))
-    .where(and(eq(students.courseId, courseId), eq(grades.periodId, periodId)))
-    .groupBy(cores.name);
-};
-
-// Get average grades by objective
-export const getGradesByObjective = async (
-  courseId: number,
-  periodId: number
-) => {
-  return await db
-    .select({
-      objectiveName: objectives.name,
-      avgGrade: avgGrade,
-    })
-    .from(grades)
-    .innerJoin(indicators, eq(grades.indicatorId, indicators.id))
-    .innerJoin(objectives, eq(indicators.objectiveId, objectives.id))
-    .innerJoin(students, eq(grades.studentId, students.id))
-    .where(and(eq(students.courseId, courseId), eq(grades.periodId, periodId)))
-    .groupBy(objectives.name);
-};
-
-// Get average grades by course
-export const getGradesByCourse = async (periodId: number) => {
-  return await db
-    .select({
-      courseName: courses.name,
-      avgGrade: avgGrade,
-    })
-    .from(grades)
-    .innerJoin(students, eq(grades.studentId, students.id))
-    .innerJoin(courses, eq(students.courseId, courses.id))
-    .where(eq(grades.periodId, periodId))
-    .groupBy(courses.name);
-};
-
-// Get student grades across all periods
-export const getStudentGradesAcrossPeriods = async (studentId: number) => {
-  return await db
-    .select({
-      periodName: periods.name,
-      indicatorName: indicators.name,
-      grade: grades.grade,
-    })
-    .from(grades)
-    .innerJoin(periods, eq(grades.periodId, periods.id))
-    .innerJoin(indicators, eq(grades.indicatorId, indicators.id))
-    .where(eq(grades.studentId, studentId))
-    .orderBy(periods.id, indicators.id);
-};
-
-// Get average grades for all students in a course across all periods
-export const getCourseGradesAcrossPeriods = async (courseId: number) => {
-  return await db
-    .select({
-      studentName: sql<string>`${students.firstName} || ' ' || ${students.lastName}`,
-      periodName: periods.name,
-      avgGrade: avgGrade,
-    })
-    .from(grades)
-    .innerJoin(students, eq(grades.studentId, students.id))
-    .innerJoin(periods, eq(grades.periodId, periods.id))
-    .where(eq(students.courseId, courseId))
+    .where(and(...conditions))
     .groupBy(
-      sql<string>`${students.firstName} || ' ' || ${students.lastName}`,
+      students.firstName,
+      categoryNameColumn,
+      grades.periodId,
       periods.name
     )
-    .orderBy(
-      sql<string>`${students.firstName} || ' ' || ${students.lastName}`,
-      periods.name
+    .orderBy(students.firstName, grades.periodId);
+
+  const results: {
+    studentName: string;
+    categoryName: string;
+    periodId: number;
+    periodName: string;
+    totalGrade: number;
+  }[] = await query;
+
+  // Process the results into the format needed for the graph
+  const graphData: GraphData[] = [];
+  results.forEach((result) => {
+    let studentData = graphData.find(
+      (d) => d.studentName === result.studentName
     );
+    if (!studentData) {
+      studentData = { studentName: result.studentName };
+      graphData.push(studentData);
+    }
+    studentData[result.periodName] = result.totalGrade;
+  });
+
+  return graphData;
 };

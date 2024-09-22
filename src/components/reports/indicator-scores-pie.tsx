@@ -45,7 +45,7 @@ const chartConfig = {
   },
   adecuado: {
     label: "Adecuado",
-    color: "hsl(var(--chart-3))",
+    color: "hsl(var(--chart-4))",
   },
 } satisfies ChartConfig;
 
@@ -220,9 +220,7 @@ export function IndicatorScoresPie({ courses, periods }: Props) {
           <div className="leading-none text-muted-foreground text-center">
             Esto muestra la cantidad de evaluaciones realizadas para el curso{" "}
             {getCourseNameById(Number(selectedCourse), courses)} durante el
-            periodo {getPeriodNameById(Number(selectedPeriod), periods)}. Cada
-            evaluacion es un indicador evaluado por alumno, por lo tanto, entre
-            mas alumnos hay en un curso, se deberian obtener mas evaluaciones
+            periodo {getPeriodNameById(Number(selectedPeriod), periods)}.
           </div>
         )}
       </CardFooter>
