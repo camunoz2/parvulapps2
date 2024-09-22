@@ -1,4 +1,5 @@
 import { SelectCourse } from "@/db/schema/course";
+import { SelectPeriod } from "@/db/schema/grade";
 
 export const getCourseNameById = (
   studentCourseId: number,
@@ -14,5 +15,21 @@ export const getCourseNameById = (
   return (
     courseNameById.get(studentCourseId) ||
     "El estudiante no pertenece a ningun curso"
+  );
+};
+
+export const getPeriodNameById = (
+  periodId: number,
+  periods: SelectPeriod[]
+) => {
+  const periodNameById = new Map<number, string>();
+
+  for (const period of periods) {
+    periodNameById.set(period.id, period.name);
+  }
+
+  return (
+    periodNameById.get(periodId) ||
+    "No existe un periodo con el ID proporcionado"
   );
 };
