@@ -1,12 +1,12 @@
 "use server";
 import { courses } from "@/db/schema/course";
 import { cores, indicators, objectives, scopes } from "@/db/schema/curriculum";
-import { periods } from "@/db/schema/grade";
+import { periods, grades } from "@/db/schema/grade";
 import { schools } from "@/db/schema/school";
 import { students } from "@/db/schema/student";
 import { users } from "@/db/schema/users";
 import { db } from "@/lib/drizzle";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export const getSchools = async () => await db.select().from(schools);
@@ -26,6 +26,38 @@ export const getIndicators = async () => await db.select().from(indicators);
 export const getObjectives = async () => await db.select().from(objectives);
 
 export const getScopes = async () => await db.select().from(scopes);
+
+export const getGrades = async (periodId: number, courseId: number) => {
+  try {
+    const result = await db
+      .select({
+        grade: grades.grade,
+        studentId: grades.studentId,
+        indicatorId: grades.indicatorId,
+      })
+      .from(grades)
+      .innerJoin(students, eq(grades.studentId, students.id))
+      .where(
+        and(eq(grades.periodId, periodId), eq(students.courseId, courseId))
+      );
+
+    console.log("Fetched grades:", result);
+
+    // Transform the result into the structure expected by the evaluations state
+    const evaluations: Record<string, Record<string, number>> = {};
+    result.forEach(({ grade, studentId, indicatorId }) => {
+      if (!evaluations[indicatorId]) {
+        evaluations[indicatorId] = {};
+      }
+      evaluations[indicatorId][studentId] = grade;
+    });
+
+    return evaluations;
+  } catch (error) {
+    console.error("Error fetching grades:", error);
+    return {};
+  }
+};
 
 export const addStudent = async (fd: FormData) => {
   const studentData = {
@@ -85,4 +117,51 @@ export const updateStudent = async (fd: FormData) => {
     .set(studentData)
     .where(eq(students.id, Number(studentId)));
   revalidatePath("/dashboard/students");
+};
+
+export const updateGrade = async ({
+  studentId,
+  indicatorId,
+  periodId,
+  grade,
+}: {
+  studentId: number;
+  indicatorId: number;
+  periodId: number;
+  grade: number;
+}): Promise<{ success: boolean; message: string }> => {
+  try {
+    console.log(
+      `Attempting to update grade for student ${studentId}, indicator ${indicatorId}, period ${periodId}`
+    );
+
+    const result = await db
+      .update(grades)
+      .set({ grade })
+      .where(
+        and(
+          eq(grades.studentId, studentId),
+          eq(grades.indicatorId, indicatorId),
+          eq(grades.periodId, periodId)
+        )
+      )
+      .returning(); // Return the updated rows
+
+    if (result.length === 0) {
+      console.log("No existing grade found. Inserting new grade.");
+      await db.insert(grades).values({
+        grade,
+        studentId,
+        indicatorId,
+        periodId,
+      });
+      return { success: true, message: "New grade inserted successfully" };
+    } else {
+      console.log("Existing grade updated successfully");
+      return { success: true, message: "Grade updated successfully" };
+    }
+  } catch (error) {
+    console.error("Error in updateGrade:", error);
+    return { success: false, message: "Failed to update or insert grade" };
+  }
 };

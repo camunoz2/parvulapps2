@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Bell,
   Home,
@@ -11,8 +13,8 @@ import {
   Users,
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Toaster } from "@/components/ui/toaster";
-import { getAuthorizedUsers } from "@/actions/dataLayer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,18 +27,42 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { getSession } from "@auth0/nextjs-auth0";
 
-export default async function DashboardLayout({
+export default function DashboardLayout({
   children,
-}: { children: React.ReactNode }) {
-  const session = await getSession();
-  const autorizedUsers = await getAuthorizedUsers();
-  const user = session?.user;
-  const authEmails = autorizedUsers.map((user) => user.email);
+}: {
+  children: React.ReactNode;
+}) {
+  const pathname = usePathname();
 
-  if (user && !authEmails.includes(user.email))
-    return <p>Usuario no autorizado</p>;
+  const isActive = (path: string) => {
+    if (path === "/dashboard") {
+      return pathname === "/dashboard";
+    }
+    return pathname.startsWith(path);
+  };
+
+  const NavLink = ({
+    href,
+    icon: Icon,
+    children,
+  }: {
+    href: string;
+    icon: React.ElementType;
+    children: React.ReactNode;
+  }) => (
+    <Link
+      href={href}
+      className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${
+        isActive(href)
+          ? "bg-accent text-accent-foreground"
+          : "text-muted-foreground"
+      }`}
+    >
+      <Icon className="h-4 w-4" />
+      {children}
+    </Link>
+  );
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -54,53 +80,24 @@ export default async function DashboardLayout({
           </div>
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-              <Link
-                href="/dashboard"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
-                <Home className="h-4 w-4" />
+              <NavLink href="/dashboard" icon={Home}>
                 Inicio
-              </Link>
-              <Link
-                href="/dashboard/courses"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
-                <ShoppingCart className="h-4 w-4" />
+              </NavLink>
+              <NavLink href="/dashboard/courses" icon={ShoppingCart}>
                 Cursos
-              </Link>
-              <Link
-                href="/dashboard/grades"
-                className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
-              >
-                <Package className="h-4 w-4" />
+              </NavLink>
+              <NavLink href="/dashboard/grades" icon={Package}>
                 Evaluaciones
-              </Link>
-              <Link
-                href="/dashboard/students"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
-                <Users className="h-4 w-4" />
+              </NavLink>
+              <NavLink href="/dashboard/students" icon={Users}>
                 Alumnos
                 <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                   74
                 </Badge>
-              </Link>
-              <Link
-                href="#"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
-                <LineChart className="h-4 w-4" />
+              </NavLink>
+              <NavLink href="/dashboard/reports" icon={LineChart}>
                 Reportes
-              </Link>
-              {user?.email === "cristianmunoz@liceonibaldo.cl" && (
-                <Link
-                  href="/dashboard/admin"
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                >
-                  <LineChart className="h-4 w-4" />
-                  Admin
-                </Link>
-              )}
+              </NavLink>
             </nav>
           </div>
         </div>
@@ -121,50 +118,27 @@ export default async function DashboardLayout({
             <SheetContent side="left" className="flex flex-col">
               <nav className="grid gap-2 text-lg font-medium">
                 <Link
-                  href="#"
+                  href="/"
                   className="flex items-center gap-2 text-lg font-semibold"
                 >
                   <Package2 className="h-6 w-6" />
-                  <span className="sr-only">Parvulapps</span>
+                  <span className="">Parvulapps</span>
                 </Link>
-                <Link
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <Home className="h-5 w-5" />
+                <NavLink href="/dashboard" icon={Home}>
                   Inicio
-                </Link>
-                <Link
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
-                >
-                  <ShoppingCart className="h-5 w-5" />
-                  Orders
-                  <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                    6
-                  </Badge>
-                </Link>
-                <Link
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <Package className="h-5 w-5" />
+                </NavLink>
+                <NavLink href="/dashboard/courses" icon={ShoppingCart}>
+                  Cursos
+                </NavLink>
+                <NavLink href="/dashboard/grades" icon={Package}>
                   Evaluaciones
-                </Link>
-                <Link
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <Users className="h-5 w-5" />
+                </NavLink>
+                <NavLink href="/dashboard/students" icon={Users}>
                   Alumnos
-                </Link>
-                <Link
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <LineChart className="h-5 w-5" />
+                </NavLink>
+                <NavLink href="/dashboard/reports" icon={LineChart}>
                   Reportes
-                </Link>
+                </NavLink>
               </nav>
             </SheetContent>
           </Sheet>
@@ -183,9 +157,7 @@ export default async function DashboardLayout({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
-                <div className="h-5 w-5">
-                  <UserIcon />
-                </div>
+                <UserIcon className="h-5 w-5" />
                 <span className="sr-only">Abrir menu de usuario</span>
               </Button>
             </DropdownMenuTrigger>

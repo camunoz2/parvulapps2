@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { SelectStudent } from "@/db/schema/student";
-import { getCourseNameById } from "@/lib/utils";
+import { getCourseNameById } from "@/lib/customUtils";
 import { MoreHorizontal } from "lucide-react";
 import { DeleteStudentComponent } from "./delete-student-component";
 

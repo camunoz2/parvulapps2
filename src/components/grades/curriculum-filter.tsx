@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
@@ -22,6 +22,7 @@ import type {
 } from "@/db/schema/curriculum";
 import type { SelectPeriod } from "@/db/schema/grade";
 import type { SelectStudent } from "@/db/schema/student";
+import { getGrades, updateGrade } from "@/actions/dataLayer";
 
 interface Props {
   data: {
@@ -48,35 +49,91 @@ export function CurriculumFilter({ data }: Props) {
   >({});
   const [error, setError] = useState<string>("");
 
+  const resetEvaluations = useCallback(() => {
+    setEvaluations({});
+    setCurrentIndicatorIndex(0);
+  }, []);
+
+  // Reset dependent fields when parent fields change
   useEffect(() => {
     setCoreId("");
     setObjectiveId("");
     resetEvaluations();
-  }, [scopeId]);
+  }, [scopeId, resetEvaluations]);
 
   useEffect(() => {
     setObjectiveId("");
     resetEvaluations();
-  }, [coreId]);
+  }, [coreId, resetEvaluations]);
 
   useEffect(() => {
     resetEvaluations();
-  }, [objectiveId]);
+  }, [objectiveId, resetEvaluations]);
 
-  const resetEvaluations = () => {
-    setEvaluations({});
-    setCurrentIndicatorIndex(0);
-  };
+  // Log initial data and evaluations
+  useEffect(() => {
+    console.log("Initial data loaded:", data);
+  }, [data]);
 
-  const handleEvaluationChange = (studentId: string, value: number[]) => {
-    const currentIndicator = filteredIndicators[currentIndicatorIndex];
+  // Log evaluations updates
+  useEffect(() => {
+    console.log("Evaluations state updated:", evaluations);
+  }, [evaluations]);
+
+  // Fetch grades when necessary fields are selected
+  useEffect(() => {
+    if (periodId && courseId) {
+      console.log("Fetching grades for:", { periodId, courseId });
+      getGrades(Number(periodId), Number(courseId)).then(
+        (fetchedEvaluations) => {
+          console.log("Fetched evaluations:", fetchedEvaluations);
+          setEvaluations(fetchedEvaluations);
+        }
+      );
+    }
+  }, [periodId, courseId]);
+
+  const handleEvaluationChange = async (
+    studentId: string,
+    indicatorId: string,
+    periodId: string,
+    newValue: number
+  ) => {
+    // Optimistically update the state
     setEvaluations((prev) => ({
       ...prev,
-      [currentIndicator.id]: {
-        ...(prev[currentIndicator.id] || {}),
-        [studentId]: value[0],
+      [indicatorId]: {
+        ...prev[indicatorId],
+        [studentId]: newValue,
       },
     }));
+
+    try {
+      const result = await updateGrade({
+        studentId: Number(studentId),
+        indicatorId: Number(indicatorId),
+        periodId: Number(periodId),
+        grade: newValue,
+      });
+
+      if (result.success) {
+        console.log(result.message);
+      } else {
+        throw new Error(result.message);
+      }
+    } catch (error) {
+      console.error("Error updating evaluation:", error);
+      setError("Failed to update evaluation. Please try again.");
+
+      // Revert the optimistic update
+      setEvaluations((prev) => ({
+        ...prev,
+        [indicatorId]: {
+          ...prev[indicatorId],
+          [studentId]: prev[indicatorId]?.[studentId] || 1, // Revert to the previous value or default to 1
+        },
+      }));
+    }
   };
 
   const handleSetAllScores = (score: number) => {
@@ -107,7 +164,7 @@ export function CurriculumFilter({ data }: Props) {
 
   const handleNext = () => {
     if (!periodId || !scopeId || !coreId || !objectiveId || !courseId) {
-      setError("Please fill in all fields before proceeding.");
+      setError("Completa todos los campos antes de proceder");
       return;
     }
     setError("");
@@ -121,7 +178,7 @@ export function CurriculumFilter({ data }: Props) {
       filteredStudents.length
     ) {
       setError(
-        "Please evaluate all students before proceeding to the next indicator."
+        "Evalua a todos los estudiantes antes de continuar al siguiente indicador"
       );
       return;
     }
@@ -188,7 +245,12 @@ export function CurriculumFilter({ data }: Props) {
                   max={3}
                   step={1}
                   onValueChange={(value) =>
-                    handleEvaluationChange(student.id.toString(), value)
+                    handleEvaluationChange(
+                      student.id.toString(),
+                      currentIndicator.id.toString(),
+                      periodId.toString(),
+                      value[0]
+                    )
                   }
                 />
                 <p className="mt-3 text-center">
@@ -224,7 +286,7 @@ export function CurriculumFilter({ data }: Props) {
       <div className="grid">
         <Select value={periodId} onValueChange={setPeriodId}>
           <SelectTrigger>
-            <SelectValue placeholder="Select Period" />
+            <SelectValue placeholder="Elige el periodo" />
           </SelectTrigger>
           <SelectContent>
             {data.periods.map((period) => (
@@ -240,7 +302,7 @@ export function CurriculumFilter({ data }: Props) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
         <Select value={scopeId} onValueChange={setScopeId}>
           <SelectTrigger>
-            <SelectValue placeholder="Select Scope" />
+            <SelectValue placeholder="Elige el Ambito" />
           </SelectTrigger>
           <SelectContent>
             {data.scopes.map((scope) => (
@@ -253,7 +315,7 @@ export function CurriculumFilter({ data }: Props) {
 
         <Select value={coreId} onValueChange={setCoreId} disabled={!scopeId}>
           <SelectTrigger>
-            <SelectValue placeholder="Select Core" />
+            <SelectValue placeholder="Elige el Nucleo" />
           </SelectTrigger>
           <SelectContent>
             {filteredCores.map((core) => (
@@ -270,7 +332,7 @@ export function CurriculumFilter({ data }: Props) {
           disabled={!coreId}
         >
           <SelectTrigger>
-            <SelectValue placeholder="Select Objective" />
+            <SelectValue placeholder="Elige el Objetivo" />
           </SelectTrigger>
           <SelectContent>
             {filteredObjectives.map((objective) => (
@@ -330,7 +392,7 @@ export function CurriculumFilter({ data }: Props) {
       <div className="grid">
         <Select value={courseId} onValueChange={setCourseId}>
           <SelectTrigger>
-            <SelectValue placeholder="Select Course" />
+            <SelectValue placeholder="Elige el Curso" />
           </SelectTrigger>
           <SelectContent>
             {data.courses.map((course) => (
@@ -350,9 +412,9 @@ export function CurriculumFilter({ data }: Props) {
 
       <div className="mt-8 flex justify-end space-x-4">
         <Button variant="outline" onClick={resetEvaluations}>
-          Reset
+          Limpiar Seleccion
         </Button>
-        <Button onClick={handleNext}>Start Evaluation</Button>
+        <Button onClick={handleNext}>Comenzar a evaluar</Button>
       </div>
     </div>
   );
