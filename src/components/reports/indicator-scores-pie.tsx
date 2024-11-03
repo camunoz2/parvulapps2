@@ -2,13 +2,10 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 
-import { TrendingUp } from "lucide-react";
 import {
   type ChartConfig,
   ChartContainer,
