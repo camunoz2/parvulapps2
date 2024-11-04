@@ -1,6 +1,7 @@
 import { getCourses, getPeriods } from "@/actions/dataLayer";
 import { GradesByOaBar } from "@/components/reports/grades-by-oa-bar";
 import { IndicatorScoresPie } from "@/components/reports/indicator-scores-pie";
+import {StudentsScoresTable} from "@/components/reports/students-scores-table"
 
 export default async function Page() {
   const courses = await getCourses();
@@ -14,7 +15,7 @@ export default async function Page() {
         <IndicatorScoresPie periods={periods} courses={courses} />
       </div>
       <div>
-        <GradesByOaBar courseId={1} />
+        <StudentsScoresTable />
       </div>
     </main>
   );
