@@ -1,3 +1,5 @@
+import { getAuthorizedUsers } from "@/actions/dataLayer";
+import { getUserProfileData } from "../../lib/user-info"
 import {
   Card,
   CardContent,
@@ -17,7 +19,15 @@ import {
 } from "@/components/ui/table";
 import { Users } from "lucide-react";
 
-export default function DashboardContent() {
+export default async function DashboardContent() {
+
+  const authorizedUsers = await getAuthorizedUsers();
+  const user = await getUserProfileData();
+
+  const userExists = authorizedUsers.some(authUser => authUser.email === user.email)
+
+  if (!userExists) return <div>Lo siento, pero {user.name} no esta autorizado en esta app</div>
+
 
   return (
     <div className="flex min-h-screen w-full flex-col">
