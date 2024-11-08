@@ -1,12 +1,10 @@
 "use client"
 
 import { useState, useMemo } from "react"
-import { ChevronDown, ChevronUp, Filter } from "lucide-react"
-import { Input } from "@/components/ui/input"
+import { ChevronDown, ChevronUp } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Button } from "@/components/ui/button"
 
 type Student = {
   grade: number
@@ -20,45 +18,23 @@ type Student = {
   scopes: string
 }
 
+type GradeSummary = {
+  firstName: string
+  lastName: string
+  Inicial: number
+  Intermedia: number
+  Final: number
+}
+
 interface Props {
-  studentGrades: Student[]
+  studentGrades?: Student[];
 }
 
 export function StudentScoresTable({ studentGrades }: Props) {
   const [data] = useState<Student[]>(studentGrades || [])
-  const [filters, setFilters] = useState({
-    course: "",
-    scope: "",
-    core: "",
-    objective: "",
-    indicator: "",
-  })
-
-  const handleFilterChange = (key: keyof typeof filters, value: string) => {
-    setFilters(prev => ({ ...prev, [key]: value }))
-  }
-
-  const filteredData = useMemo(() => {
-    return data?.filter(student =>
-      (filters.course === "" || student.courseName.includes(filters.course)) &&
-      (filters.scope === "" || student.scopes.includes(filters.scope)) &&
-      (filters.core === "" || student.cores.includes(filters.core)) &&
-      (filters.objective === "" || student.objectives.includes(filters.objective)) &&
-      (filters.indicator === "" || student.indicators.includes(filters.indicator))
-    )
-  }, [data, filters])
-
-  const groupedData = useMemo(() => {
-    const grouped = filteredData.reduce((acc, student) => {
-      const key = `${student.firstName} ${student.lastName}`
-      if (!acc[key]) {
-        acc[key] = { name: key, Inicial: null, Intermedia: null, Final: null }
-      }
-      acc[key][student.periodName] = student.grade
-      return acc
-    }, {} as Record<string, { name: string, Inicial: number | null, Intermedia: number | null, Final: number | null }>)
-    return Object.values(grouped)
-  }, [filteredData])
+  const [selectedCourse, setSelectedCourse] = useState<string>("")
+  const [selectedType, setSelectedType] = useState<"Scope" | "Core" | "Objective">("Scope")
+  const [selectedValue, setSelectedValue] = useState<string>("")
 
   const uniqueValues = useMemo(() => {
     return {
@@ -66,12 +42,39 @@ export function StudentScoresTable({ studentGrades }: Props) {
       scopes: Array.from(new Set(data.map(s => s.scopes))),
       cores: Array.from(new Set(data.map(s => s.cores))),
       objectives: Array.from(new Set(data.map(s => s.objectives))),
-      indicators: Array.from(new Set(data.map(s => s.indicators))),
     }
   }, [data])
 
-  const renderArrow = (current: number | null, previous: number | null) => {
-    if (current === null || previous === null) return null
+  const filteredData = useMemo(() => {
+    return data.filter(student =>
+      student.courseName === selectedCourse &&
+      (selectedType === "Scope" ? student.scopes === selectedValue :
+        selectedType === "Core" ? student.cores === selectedValue :
+          student.objectives === selectedValue)
+    )
+  }, [data, selectedCourse, selectedType, selectedValue])
+
+  const gradeSummary = useMemo(() => {
+    const summary: Record<string, GradeSummary> = {}
+
+    filteredData.forEach(student => {
+      const key = `${student.firstName}-${student.lastName}`
+      if (!summary[key]) {
+        summary[key] = {
+          firstName: student.firstName,
+          lastName: student.lastName,
+          Inicial: 0,
+          Intermedia: 0,
+          Final: 0
+        }
+      }
+      summary[key][student.periodName] += student.grade
+    })
+
+    return Object.values(summary)
+  }, [filteredData])
+
+  const renderArrow = (current: number, previous: number) => {
     if (current > previous) {
       return <ChevronUp className="inline text-green-500" />
     } else if (current < previous) {
@@ -81,15 +84,15 @@ export function StudentScoresTable({ studentGrades }: Props) {
   }
 
   return (
-    <Card className="w-full max-w-6xl mx-auto">
+    <Card>
       <CardHeader>
-        <CardTitle>Student Grades</CardTitle>
+        <CardTitle>Student Grades Summary</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col sm:flex-row gap-4 mb-4">
-          <Select onValueChange={(value) => handleFilterChange("course", value)}>
+          <Select onValueChange={setSelectedCourse}>
             <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder="Course" />
+              <SelectValue placeholder="Select Course" />
             </SelectTrigger>
             <SelectContent>
               {uniqueValues.courses.map((course) => (
@@ -97,77 +100,53 @@ export function StudentScoresTable({ studentGrades }: Props) {
               ))}
             </SelectContent>
           </Select>
-          <Select onValueChange={(value) => handleFilterChange("scope", value)}>
+          <Select onValueChange={(value) => setSelectedType(value as "Scope" | "Core" | "Objective")}>
             <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder="Scope" />
+              <SelectValue placeholder="Select Type" />
             </SelectTrigger>
             <SelectContent>
-              {uniqueValues.scopes.map((scope) => (
-                <SelectItem key={scope} value={scope}>{scope}</SelectItem>
-              ))}
+              <SelectItem value="Scope">Scope</SelectItem>
+              <SelectItem value="Core">Core</SelectItem>
+              <SelectItem value="Objective">Objective</SelectItem>
             </SelectContent>
           </Select>
-          <Select onValueChange={(value) => handleFilterChange("core", value)}>
+          <Select onValueChange={setSelectedValue}>
             <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder="Core" />
+              <SelectValue placeholder={`Select ${selectedType}`} />
             </SelectTrigger>
             <SelectContent>
-              {uniqueValues.cores.map((core) => (
-                <SelectItem key={core} value={core}>{core}</SelectItem>
-              ))}
+              {(selectedType === "Scope" ? uniqueValues.scopes :
+                selectedType === "Core" ? uniqueValues.cores :
+                  uniqueValues.objectives).map((value) => (
+                    <SelectItem key={value} value={value}>{value}</SelectItem>
+                  ))}
             </SelectContent>
           </Select>
-        </div>
-        <div className="flex flex-col sm:flex-row gap-4 mb-4">
-          <Select onValueChange={(value) => handleFilterChange("objective", value)}>
-            <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder="Objective" />
-            </SelectTrigger>
-            <SelectContent>
-              {uniqueValues.objectives.map((objective) => (
-                <SelectItem key={objective} value={objective}>{objective.slice(0, 50)}...</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Select onValueChange={(value) => handleFilterChange("indicator", value)}>
-            <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder="Indicator" />
-            </SelectTrigger>
-            <SelectContent>
-              {uniqueValues.indicators.map((indicator) => (
-                <SelectItem key={indicator} value={indicator}>{indicator.slice(0, 50)}...</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Button
-            variant="outline"
-            onClick={() => setFilters({ course: "", scope: "", core: "", objective: "", indicator: "" })}
-          >
-            Clear Filters
-          </Button>
         </div>
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Student Name</TableHead>
+                <TableHead>Nombre</TableHead>
+                <TableHead>Apellido</TableHead>
                 <TableHead>Inicial</TableHead>
                 <TableHead>Intermedia</TableHead>
                 <TableHead>Final</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {groupedData.map((student) => (
-                <TableRow key={student.name}>
-                  <TableCell>{student.name}</TableCell>
-                  <TableCell>{student.Inicial}</TableCell>
+              {gradeSummary.map((summary) => (
+                <TableRow key={`${summary.firstName}-${summary.lastName}`}>
+                  <TableCell>{summary.firstName}</TableCell>
+                  <TableCell>{summary.lastName}</TableCell>
+                  <TableCell>{summary.Inicial}</TableCell>
                   <TableCell>
-                    {student.Intermedia}
-                    {renderArrow(student.Intermedia, student.Inicial)}
+                    {summary.Intermedia}
+                    {renderArrow(summary.Intermedia, summary.Inicial)}
                   </TableCell>
                   <TableCell>
-                    {student.Final}
-                    {renderArrow(student.Final, student.Intermedia)}
+                    {summary.Final}
+                    {renderArrow(summary.Final, summary.Intermedia)}
                   </TableCell>
                 </TableRow>
               ))}
