@@ -19,12 +19,12 @@ type Student = {
 }
 
 type GradeSummary = {
-  firstName: string
-  lastName: string
-  Inicial: number
-  Intermedia: number
-  Final: number
-}
+  firstName: string;
+  lastName: string;
+  Inicial: number;
+  Intermedia: number;
+  Final: number;
+};
 
 interface Props {
   studentGrades?: Student[];
@@ -55,8 +55,7 @@ export function StudentScoresTable({ studentGrades }: Props) {
   }, [data, selectedCourse, selectedType, selectedValue])
 
   const gradeSummary = useMemo(() => {
-    const summary: Record<string, GradeSummary> = {}
-
+    const summary: { [key: string]: GradeSummary } = {}
     filteredData.forEach(student => {
       const key = `${student.firstName}-${student.lastName}`
       if (!summary[key]) {
@@ -68,9 +67,22 @@ export function StudentScoresTable({ studentGrades }: Props) {
           Final: 0
         }
       }
-      summary[key][student.periodName] += student.grade
-    })
 
+      switch (student.periodName) {
+        case 'Inicial':
+          summary[key].Inicial += student.grade
+          break
+        case 'Intermedia':
+          summary[key].Intermedia += student.grade
+          break
+        case 'Final':
+          summary[key].Final += student.grade
+          break
+        default:
+          // Handle unexpected period names
+          break
+      }
+    })
     return Object.values(summary)
   }, [filteredData])
 
