@@ -1,11 +1,13 @@
-import { getCourses, getPeriods } from "@/actions/dataLayer";
-import { GradesByOaBar } from "@/components/reports/grades-by-oa-bar";
+import { getCourses, getPeriods, getAllGrades } from "@/actions/dataLayer";
 import { IndicatorScoresPie } from "@/components/reports/indicator-scores-pie";
-import {StudentsScoresTable} from "@/components/reports/students-scores-table"
+import { StudentScoresTable } from "@/components/reports/students-scores-table"
 
 export default async function Page() {
   const courses = await getCourses();
   const periods = await getPeriods();
+  const allGrades = await getAllGrades();
+
+  console.log(allGrades[0])
 
   return (
     <main className="flex min-h-screen w-full flex-col p-4 gap-4">
@@ -15,7 +17,7 @@ export default async function Page() {
         <IndicatorScoresPie periods={periods} courses={courses} />
       </div>
       <div>
-        <StudentsScoresTable />
+        <StudentScoresTable studentGrades={allGrades} />
       </div>
     </main>
   );

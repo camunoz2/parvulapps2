@@ -29,9 +29,37 @@ export const getScopes = async () => await db.select().from(scopes);
 
 export type GradesEvaluation = Record<string, Record<string, number>>;
 
+export const getAllGrades = async () => {
+  try {
+    const result = await db
+      .select({
+        grade: grades.grade,
+        periodName: periods.name,
+        firstName: students.firstName,
+        lastName: students.lastName,
+        courseName: courses.name,
+        indicators: indicators.name,
+        objectives: objectives.name,
+        cores: cores.name,
+        scopes: scopes.name,
+      })
+      .from(grades)
+      .innerJoin(students, eq(students.id, grades.studentId))
+      .innerJoin(courses, eq(courses.id, students.courseId))
+      .innerJoin(indicators, eq(indicators.id, grades.indicatorId))
+      .innerJoin(objectives, eq(objectives.id, indicators.objectiveId))
+      .innerJoin(cores, eq(cores.id, objectives.coreId))
+      .innerJoin(scopes, eq(scopes.id, cores.scopeId))
+      .innerJoin(periods, eq(periods.id, grades.periodId));
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const getGrades = async (
   periodId: number,
-  courseId: number
+  courseId: number,
 ): Promise<GradesEvaluation> => {
   try {
     const result = await db
@@ -43,7 +71,7 @@ export const getGrades = async (
       .from(grades)
       .innerJoin(students, eq(grades.studentId, students.id))
       .where(
-        and(eq(grades.periodId, periodId), eq(students.courseId, courseId))
+        and(eq(grades.periodId, periodId), eq(students.courseId, courseId)),
       );
 
     console.log("Fetched grades:", result);
@@ -137,7 +165,7 @@ export const updateGrade = async ({
 }): Promise<{ success: boolean; message: string }> => {
   try {
     console.log(
-      `Attempting to update grade for student ${studentId}, indicator ${indicatorId}, period ${periodId}`
+      `Attempting to update grade for student ${studentId}, indicator ${indicatorId}, period ${periodId}`,
     );
 
     const result = await db
@@ -147,8 +175,8 @@ export const updateGrade = async ({
         and(
           eq(grades.studentId, studentId),
           eq(grades.indicatorId, indicatorId),
-          eq(grades.periodId, periodId)
-        )
+          eq(grades.periodId, periodId),
+        ),
       )
       .returning(); // Return the updated rows
 
@@ -180,7 +208,7 @@ export interface GraphData {
 export const getGradesByCategory = async (
   courseId: number,
   categoryType: "scope" | "core" | "objective",
-  categoryId?: number // Optional: to filter by specific scope, core, or objective
+  categoryId?: number, // Optional: to filter by specific scope, core, or objective
 ) => {
   const categoryColumn = {
     scope: scopes.id,
@@ -219,7 +247,7 @@ export const getGradesByCategory = async (
       students.firstName,
       categoryNameColumn,
       grades.periodId,
-      periods.name
+      periods.name,
     )
     .orderBy(students.firstName, grades.periodId);
 
@@ -235,7 +263,7 @@ export const getGradesByCategory = async (
   const graphData: GraphData[] = [];
   results.forEach((result) => {
     let studentData = graphData.find(
-      (d) => d.studentName === result.studentName
+      (d) => d.studentName === result.studentName,
     );
     if (!studentData) {
       studentData = { studentName: result.studentName };
