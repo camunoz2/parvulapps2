@@ -6,13 +6,21 @@ import { schools } from "@/db/schema/school";
 import { students } from "@/db/schema/student";
 import { users } from "@/db/schema/users";
 import { db } from "@/lib/drizzle";
-import { StudentSchema } from "@/lib/zod-schemas";
 import { and, eq, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export const getSchools = async () => await db.select().from(schools);
 
-export const getCourses = async () => await db.select().from(courses);
+export const getCourses = async () => {
+  try {
+    const result = await db.select().from(courses);
+    revalidatePath("/dashboard/students");
+    return result;
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+    return [];
+  }
+};
 
 export const getStudents = async () => await db.select().from(students);
 
@@ -29,6 +37,20 @@ export const getObjectives = async () => await db.select().from(objectives);
 export const getScopes = async () => await db.select().from(scopes);
 
 export type GradesEvaluation = Record<string, Record<string, number>>;
+
+export const getStudentsByCourse = async () => {
+  const result = await db
+    .select({
+      id: students.id,
+      firstName: students.firstName,
+      lastName: students.lastName,
+      age: students.age,
+      course: courses.name,
+    })
+    .from(courses)
+    .innerJoin(students, eq(students.courseId, courses.id));
+  return result;
+};
 
 export const getAllGrades = async () => {
   try {
@@ -127,8 +149,14 @@ export const editStudent = async (fd: FormData) => {
   revalidatePath("/dashboard/students");
 };
 
-export const addCourse = async (courseName: string) => {
-  await db.insert(courses).values({ name: courseName });
+export const addCourse = async ({
+  courseName,
+  year,
+}: {
+  courseName: string;
+  year: number;
+}) => {
+  await db.insert(courses).values({ name: courseName, year: year });
   revalidatePath("/dashboard/courses");
   return { message: "Added a course" };
 };

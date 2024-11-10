@@ -12,7 +12,9 @@ import { AddStudentForm } from "./add-student-form";
 import { getCourses } from "@/actions/dataLayer";
 
 export async function AddStudentDialog() {
+
   const coursesResponse = await getCourses();
+
   return (
     <Dialog>
       <DialogTrigger asChild>

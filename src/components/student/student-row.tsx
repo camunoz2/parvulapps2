@@ -9,23 +9,30 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { TableCell, TableRow } from "@/components/ui/table";
-import type { SelectStudent } from "@/db/schema/student";
-import { getCourseNameById } from "@/lib/customUtils";
 import { MoreHorizontal } from "lucide-react";
 import { DeleteStudentComponent } from "./delete-student-component";
+import { SelectCourse } from "@/db/schema/course";
 
-interface Props {
-  student: SelectStudent;
+export type StudentWithCourse = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  age: number;
+  course: string;
 }
 
-export async function StudentRow({ student }: Props) {
-  const courses = await getCourses();
-  const courseNameById = getCourseNameById(student.courseId, courses);
+interface Props {
+  student: StudentWithCourse;
+  courses: SelectCourse[];
+}
+
+export async function StudentRow({ student, courses }: Props) {
+
   return (
     <TableRow>
       <TableCell>{student.firstName}</TableCell>
       <TableCell>{student.lastName}</TableCell>
-      <TableCell>{courseNameById}</TableCell>
+      <TableCell>{student.course}</TableCell>
       <TableCell>{student.age}</TableCell>
       <TableCell>
         <Dialog>
@@ -44,7 +51,7 @@ export async function StudentRow({ student }: Props) {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <StudentFormUpdate student={student} allCourses={courses} />
+          <StudentFormUpdate student={student} courses={courses} />
         </Dialog>
       </TableCell>
     </TableRow>

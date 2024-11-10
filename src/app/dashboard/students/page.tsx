@@ -1,4 +1,4 @@
-import { getStudents } from "@/actions/dataLayer";
+import { getCourses, getStudentsByCourse } from "@/actions/dataLayer";
 import { AddStudentDialog } from "@/components/student/add-student-dialog";
 import { StudentRow } from "@/components/student/student-row";
 import {
@@ -17,7 +17,9 @@ import {
 } from "@/components/ui/table";
 
 export default async function AlumnosPage() {
-  const results = await getStudents();
+
+  const students = await getStudentsByCourse();
+  const courses = await getCourses();
 
   return (
     <div className="flex min-h-screen w-full flex-col">
@@ -45,8 +47,8 @@ export default async function AlumnosPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {results.map((student) => (
-                  <StudentRow key={student.id} student={student} />
+                {students.map((student) => (
+                  <StudentRow key={student.id} student={student} courses={courses} />
                 ))}
               </TableBody>
             </Table>

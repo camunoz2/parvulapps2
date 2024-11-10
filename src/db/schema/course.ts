@@ -6,6 +6,7 @@ import { students } from "./student";
 export const courses = sqliteTable("courses", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
+  year: integer("year").notNull(),
 });
 
 export const coursesRelations = relations(courses, ({ many }) => ({

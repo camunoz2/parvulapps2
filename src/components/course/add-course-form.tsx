@@ -14,10 +14,11 @@ import { Button } from "../ui/button";
 
 export function AddCourseForm() {
   async function clientAction(formData: FormData) {
-    //TODO: Add clientsde validation
     const courseName = formData.get("coursename") as string;
-    await addCourse(courseName);
+    const year = Number(formData.get("year"));
+    await addCourse({ courseName, year });
   }
+
   return (
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
@@ -35,6 +36,15 @@ export function AddCourseForm() {
               defaultValue="PreKinder - A"
               className="col-span-3"
               name="coursename"
+            />
+            <Label htmlFor="year" className="text-right">
+              Año
+            </Label>
+            <Input
+              id="year"
+              defaultValue="2024"
+              className="col-span-3"
+              name="year"
             />
           </div>
         </div>

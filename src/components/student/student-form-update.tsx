@@ -1,6 +1,4 @@
 "use client";
-import type { SelectCourse } from "@/db/schema/course";
-import type { SelectStudent } from "@/db/schema/student";
 import { Button } from "@/components/ui/button";
 import {
   DialogContent,
@@ -21,13 +19,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { editStudent } from "@/actions/dataLayer";
+import { StudentWithCourse } from "./student-row";
+import { SelectCourse } from "@/db/schema/course";
 
 interface Props {
-  student: SelectStudent;
-  allCourses: SelectCourse[];
+  student: StudentWithCourse;
+  courses: SelectCourse[];
 }
 
-export function StudentFormUpdate({ student, allCourses }: Props) {
+
+export function StudentFormUpdate({ student, courses }: Props) {
 
   return (
     <DialogContent className="sm:max-w-[425px]">
@@ -72,15 +73,15 @@ export function StudentFormUpdate({ student, allCourses }: Props) {
             <Label htmlFor="course" className="text-right">
               Curso
             </Label>
-            <Select name="course" defaultValue={student.courseId.toString()}>
+            <Select name="course" defaultValue={student.course}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Elige el curso" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Curso</SelectLabel>
-                  {allCourses.map((c) => (
-                    <SelectItem key={c.id} value={c.id.toString()}>
+                  {courses.map((c) => (
+                    <SelectItem key={c.id} value={c.name}>
                       {c.name}
                     </SelectItem>
                   ))}

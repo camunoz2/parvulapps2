@@ -3,6 +3,9 @@ import { drizzle } from "drizzle-orm/libsql";
 import { parse } from "csv-parse/sync";
 import { readFileSync } from "node:fs";
 import { cores, indicators, objectives, scopes } from "./schema/curriculum";
+import { grades } from "./schema/grade";
+import { students } from "./schema/student";
+import { courses } from "./schema/course";
 
 const client = createClient({
   url: process.env.TURSO_DATABASE_URL as string,
@@ -88,6 +91,9 @@ async function SeedIndicators() {
 async function SeedDatabase() {
   try {
     // delete in order
+    await db.delete(students);
+    await db.delete(courses);
+    await db.delete(grades);
     await db.delete(indicators);
     await db.delete(objectives);
     await db.delete(cores);
