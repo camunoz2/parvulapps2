@@ -20,35 +20,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { StudentSchema } from "@/lib/zod-schemas";
-import { toast } from "@/components/hooks/use-toast";
+import { editStudent } from "@/actions/dataLayer";
 
 interface Props {
   student: SelectStudent;
   allCourses: SelectCourse[];
 }
 
-export async function StudentFormUpdate({ student, allCourses }: Props) {
-  async function clientAction(formData: FormData) {
-    const updatedData = {
-      firstName: formData.get("firstname"),
-      lastName: formData.get("lastname"),
-      age: Number(formData.get("age")),
-      course: formData.get("course"),
-    };
-
-    const parsedData = StudentSchema.safeParse(updatedData);
-    let errMsg = "";
-    if (!parsedData.success) {
-      for (const issue of parsedData.error.issues) {
-        errMsg = `${issue.message}.\n`;
-      }
-    }
-    toast({
-      title: "Error",
-      description: errMsg,
-    });
-  }
+export function StudentFormUpdate({ student, allCourses }: Props) {
 
   return (
     <DialogContent className="sm:max-w-[425px]">
@@ -57,7 +36,7 @@ export async function StudentFormUpdate({ student, allCourses }: Props) {
         <DialogDescription>Reacuerda agregar todos los datos</DialogDescription>
       </DialogHeader>
 
-      <form action={clientAction}>
+      <form action={editStudent}>
         <Input
           name="studentid"
           value={student.id}

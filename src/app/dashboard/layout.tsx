@@ -27,6 +27,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useEffect, useState } from "react";
+import { SelectStudent } from "@/db/schema/student";
 
 export default function DashboardLayout({
   children,
@@ -53,16 +55,28 @@ export default function DashboardLayout({
   }) => (
     <Link
       href={href}
-      className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${
-        isActive(href)
-          ? "bg-accent text-accent-foreground"
-          : "text-muted-foreground"
-      }`}
+      className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${isActive(href)
+        ? "bg-accent text-accent-foreground"
+        : "text-muted-foreground"
+        }`}
     >
       <Icon className="h-4 w-4" />
       {children}
     </Link>
   );
+
+  const [students, setStudents] = useState<SelectStudent[] | null>(null);
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      const response = await fetch('/api/students');
+      if (!response.ok) throw new Error('Failed to fetch students');
+      const data: { students: SelectStudent[] } = await response.json();
+      setStudents(data.students);
+    };
+
+    fetchStudents();
+  }, []);
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -92,7 +106,7 @@ export default function DashboardLayout({
               <NavLink href="/dashboard/students" icon={Users}>
                 Alumnos
                 <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                  74
+                  {students?.length}
                 </Badge>
               </NavLink>
               <NavLink href="/dashboard/reports" icon={LineChart}>
