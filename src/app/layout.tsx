@@ -17,7 +17,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // TODO: refactor this, extract the query client provider into its own client component
   return (
     <html lang="es">
       <UserProvider>
