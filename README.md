@@ -1,63 +1,109 @@
-## Home:
+# ParvulApps2
 
-  Display a summary dashboard with key metrics, such as:
-  1. Total number of students
-  2. Total number of indicators
-  3. Overall progress percentage
+## Overview
+ParvulApps2 is a web application designed to facilitate the grading process for primary school children in Chile. It aligns with the Chilean primary education curriculum and provides tools to evaluate students across three grading periods throughout the school year. The platform aims to simplify grading, improve data visualization for teachers, and ensure that assessments align with curriculum standards.
 
-  Show a list of recent evaluations with student names, dates, and progress indicators
-  Include a navigation menu to access other sections (Class, Evals, Students, Reports)
+## Key Features
+- **Curriculum Integration:** Comprehensive coverage of primary school curriculum elements in Chile.
+- **Grading System:** Supports evaluations for three distinct periods during the school year.
+- **Responsive Design:** Optimized for various devices, ensuring teachers can access the app on desktops, tablets, and smartphones.
+- **Data Visualization:** Provides clear and interactive charts to visualize student progress.
+- **User Authentication:** Secure access for teachers using Auth0 for authentication.
 
-## Class:
+## Technologies Used
+ParvulApps2 leverages modern web technologies and libraries for performance, security, and a seamless user experience:
 
-  Display a list of classes (groups of children) with the following details:
-  1. Class name or age group
-  2. Number of students in each class
-  3. Average progress percentage for each class
+### Core Technologies
+- **[Next.js](https://nextjs.org/):** A React framework for server-rendered and statically generated applications.
+- **[React](https://reactjs.org/):** Library for building user interfaces.
+- **[TypeScript](https://www.typescriptlang.org/):** For strong typing and better maintainability.
+- **[Tailwind CSS](https://tailwindcss.com/):** Utility-first CSS framework for styling.
 
-  Allow adding, editing, or deleting classes
-  Provide a search or filter option to quickly find specific classes
+### Database and ORM
+- **[Drizzle ORM](https://orm.drizzle.team/):** Lightweight and type-safe ORM for managing database interactions.
+- **SQLite:** Used for lightweight and efficient data storage.
 
-## Evals (Evaluations):
+### State Management and Forms
+- **[React Hook Form](https://react-hook-form.com/):** Efficient form handling with built-in validation.
+- **[Zod](https://zod.dev/):** Schema validation library for TypeScript.
 
-  1. Show a list of students with their evaluation status for each stage (D, I, C)
-  2. Include columns for student name, class, and evaluation status for each stage
-  3. Use color-coding or icons to represent the evaluation status (e.g., green for completed, yellow for in-progress, red for not started)
+### UI Components
+- **[Radix UI](https://www.radix-ui.com/):** Accessible and customizable UI primitives.
+- **[Lucide Icons](https://lucide.dev/):** Icon library for modern and clean UI.
 
-  Provide a way to enter or update evaluations for each student and stage
-  Allow filtering evaluations by class, student, or evaluation stage
+### Authentication
+- **[Auth0](https://auth0.com/):** Secure user authentication and session management.
 
-## Students:
+### Data Visualization
+- **[Recharts](https://recharts.org/):** Simple and customizable chart library for displaying student data.
 
-  Display a table with student details:
-  1. Student name
-  2. Class or age group
-  3. Date of birth
-  4. Enrollment date
-  5. Evaluation progress (percentage or visual indicator)
+### Carousel & Interactive UI Elements
+- **[Embla Carousel](https://www.embla-carousel.com/):** Smooth and customizable carousel for presenting content.
 
-  Provide options to add, edit, or delete student records
-  Include a search or filter functionality to find specific students
+### Task Automation and Building
+- **[ESBuild](https://esbuild.github.io/):** For fast builds and efficient code compilation.
+- **[Drizzle Kit](https://drizzle.team/):** Handles database schema generation and migrations.
 
-## Reports:
+### Developer Experience
+- **[ESLint](https://eslint.org/):** Linter for code quality.
+- **[Prettier](https://prettier.io/):** Code formatting.
+- **[Biome](https://biome.dev/):** Code analysis and formatting.
 
-  Offer various reporting options, such as:
-  1. Overall progress report for all students
-  2. Progress report by class or age group
-  3. Individual student progress reports
-  4. Comparison reports between evaluation stages (D, I, C)
+## Project Setup
+### Prerequisites
+Ensure you have the following installed:
+- Node.js v16 or higher
+- PNPM as the package manager
 
-  Use graphs, charts, and visualizations to present the data effectively
-  Allow exporting reports in different formats (PDF, Excel, etc.)
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd parvulapps2
+   ```
 
-## UX Elements:
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
 
-  Use a consistent and intuitive navigation menu across all sections
-  Implement responsive design to ensure compatibility with different devices and screen sizes
-  Use clear and concise labels for buttons, links, and form fields
-  Provide tooltips or help icons to guide users on how to use the application
-  Use modals or popups for adding, editing, or deleting records to keep the main interface clutter-free
-  Implement pagination or lazy loading for large tables to improve performance
-  Use appropriate color schemes and visual cues to highlight important information or actions
+3. Set up environment variables:
+   Create a `.env` file in the root directory with the required environment variables.
 
-Remember to keep the UI simple, intuitive, and user-friendly. Regularly gather feedback from users and iterate on the design based on their input.
+4. Run the development server:
+   ```bash
+   pnpm dev
+   ```
+
+### Building and Running
+To build the application for production:
+```bash
+pnpm build
+```
+To start the production server:
+```bash
+pnpm start
+```
+
+## Database Management
+- Seed the database:
+  ```bash
+  pnpm seed
+  ```
+- Generate schema:
+  ```bash
+  pnpm generate
+  ```
+- Apply migrations:
+  ```bash
+  pnpm migrate
+  ```
+
+## Contribution
+Contributions are welcome! Please follow the standard pull request process.
+
+## License
+This project is licensed under the MIT License.
+
+## Acknowledgements
+Special thanks to the developers and educators who contributed to this project, ensuring its alignment with the Chilean educational curriculum and user needs.

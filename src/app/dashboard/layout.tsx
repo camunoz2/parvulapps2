@@ -1,12 +1,6 @@
 "use client";
 
 import {
-  HydrationBoundary,
-  queryOptions,
-  useSuspenseQuery,
-  dehydrate,
-} from "@tanstack/react-query";
-import {
   Bell,
   Home,
   LineChart,
@@ -33,7 +27,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { getQueryClient } from "@/lib/query-client";
 
 export default function DashboardLayout({
   children,
@@ -60,28 +53,15 @@ export default function DashboardLayout({
   }) => (
     <Link
       href={href}
-      className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${
-        isActive(href)
-          ? "bg-accent text-accent-foreground"
-          : "text-muted-foreground"
-      }`}
+      className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${isActive(href)
+        ? "bg-accent text-accent-foreground"
+        : "text-muted-foreground"
+        }`}
     >
       <Icon className="h-4 w-4" />
       {children}
     </Link>
   );
-
-  const studentOptions = queryOptions({
-    queryKey: ["students"],
-    queryFn: async () => {
-      const data = await fetch("/api/students");
-      return data;
-    },
-  });
-
-  const queryClient = getQueryClient();
-  void queryClient.prefetchQuery(studentOptions);
-  const { data, isLoading } = useSuspenseQuery(studentOptions);
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -110,11 +90,9 @@ export default function DashboardLayout({
               </NavLink>
               <NavLink href="/dashboard/students" icon={Users}>
                 Alumnos
-                <HydrationBoundary state={dehydrate(queryClient)}>
-                  <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                    {isLoading ? "0" : data?.length}
-                  </Badge>
-                </HydrationBoundary>
+                <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+                  data?.length
+                </Badge>
               </NavLink>
               <NavLink href="/dashboard/reports" icon={LineChart}>
                 Reportes
