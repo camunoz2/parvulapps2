@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 export default async function Home() {
   return (
     <main className=" grid grid-cols-2 h-full">
-      <div className="bg-gray-800 flex flex-col justify-between py-10 pl-12">
+      <div className="flex flex-col justify-between py-10 pl-12 bg-cover" style={{ backgroundImage: "linear-gradient(to bottom, rgba(6, 182, 212, 0.7), rgba(37, 99, 235, 0.7)), url('/login.jpg')" }}>
         <header>
           <h1 className="text-3xl text-white font-bold">Parvulapps</h1>
         </header>
