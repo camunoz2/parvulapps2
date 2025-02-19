@@ -1,4 +1,5 @@
-import { Button } from "@/components/ui/button";
+import { GalleryVerticalEnd } from "lucide-react"
+import { LoginForm } from "./components/login-form"
 
 export default async function Home() {
   return (
@@ -14,11 +15,13 @@ export default async function Home() {
           </p>
         </footer>
       </div>
-      <div className="flex flex-col gap-6 items-center justify-center">
-        <h2 className="text-2xl font-bold">Hola! Inicia sesión con google</h2>
-        <Button>
-          <a href="/api/auth/login?returnTo=/dashboard">Iniciar Sesion</a>
-        </Button>
+      <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
+        <div className="flex w-full max-w-sm flex-col gap-6">
+          <a href="#" className="flex items-center gap-2 self-center font-medium">
+            Parvulapps
+          </a>
+          <LoginForm />
+        </div>
       </div>
     </main>
   );
