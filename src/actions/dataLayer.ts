@@ -23,7 +23,11 @@ export const getCourses = async () => {
 };
 
 export const getStudents = async () => await db.select().from(students);
-
+export const getStudentsCount = async () =>
+  await db
+    .select()
+    .from(students)
+    .then((res) => res.length);
 export const getAuthorizedUsers = async () => await db.select().from(users);
 
 export const getPeriods = async () => await db.select().from(periods);
@@ -31,6 +35,14 @@ export const getPeriods = async () => await db.select().from(periods);
 export const getCores = async () => await db.select().from(cores);
 
 export const getIndicators = async () => await db.select().from(indicators);
+
+export const getIndicatorsCount = async () => {
+  const totalCount = await db
+    .select()
+    .from(indicators)
+    .then((res) => res.length);
+  return totalCount;
+};
 
 export const getObjectives = async () => await db.select().from(objectives);
 

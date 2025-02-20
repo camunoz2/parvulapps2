@@ -1,5 +1,5 @@
-"use client";
-
+import Link from "next/link";
+import { NavLink } from "@/components/dashboard/nav-link";
 import {
   Bell,
   Home,
@@ -12,8 +12,6 @@ import {
   UserIcon,
   Users,
 } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { Toaster } from "@/components/ui/toaster";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -27,41 +25,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { getStudentsCount } from "@/actions/dataLayer";
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
-  const pathname = usePathname();
-
-  const isActive = (path: string) => {
-    if (path === "/dashboard") {
-      return pathname === "/dashboard";
-    }
-    return pathname.startsWith(path);
-  };
-
-  const NavLink = ({
-    href,
-    icon: Icon,
-    children,
-  }: {
-    href: string;
-    icon: React.ElementType;
-    children: React.ReactNode;
-  }) => (
-    <Link
-      href={href}
-      className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${isActive(href)
-        ? "bg-accent text-accent-foreground"
-        : "text-muted-foreground"
-        }`}
-    >
-      <Icon className="h-4 w-4" />
-      {children}
-    </Link>
-  );
+}: { children: React.ReactNode }) {
+  const studentCount = await getStudentsCount();
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -79,22 +48,22 @@ export default function DashboardLayout({
           </div>
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-              <NavLink href="/dashboard" icon={Home}>
+              <NavLink href="/dashboard" icon={<Home />}>
                 Inicio
               </NavLink>
-              <NavLink href="/dashboard/courses" icon={ShoppingCart}>
+              <NavLink href="/dashboard/courses" icon={<ShoppingCart />}>
                 Cursos
               </NavLink>
-              <NavLink href="/dashboard/grades" icon={Package}>
+              <NavLink href="/dashboard/grades" icon={<Package />}>
                 Evaluaciones
               </NavLink>
-              <NavLink href="/dashboard/students" icon={Users}>
+              <NavLink href="/dashboard/students" icon={<Users />}>
                 Alumnos
                 <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                  data?.length
+                  {studentCount}
                 </Badge>
               </NavLink>
-              <NavLink href="/dashboard/reports" icon={LineChart}>
+              <NavLink href="/dashboard/reports" icon={<LineChart />}>
                 Reportes
               </NavLink>
             </nav>
@@ -123,19 +92,19 @@ export default function DashboardLayout({
                   <Package2 className="h-6 w-6" />
                   <span className="">Parvulapps</span>
                 </Link>
-                <NavLink href="/dashboard" icon={Home}>
+                <NavLink href="/dashboard" icon={<Home className="h-4 w-4" />}>
                   Inicio
                 </NavLink>
-                <NavLink href="/dashboard/courses" icon={ShoppingCart}>
+                <NavLink href="/dashboard/courses" icon={<ShoppingCart />}>
                   Cursos
                 </NavLink>
-                <NavLink href="/dashboard/grades" icon={Package}>
+                <NavLink href="/dashboard/grades" icon={<Package />}>
                   Evaluaciones
                 </NavLink>
-                <NavLink href="/dashboard/students" icon={Users}>
+                <NavLink href="/dashboard/students" icon={<Users />}>
                   Alumnos
                 </NavLink>
-                <NavLink href="/dashboard/reports" icon={LineChart}>
+                <NavLink href="/dashboard/reports" icon={<LineChart />}>
                   Reportes
                 </NavLink>
               </nav>
@@ -166,7 +135,7 @@ export default function DashboardLayout({
               <DropdownMenuItem>Configuracion</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <a href="/api/auth/logout">Cerrar Sesion</a>
+                <Link href="/auth/logout">Cerrar Sesion</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

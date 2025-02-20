@@ -1,3 +1,4 @@
+import { getIndicatorsCount, getStudentsCount } from "@/actions/dataLayer";
 import {
   Card,
   CardContent,
@@ -18,6 +19,8 @@ import {
 import { Users } from "lucide-react";
 
 export default async function DashboardContent() {
+  const numberOfIndicators = await getIndicatorsCount();
+  const numberOfStudents = await getStudentsCount();
 
   return (
     <div className="flex min-h-screen w-full flex-col">
@@ -32,7 +35,7 @@ export default async function DashboardContent() {
                 <Users className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">134</div>
+                <div className="text-2xl font-bold">{numberOfIndicators}</div>
                 <p className="text-xs text-muted-foreground">
                   Que pertenecen a las 4 dimensiones
                 </p>
@@ -44,7 +47,7 @@ export default async function DashboardContent() {
                 <Users className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">64</div>
+                <div className="text-2xl font-bold">{numberOfStudents}</div>
                 <p className="text-xs text-muted-foreground">En total</p>
               </CardContent>
             </Card>
