@@ -7,11 +7,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { MoreHorizontal } from "lucide-react";
-import { Dialog, DialogTrigger } from "../ui/dialog";
-import { DeleteCourseComponent } from "./delete-course-component";
+import { Dialog } from "../ui/dialog";
 import type { SelectStudent } from "@/db/schema/student";
 import { CourseFormUpdate } from "./course-form-update";
-import { getStudentCountByCourseId } from "@/actions/dataLayer";
+import { deleteCourse, getStudentCountByCourseId } from "@/actions/dataLayer";
 
 interface Props {
   courseId: number;
@@ -20,12 +19,7 @@ interface Props {
   students: SelectStudent[];
 }
 
-export async function CourseRow({
-  courseName,
-  courseId,
-  courseYear,
-  students,
-}: Props) {
+export async function CourseRow({ courseName, courseId, courseYear }: Props) {
   const studentCount = await getStudentCountByCourseId(courseId);
   return (
     <TableRow>
@@ -47,10 +41,13 @@ export async function CourseRow({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="center">
-              <DialogTrigger asChild>
-                <DropdownMenuItem>Editar</DropdownMenuItem>
-              </DialogTrigger>
-              <DeleteCourseComponent students={students} courseId={courseId} />
+              <DropdownMenuItem>Editar</DropdownMenuItem>
+              <form action={deleteCourse}>
+                <input type="hidden" name="id" value={courseId} />
+                <DropdownMenuItem asChild>
+                  <button type="submit">Eliminar</button>
+                </DropdownMenuItem>
+              </form>
             </DropdownMenuContent>
           </DropdownMenu>
 

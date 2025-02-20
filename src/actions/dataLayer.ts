@@ -7,6 +7,7 @@ import { students } from "@/db/schema/student";
 import { users } from "@/db/schema/users";
 import { db } from "@/lib/drizzle";
 import { and, eq, sql, count } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 export const getSchools = async () => await db.select().from(schools);
 
@@ -143,7 +144,6 @@ export const addStudent = async (fd: FormData) => {
     age: Number(fd.get("age")),
   };
   await db.insert(students).values(studentData);
-  revalidatePath("/dashboard/students");
   return { message: "Student created!" };
 };
 
@@ -165,8 +165,6 @@ export const editStudent = async (fd: FormData) => {
       courseId: updatedData.courseId,
     })
     .where(eq(students.id, updatedData.id));
-
-  revalidatePath("/dashboard/students");
 };
 
 export const addCourseAction = async (
@@ -185,9 +183,11 @@ export const addCourseAction = async (
   }
 };
 
-export const deleteCourse = async (courseId: number) => {
+export const deleteCourse = async (formData: FormData) => {
+  const courseId = Number(formData.get("id"));
+  if (!courseId) return;
   await db.delete(courses).where(eq(courses.id, courseId));
-  return { message: "ok" };
+  revalidatePath("/dashboard/courses");
 };
 
 export const deleteStudent = async (studentId: number) => {
