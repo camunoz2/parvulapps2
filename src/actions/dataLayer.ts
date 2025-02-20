@@ -167,19 +167,14 @@ export const editStudent = async (fd: FormData) => {
     .where(eq(students.id, updatedData.id));
 };
 
-export const addCourseAction = async (
-  _state: { message: string; success: boolean },
-  formData: FormData,
-) => {
+export const addCourseAction = async (initialState, formData: FormData) => {
   try {
     const courseName = formData.get("coursename") as string;
     const year = Number(formData.get("year"));
-
     await db.insert(courses).values({ name: courseName, year: year });
-
-    return { message: "Curso agregado", success: true };
+    return { success: true };
   } catch (error) {
-    return { message: "Error al agregar el curso", success: false };
+    return { success: false };
   }
 };
 

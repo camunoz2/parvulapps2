@@ -1,19 +1,6 @@
 import Link from "next/link";
-import { NavLink } from "@/components/dashboard/nav-link";
-import {
-  Bell,
-  Home,
-  LineChart,
-  Menu,
-  Package,
-  Package2,
-  Search,
-  ShoppingCart,
-  UserIcon,
-  Users,
-} from "lucide-react";
+import { Bell, Menu, Package2, Search, UserIcon } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -24,8 +11,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { getStudentsCount } from "@/actions/dataLayer";
+import DashboardNavigation from "@/components/dashboard/dashboard-navigation";
 
 export default async function DashboardLayout({
   children,
@@ -47,26 +42,7 @@ export default async function DashboardLayout({
             </Button>
           </div>
           <div className="flex-1">
-            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-              <NavLink href="/dashboard" icon={<Home />}>
-                Inicio
-              </NavLink>
-              <NavLink href="/dashboard/courses" icon={<ShoppingCart />}>
-                Cursos
-              </NavLink>
-              <NavLink href="/dashboard/grades" icon={<Package />}>
-                Evaluaciones
-              </NavLink>
-              <NavLink href="/dashboard/students" icon={<Users />}>
-                Alumnos
-                <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                  {studentCount}
-                </Badge>
-              </NavLink>
-              <NavLink href="/dashboard/reports" icon={<LineChart />}>
-                Reportes
-              </NavLink>
-            </nav>
+            <DashboardNavigation studentCount={studentCount} />
           </div>
         </div>
       </div>
@@ -83,31 +59,11 @@ export default async function DashboardLayout({
                 <span className="sr-only">Toggle navigation menu</span>
               </Button>
             </SheetTrigger>
+            <SheetHeader>
+              <SheetTitle>Dashboard</SheetTitle>
+            </SheetHeader>
             <SheetContent side="left" className="flex flex-col">
-              <nav className="grid gap-2 text-lg font-medium">
-                <Link
-                  href="/"
-                  className="flex items-center gap-2 text-lg font-semibold"
-                >
-                  <Package2 className="h-6 w-6" />
-                  <span className="">Parvulapps</span>
-                </Link>
-                <NavLink href="/dashboard" icon={<Home className="h-4 w-4" />}>
-                  Inicio
-                </NavLink>
-                <NavLink href="/dashboard/courses" icon={<ShoppingCart />}>
-                  Cursos
-                </NavLink>
-                <NavLink href="/dashboard/grades" icon={<Package />}>
-                  Evaluaciones
-                </NavLink>
-                <NavLink href="/dashboard/students" icon={<Users />}>
-                  Alumnos
-                </NavLink>
-                <NavLink href="/dashboard/reports" icon={<LineChart />}>
-                  Reportes
-                </NavLink>
-              </nav>
+              <DashboardNavigation studentCount={studentCount} />
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">

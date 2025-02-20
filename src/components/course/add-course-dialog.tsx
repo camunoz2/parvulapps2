@@ -19,13 +19,12 @@ import { addCourseAction } from "@/actions/dataLayer";
 
 export function AddCourseDialog() {
   const [isOpen, setIsOpen] = useState(false);
-  const [state, action, isPending] = useActionState(addCourseAction, {
-    message: "",
-    success: false,
-  });
+  const [state, action, pending] = useActionState(addCourseAction, null);
 
   useEffect(() => {
-    if (state.success) setIsOpen(false);
+    if (state?.success) {
+      setIsOpen(false);
+    }
   }, [state]);
 
   return (
@@ -72,8 +71,8 @@ export function AddCourseDialog() {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" disabled={isPending}>
-              {isPending ? <Loader2 className="animate-spin" /> : "Agregar"}
+            <Button type="submit" disabled={pending}>
+              {pending ? <Loader2 className="animate-spin" /> : "Agregar"}
             </Button>
           </DialogFooter>
         </form>
