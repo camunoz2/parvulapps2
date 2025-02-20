@@ -11,14 +11,22 @@ import { Dialog, DialogTrigger } from "../ui/dialog";
 import { DeleteCourseComponent } from "./delete-course-component";
 import type { SelectStudent } from "@/db/schema/student";
 import { CourseFormUpdate } from "./course-form-update";
+import { getStudentCountByCourseId } from "@/actions/dataLayer";
 
 interface Props {
   courseId: number;
   courseName: string;
+  courseYear: number;
   students: SelectStudent[];
 }
 
-export function CourseRow({ courseName, courseId, students }: Props) {
+export async function CourseRow({
+  courseName,
+  courseId,
+  courseYear,
+  students,
+}: Props) {
+  const studentCount = await getStudentCountByCourseId(courseId);
   return (
     <TableRow>
       <TableCell>
@@ -27,7 +35,8 @@ export function CourseRow({ courseName, courseId, students }: Props) {
           {courseName}
         </div>
       </TableCell>
-      <TableCell>23</TableCell>
+      <TableCell>{courseYear}</TableCell>
+      <TableCell>{studentCount}</TableCell>
       <TableCell>
         <Dialog>
           <DropdownMenu>

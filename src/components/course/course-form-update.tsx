@@ -18,8 +18,7 @@ interface Props {
   courseName: string;
 }
 
-export async function CourseFormUpdate({ courseId, courseName }: Props) {
-  // TODO: Client side validation
+export function CourseFormUpdate({ courseId, courseName }: Props) {
   async function clientAction(formData: FormData) {
     await updateCourse({
       courseId,

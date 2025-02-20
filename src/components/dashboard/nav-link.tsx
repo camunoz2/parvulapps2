@@ -1,6 +1,8 @@
-"use client";
+"use client";;
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+
+import type { JSX } from "react";
 
 interface Props {
   href: string;

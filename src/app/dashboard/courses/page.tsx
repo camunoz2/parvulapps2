@@ -39,6 +39,7 @@ export default async function Courses() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Curso</TableHead>
+                  <TableHead>Año</TableHead>
                   <TableHead>Cant. Estudiantes</TableHead>
                   <TableHead>Opciones</TableHead>
                 </TableRow>
@@ -50,6 +51,7 @@ export default async function Courses() {
                     courseName={course.name}
                     key={course.id}
                     courseId={course.id}
+                    courseYear={course.year}
                   />
                 ))}
               </TableBody>

@@ -6,15 +6,13 @@ import { schools } from "@/db/schema/school";
 import { students } from "@/db/schema/student";
 import { users } from "@/db/schema/users";
 import { db } from "@/lib/drizzle";
-import { and, eq, sql } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
+import { and, eq, sql, count } from "drizzle-orm";
 
 export const getSchools = async () => await db.select().from(schools);
 
 export const getCourses = async () => {
   try {
     const result = await db.select().from(courses);
-    revalidatePath("/dashboard/students");
     return result;
   } catch (error) {
     console.error("Error fetching courses:", error);
@@ -28,6 +26,16 @@ export const getStudentsCount = async () =>
     .select()
     .from(students)
     .then((res) => res.length);
+
+export const getStudentCountByCourseId = async (courseId: number) => {
+  const result = await db
+    .select({ count: count() })
+    .from(students)
+    .where(eq(students.courseId, courseId));
+
+  return result[0]?.count || 0;
+};
+
 export const getAuthorizedUsers = async () => await db.select().from(users);
 
 export const getPeriods = async () => await db.select().from(periods);
@@ -161,27 +169,29 @@ export const editStudent = async (fd: FormData) => {
   revalidatePath("/dashboard/students");
 };
 
-export const addCourse = async ({
-  courseName,
-  year,
-}: {
-  courseName: string;
-  year: number;
-}) => {
-  await db.insert(courses).values({ name: courseName, year: year });
-  revalidatePath("/dashboard/courses");
-  return { message: "Added a course" };
+export const addCourseAction = async (
+  _state: { message: string; success: boolean },
+  formData: FormData,
+) => {
+  try {
+    const courseName = formData.get("coursename") as string;
+    const year = Number(formData.get("year"));
+
+    await db.insert(courses).values({ name: courseName, year: year });
+
+    return { message: "Curso agregado", success: true };
+  } catch (error) {
+    return { message: "Error al agregar el curso", success: false };
+  }
 };
 
 export const deleteCourse = async (courseId: number) => {
   await db.delete(courses).where(eq(courses.id, courseId));
-  revalidatePath("/dashboard/courses");
   return { message: "ok" };
 };
 
 export const deleteStudent = async (studentId: number) => {
   await db.delete(students).where(eq(students.id, studentId));
-  revalidatePath("/dashboard/students");
   return { message: "ok" };
 };
 
@@ -196,7 +206,6 @@ export const updateCourse = async ({
     .update(courses)
     .set({ name: courseName })
     .where(eq(courses.id, courseId));
-  revalidatePath("/dashboard/courses");
 };
 
 export const updateStudent = async (fd: FormData) => {
@@ -212,7 +221,6 @@ export const updateStudent = async (fd: FormData) => {
     .update(students)
     .set(studentData)
     .where(eq(students.id, Number(studentId)));
-  revalidatePath("/dashboard/students");
 };
 
 export const updateGrade = async ({
