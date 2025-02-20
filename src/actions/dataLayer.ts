@@ -183,11 +183,16 @@ export const addCourseAction = async (
   }
 };
 
-export const deleteCourse = async (formData: FormData) => {
+export const deleteCourse = async (previousState, formData: FormData) => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   const courseId = Number(formData.get("id"));
-  if (!courseId) return;
-  await db.delete(courses).where(eq(courses.id, courseId));
-  revalidatePath("/dashboard/courses");
+  if (!courseId) return "No hay id";
+  try {
+    await db.delete(courses).where(eq(courses.id, courseId));
+    revalidatePath("/dashboard/courses");
+  } catch (e) {
+    return `Error ${e}`;
+  }
 };
 
 export const deleteStudent = async (studentId: number) => {
