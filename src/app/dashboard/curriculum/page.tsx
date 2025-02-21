@@ -1,6 +1,5 @@
 import { getObjectiveDetail } from "@/actions/dataLayer";
 import { ObjectiveItem } from "@/components/curriculum/objective-item";
-import ObjectivesView from "@/components/curriculum/objective-view";
 import {
   Card,
   CardContent,
@@ -28,7 +27,13 @@ export default async function Curriculum() {
             <div className="container mx-auto p-4">
               <h1 className="text-2xl font-bold mb-4">Objetivos</h1>
               <div className="space-y-4">
-                <ObjectivesView initialObjectives={objectives} />
+                <div className="container mx-auto">
+                  <div className="space-y-4">
+                    {objectives.map((objective) => (
+                      <ObjectiveItem key={objective.id} objective={objective} />
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </CardContent>

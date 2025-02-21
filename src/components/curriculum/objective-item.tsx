@@ -1,21 +1,25 @@
+"use client";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { Button } from "../ui/button";
 import { Switch } from "../ui/switch";
-import { useState } from "react";
-import type { ObjectiveDetail } from "@/actions/dataLayer";
+import { useActionState, useState } from "react";
+import { toggleObjective, type ObjectiveDetail } from "@/actions/dataLayer";
 
 interface Props {
   objective: ObjectiveDetail;
-  toggleObjective: (objectiveId: number) => void;
-  toggleIndicator: (objectiveId: number, indicatorId: number) => void;
 }
 
-export function ObjectiveItem({
-  objective,
-  toggleObjective,
-  toggleIndicator,
-}: Props) {
+export function ObjectiveItem({ objective }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(objective.isActive);
+  const [_error, toggleObjectiveAction, pending] = useActionState(
+    toggleObjective,
+    null,
+  );
+
+  function handleChange(value: boolean) {
+    setIsEnabled(value);
+  }
 
   return (
     <div className="border rounded-lg shadow-sm">
@@ -34,10 +38,20 @@ export function ObjectiveItem({
           </Button>
           <h2 className="text-lg font-semibold">{objective.name}</h2>
         </div>
-        <Switch
-          checked={objective.isActive}
-          onCheckedChange={() => toggleObjective(objective.id)}
-        />
+        <form action={toggleObjectiveAction}>
+          <input type="hidden" name="objectiveId" value={objective.id} />
+          <input
+            type="hidden"
+            name="isActive"
+            value={isEnabled ? "true" : "false"}
+          />
+          <Switch
+            type="submit"
+            checked={isEnabled}
+            disabled={pending}
+            onCheckedChange={handleChange}
+          />
+        </form>
       </div>
       {isExpanded && (
         <div className="border-t px-4 py-2">
