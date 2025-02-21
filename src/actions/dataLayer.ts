@@ -9,6 +9,26 @@ import { db } from "@/lib/drizzle";
 import { and, eq, sql, count } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
+export interface IndicatorDetail {
+  id: number;
+  name: string;
+  isActive: boolean;
+  level: string;
+  order: number;
+}
+
+export interface ObjectiveDetail {
+  id: number;
+  name: string;
+  isActive: boolean;
+  order: number;
+  coreName: string;
+  scopeName: string;
+  indicators: IndicatorDetail[];
+}
+
+export type GetObjectiveDetailReturn = ObjectiveDetail[];
+
 export const getSchools = async () => await db.select().from(schools);
 
 export const getCourses = async () => {
@@ -44,6 +64,72 @@ export const getPeriods = async () => await db.select().from(periods);
 export const getCores = async () => await db.select().from(cores);
 
 export const getIndicators = async () => await db.select().from(indicators);
+
+export const getObjectiveDetail =
+  async (): Promise<GetObjectiveDetailReturn> => {
+    const results = await db
+      .select({
+        objectiveId: objectives.id,
+        objectiveName: objectives.name,
+        objectiveIsActive: objectives.isActive,
+        objectiveOrder: objectives.order,
+        coreName: cores.name,
+        scopeName: scopes.name,
+        indicatorId: indicators.id,
+        indicatorName: indicators.name,
+        indicatorIsActive: indicators.isActive,
+        indicatorLevel: indicators.level,
+        indicatorOrder: indicators.order,
+      })
+      .from(objectives)
+      .leftJoin(indicators, eq(indicators.objectiveId, objectives.id))
+      .leftJoin(cores, eq(objectives.coreId, cores.id))
+      .leftJoin(scopes, eq(cores.scopeId, scopes.id));
+
+    const objectivesMap = new Map<
+      number,
+      {
+        id: number;
+        name: string;
+        isActive: boolean | null;
+        order: number;
+        coreName: string;
+        scopeName: string;
+        indicators: Array<{
+          id: number;
+          name: string;
+          isActive: boolean | null;
+          level: string;
+          order: number;
+        }>;
+      }
+    >();
+
+    results.forEach((row) => {
+      if (!objectivesMap.has(row.objectiveId)) {
+        objectivesMap.set(row.objectiveId, {
+          id: row.objectiveId,
+          name: row.objectiveName,
+          isActive: row.objectiveIsActive,
+          order: row.objectiveOrder,
+          coreName: row.coreName ?? "",
+          scopeName: row.scopeName ?? "",
+          indicators: [],
+        });
+      }
+      if (row.indicatorId) {
+        objectivesMap.get(row.objectiveId)?.indicators.push({
+          id: row.indicatorId,
+          name: row.indicatorName ?? "",
+          isActive: row.indicatorIsActive,
+          level: row.indicatorLevel ?? "",
+          order: row.indicatorOrder ?? 0,
+        });
+      }
+    });
+
+    return Array.from(objectivesMap.values());
+  };
 
 export const getIndicatorsCount = async () => {
   const totalCount = await db

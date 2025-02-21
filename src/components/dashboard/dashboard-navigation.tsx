@@ -13,6 +13,9 @@ export default function DashboardNavigation({
       <NavLink href="/dashboard/courses" icon={<ShoppingCart />}>
         Cursos
       </NavLink>
+      <NavLink href="/dashboard/curriculum" icon={<Package />}>
+        Curriculum
+      </NavLink>
       <NavLink href="/dashboard/grades" icon={<Package />}>
         Evaluaciones
       </NavLink>
