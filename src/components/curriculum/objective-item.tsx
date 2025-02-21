@@ -1,9 +1,10 @@
 "use client";
 import { ChevronDown, ChevronRight } from "lucide-react";
-import { Button } from "../ui/button";
-import { Switch } from "../ui/switch";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import { useActionState, useState } from "react";
 import { toggleObjective, type ObjectiveDetail } from "@/actions/dataLayer";
+import { IndicatorItem } from "./indicator-item";
 
 interface Props {
   objective: ObjectiveDetail;
@@ -56,19 +57,7 @@ export function ObjectiveItem({ objective }: Props) {
       {isExpanded && (
         <div className="border-t px-4 py-2">
           {objective.indicators.map((indicator) => (
-            <div
-              key={indicator.id}
-              className="flex items-center justify-between py-2"
-            >
-              <span className="text-sm">{indicator.name}</span>
-              <Switch
-                checked={indicator.isActive}
-                onCheckedChange={() =>
-                  toggleIndicator(objective.id, indicator.id)
-                }
-                disabled={!objective.isActive}
-              />
-            </div>
+            <IndicatorItem key={indicator.id} indicator={indicator} />
           ))}
         </div>
       )}

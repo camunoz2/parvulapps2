@@ -132,10 +132,9 @@ export const toggleObjective = async (initialState, formData: FormData) => {
   revalidatePath("/dashboard/curriculum");
 };
 
-export const toggleIndicator = async (
-  indicatorId: number,
-  isActive: boolean,
-) => {
+export const toggleIndicator = async (initialState, formData: FormData) => {
+  const indicatorId = Number(formData.get("indicatorId"));
+  const isActive = formData.get("isActive") === "true";
   await db
     .update(indicators)
     .set({ isActive })
