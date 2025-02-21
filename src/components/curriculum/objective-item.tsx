@@ -57,7 +57,11 @@ export function ObjectiveItem({ objective }: Props) {
       {isExpanded && (
         <div className="border-t px-4 py-2">
           {objective.indicators.map((indicator) => (
-            <IndicatorItem key={indicator.id} indicator={indicator} />
+            <IndicatorItem
+              objectiveStatus={objective.isActive}
+              key={indicator.id}
+              indicator={indicator}
+            />
           ))}
         </div>
       )}

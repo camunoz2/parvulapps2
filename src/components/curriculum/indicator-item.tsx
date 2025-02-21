@@ -5,9 +5,10 @@ import { Switch } from "@/components/ui/switch";
 
 interface Props {
   indicator: IndicatorDetail;
+  objectiveStatus: boolean;
 }
 
-export function IndicatorItem({ indicator }: Props) {
+export function IndicatorItem({ indicator, objectiveStatus }: Props) {
   const [isEnabled, setIsEnabled] = useState(indicator.isActive);
   const [_error, action, pending] = useActionState(toggleIndicator, null);
   function handleChange(value: boolean) {
@@ -26,7 +27,7 @@ export function IndicatorItem({ indicator }: Props) {
         />
         <Switch
           type="submit"
-          checked={isEnabled}
+          checked={isEnabled || objectiveStatus}
           disabled={pending}
           onCheckedChange={handleChange}
         />
