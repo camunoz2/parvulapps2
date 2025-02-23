@@ -1,10 +1,13 @@
 "use client";
+import { useState, useTransition } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { useState } from "react";
-import { type ObjectiveDetail } from "@/actions/dataLayer";
 import { IndicatorItem } from "./indicator-item";
+import {
+  type ObjectiveDetail,
+  toggleObjectiveAction,
+} from "@/actions/dataLayer";
 
 interface Props {
   objective: ObjectiveDetail;
@@ -12,11 +15,17 @@ interface Props {
 
 export function ObjectiveItem({ objective }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isEnabled, setIsEnabled] = useState(objective.isActive);
+  const [isPending, startTransition] = useTransition();
 
-  function handleChange(value: boolean) {
-    setIsEnabled(value);
-  }
+  const toggleObjective = async () => {
+    startTransition(async () => {
+      try {
+        await toggleObjectiveAction(objective.id, !objective.isActive);
+      } catch (error) {
+        console.error("Error toggling objective", error);
+      }
+    });
+  };
 
   return (
     <div className="border rounded-lg shadow-sm">
@@ -37,16 +46,17 @@ export function ObjectiveItem({ objective }: Props) {
         </div>
         <Switch
           type="submit"
-          checked={isEnabled}
-          onCheckedChange={handleChange}
+          checked={objective.isActive}
+          onCheckedChange={toggleObjective}
+          disabled={isPending}
         />
       </div>
       {isExpanded && (
         <div className="border-t px-4 py-2">
           {objective.indicators.map((indicator) => (
             <IndicatorItem
-              objectiveStatus={objective.isActive}
               key={indicator.id}
+              objectiveActive={objective.isActive}
               indicator={indicator}
             />
           ))}

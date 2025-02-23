@@ -27,9 +27,11 @@ export default async function Curriculum(props: {
     <div className="flex min-h-screen w-full flex-col">
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
         <Card className="xl:col-span-2">
-          <CardHeader className="flex flex-row items-center">
+          <CardHeader>
             <div className="grid gap-2">
-              <CardTitle>Curriculum</CardTitle>
+              <div className="flex justify-between">
+                <CardTitle>Curriculum</CardTitle>
+              </div>
               <CardDescription>Selecciona el nucleo</CardDescription>
               <SelectCore cores={cores} />
             </div>

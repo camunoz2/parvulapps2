@@ -117,31 +117,32 @@ export const getObjectiveDetail = async () => {
 };
 
 export const toggleObjectiveAction = async (
-  initialState,
-  formData: FormData,
-) => {
-  const objectiveId = Number(formData.get("objectiveId"));
-  const isActive = formData.get("isActive") === "true";
-
+  objectiveId: number,
+  newStatus: boolean,
+): Promise<void> => {
   await db
     .update(objectives)
-    .set({ isActive })
+    .set({ isActive: newStatus })
     .where(eq(objectives.id, objectiveId));
+
   await db
     .update(indicators)
-    .set({ isActive })
+    .set({ isActive: newStatus })
     .where(eq(indicators.objectiveId, objectiveId));
 
   revalidatePath("/dashboard/curriculum");
 };
 
-export const toggleIndicator = async (initialState, formData: FormData) => {
-  const indicatorId = Number(formData.get("indicatorId"));
-  const isActive = formData.get("isActive") === "true";
+export const toggleIndicatorAction = async (
+  indicatorId: number,
+  newStatus: boolean,
+): Promise<void> => {
   await db
     .update(indicators)
-    .set({ isActive })
+    .set({ isActive: newStatus })
     .where(eq(indicators.id, indicatorId));
+
+  revalidatePath("/dashboard/curriculum");
 };
 
 export const getIndicatorsCount = async () => {
