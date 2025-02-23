@@ -1,6 +1,6 @@
 import { getObjectiveDetail } from "@/actions/dataLayer";
-import { CoreFilter } from "@/components/curriculum/core-filter";
 import { ObjectiveItem } from "@/components/curriculum/objective-item";
+import SelectCore from "@/components/curriculum/select-core";
 import {
   Card,
   CardContent,
@@ -9,16 +9,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export default async function Curriculum({
-  searchParams,
-}: { searchParams: { core?: string } }) {
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+
+export default async function Curriculum(props: {
+  searchParams: SearchParams;
+}) {
   const objectives = await getObjectiveDetail();
-
   const cores = Array.from(new Set(objectives.map((obj) => obj.coreName)));
+  const searchParams = await props.searchParams;
 
-  const filteredObjectives = searchParams.core
-    ? objectives.filter((obj) => obj.coreName === searchParams.core)
-    : objectives;
+  const filteredObjectives = objectives.filter((o) => {
+    const encodedCorename = encodeURIComponent(o.coreName.trim().toLowerCase());
+    return encodedCorename === searchParams.core;
+  });
 
   return (
     <div className="flex min-h-screen w-full flex-col">
@@ -28,7 +31,7 @@ export default async function Curriculum({
             <div className="grid gap-2">
               <CardTitle>Curriculum</CardTitle>
               <CardDescription>Selecciona el nucleo</CardDescription>
-              <CoreFilter cores={cores} />
+              <SelectCore cores={cores} />
             </div>
           </CardHeader>
 
