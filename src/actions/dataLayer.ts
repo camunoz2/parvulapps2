@@ -116,7 +116,10 @@ export const getObjectiveDetail = async () => {
   return structuredObjectives;
 };
 
-export const toggleObjective = async (initialState, formData: FormData) => {
+export const toggleObjectiveAction = async (
+  initialState,
+  formData: FormData,
+) => {
   const objectiveId = Number(formData.get("objectiveId"));
   const isActive = formData.get("isActive") === "true";
 

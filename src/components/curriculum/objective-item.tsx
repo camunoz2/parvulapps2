@@ -2,8 +2,8 @@
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { useActionState, useState } from "react";
-import { toggleObjective, type ObjectiveDetail } from "@/actions/dataLayer";
+import { useState } from "react";
+import { type ObjectiveDetail } from "@/actions/dataLayer";
 import { IndicatorItem } from "./indicator-item";
 
 interface Props {
@@ -13,10 +13,6 @@ interface Props {
 export function ObjectiveItem({ objective }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isEnabled, setIsEnabled] = useState(objective.isActive);
-  const [_error, toggleObjectiveAction, pending] = useActionState(
-    toggleObjective,
-    null,
-  );
 
   function handleChange(value: boolean) {
     setIsEnabled(value);
@@ -39,20 +35,11 @@ export function ObjectiveItem({ objective }: Props) {
           </Button>
           <h2 className="text-lg font-semibold">{objective.name}</h2>
         </div>
-        <form action={toggleObjectiveAction}>
-          <input type="hidden" name="objectiveId" value={objective.id} />
-          <input
-            type="hidden"
-            name="isActive"
-            value={isEnabled ? "true" : "false"}
-          />
-          <Switch
-            type="submit"
-            checked={isEnabled}
-            disabled={pending}
-            onCheckedChange={handleChange}
-          />
-        </form>
+        <Switch
+          type="submit"
+          checked={isEnabled}
+          onCheckedChange={handleChange}
+        />
       </div>
       {isExpanded && (
         <div className="border-t px-4 py-2">
